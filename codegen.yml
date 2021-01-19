@@ -1,0 +1,14 @@
+overwrite: true
+schema: ${SCHEMA_PATH}
+documents: "src/**/*.graphql.ts"
+generates:
+  src/generated/graphql.ts:
+    config:
+      defaultMapper: any
+      withHOC: false
+      withHooks: true
+    plugins:
+      - "typescript"
+      - "typescript-resolvers"
+      - "typescript-operations"
+      - "typescript-react-apollo"
