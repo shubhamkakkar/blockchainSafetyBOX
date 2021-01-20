@@ -8,6 +8,7 @@ import TextUI from 'UI/TextUI';
 import Button from 'UI/Buttons';
 // @ts-ignore
 import { FONT_SIZES } from 'constants';
+import navigationRouteNames from 'navigationContainer/navigationRouteNames';
 import styles from './privateKeyDownloadScreen.styles';
 
 export default function PrivateKeyDownloadScreen(
@@ -18,7 +19,9 @@ export default function PrivateKeyDownloadScreen(
       const path = `${reactNativeFileSystem.DocumentDirectoryPath}/blockchainSafetyBox_privateKey_${
         route.params?.email}.txt`;
       await reactNativeFileSystem.writeFile(path, route.params.privateKey, 'utf8');
-      Alert.alert('Dowload complete');
+      Alert.alert('Download complete');
+      // @ts-ignore
+      navigation.navigate(navigationRouteNames.PublicLedger);
     } catch (e: any) {
       console.log('downloadPrivateKeyFile e()', e);
     }

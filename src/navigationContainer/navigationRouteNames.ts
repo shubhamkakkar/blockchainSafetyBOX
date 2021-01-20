@@ -1,12 +1,8 @@
-const NavigationRouteNames = {
-  Authentication: {
-    AuthScreen: 'BSB.Authentication.AuthScreen',
-    SplashScreen: 'BSB.Authentication.SplashScreen',
-    PrivateKeyDownloadScreen: 'BSB.Authentication.PrivateKeyDownloadScreen',
-  },
-  Blockchain: {
-    PublicLedger: 'BSB.Blockchain.PublicLedger',
-  },
-};
+enum navigationRouteNames {
+  AuthScreen = 'BSB.Authentication.AuthScreen',
+  SplashScreen = 'BSB.Authentication.SplashScreen',
+  PrivateKeyDownloadScreen = 'BSB.Authentication.PrivateKeyDownloadScreen',
+  PublicLedger = 'BSB.Blockchain.PublicLedger',
+}
 
-export default NavigationRouteNames;
+export default navigationRouteNames;

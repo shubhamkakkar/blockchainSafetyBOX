@@ -8,7 +8,6 @@ import theme from 'theme';
 import { FONT_SIZES } from 'constants';
 import TextUI from 'UI/TextUI';
 import { AuthScreenNavigation } from 'navigationContainer/navigation';
-import NavigationRouteNames from 'navigationContainer/navigationRouteNames';
 import styles from './authScreen.styles';
 
 export default function AuthScreen({ navigation }: AuthScreenNavigation) {
