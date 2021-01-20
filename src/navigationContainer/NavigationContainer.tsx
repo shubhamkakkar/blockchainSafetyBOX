@@ -46,19 +46,19 @@ export default function NavigationContainer() {
           headerShown: false,
         }}
       >
-        {/* <Stack.Screen */}
-        {/*  name={navigationRouteNames.Authentication.AuthScreen as any} */}
-        {/*  component={ */}
-        {/*    navigationRouteComponentMap[ */}
-        {/*      navigationRouteNames.Authentication.AuthScreen */}
-        {/*    ] */}
-        {/*  } */}
-        {/* /> */}
         <Stack.Screen
-          name={navigationRouteNames.Authentication.PrivateKeyDownloadScreen as any}
+          name={navigationRouteNames.AuthScreen as any}
+          component={
+            navigationRouteComponentMap[
+              navigationRouteNames.AuthScreen
+            ]
+          }
+        />
+        <Stack.Screen
+          name={navigationRouteNames.PrivateKeyDownloadScreen as any}
           component={
               navigationRouteComponentMap[
-                navigationRouteNames.Authentication.PrivateKeyDownloadScreen
+                navigationRouteNames.PrivateKeyDownloadScreen
               ]
             }
           initialParams={{ privateKey: '', email: '' }}
