@@ -4,6 +4,8 @@ import MainContainer from 'UI/MainContainer';
 import Header from 'UI/Header/Header';
 import TextUI from 'UI/TextUI';
 import theme from 'theme';
+import MedicalHistoryForm
+  from 'features/blockchain/RequestBlockScreen/container/MedicalHistoryForm/MedicalHistoryForm';
 import styles from './requestBlockScreen.styles';
 
 type Props = {
@@ -72,8 +74,3 @@ export default function RequestBlockScreen(props: Props) {
     </MainContainer>
   );
 }
-
-/*
-* Personal History
-* Upload medical profiles -> we need to make a backend for this
-* */

@@ -10,6 +10,7 @@ import styles
 type Props = {
 
 };
+
 export default function MedicalHistoryForm(props: Props) {
   async function formSubmitHandler(
     value: MedicalHistoryFormInitialState,
@@ -17,6 +18,7 @@ export default function MedicalHistoryForm(props: Props) {
   ) {
 
   }
+
   return (
     <View style={styles.container}>
       <Formik
