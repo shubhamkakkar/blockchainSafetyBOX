@@ -17,14 +17,23 @@ export default function RequestBlockScreen(props: Props) {
     inputRange: [0, 1],
     outputRange: [1, 0],
   });
-  const [isUploadDocument, setIsUploadDocument] = useState<boolean>(true);
+  const [isUploadDocument, setIsUploadDocument] = useState<boolean>(false);
   const [isAnimationComplete, setIsAnimationComplete] = useState<boolean>(false);
   function toggleIsPersonalMedicalHistory() {
     setIsAnimationComplete(!isAnimationComplete);
-    Animated.timing(formScale, {
-      toValue: isUploadDocument ? 1 : 0,
-      useNativeDriver: true,
-    }).start(() => setIsUploadDocument(!isUploadDocument));
+    if (isUploadDocument) {
+      setIsUploadDocument(!isUploadDocument);
+    }
+    Animated
+      .timing(formScale, {
+        toValue: isUploadDocument ? 1 : 0,
+        useNativeDriver: true,
+      })
+      .start(() => {
+        if (!isUploadDocument) {
+          setIsUploadDocument(!isUploadDocument);
+        }
+      });
   }
   return (
     <MainContainer>
@@ -39,9 +48,9 @@ export default function RequestBlockScreen(props: Props) {
           </TextUI>
         </View>
         <Switch
-          thumbColor={theme.PRIMARY}
-          trackColor={{ false: `${theme.GREY}50`, true: `${theme.GREY}50` }}
-          ios_backgroundColor={`${theme.GREY}50`}
+          // thumbColor={theme.LIGHT_BLACK}
+          // trackColor={{ false: `${theme.LIGHT_PRIMARY}`, true: `${theme.PRIMARY}` }}
+          // ios_backgroundColor={`${theme.LIGHT_PRIMARY}`}
           onValueChange={toggleIsPersonalMedicalHistory}
           value={isAnimationComplete}
         />
@@ -55,17 +64,14 @@ export default function RequestBlockScreen(props: Props) {
         </View>
       </View>
       <View style={[styles.flex, styles.marginTop, styles.horizontalSpacer]}>
-        <Animated.View style={{ transform: [{ scale: formScale }] }}>
-          {!isAnimationComplete && (
+        {!isUploadDocument && (
+          <Animated.ScrollView style={[styles.flex, { opacity: formScale }]}>
             <MedicalHistoryForm />
-          )}
-        </Animated.View>
-        <Animated.View style={{ transform: [{ scale: uploadImageScale }] }}>
+          </Animated.ScrollView>
+        )}
+        <Animated.View style={{ opacity: uploadImageScale }}>
           {isAnimationComplete && (
-          <TextUI
-            color={!isUploadDocument ? theme.PRIMARY : theme.BLACK}
-            fontWeight={!isUploadDocument ? 'Bold' : 'Regular'}
-          >
+          <TextUI>
             Upload Image
           </TextUI>
           )}

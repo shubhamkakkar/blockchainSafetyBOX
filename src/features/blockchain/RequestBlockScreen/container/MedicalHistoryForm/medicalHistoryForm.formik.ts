@@ -7,7 +7,8 @@ export type MedicalHistoryFormInitialState = {
   lastName: string;
   middleName?: string;
   phoneNumber: string;
-  dateOfBirth: string;
+  dateOfBirth: string; // TODO
+  gender: 'Male' | 'Female'; // TODO
   addressLine1: string;
   addressLine2?: string;
   city: string;
@@ -26,6 +27,7 @@ export const medicalHistoryFormInitialState:MedicalHistoryFormInitialState = {
   middleName: '',
   phoneNumber: '',
   dateOfBirth: '',
+  gender: 'Male',
   addressLine1: '',
   addressLine2: '',
   city: '',
@@ -42,6 +44,8 @@ export const medicalHistoryFormSchema = Yup.object().shape({
   firstName: Yup.string().min(2, 'Too Short!').max(50, 'Too Long!').required('REQUIRED'),
   middleName: Yup.string().min(2, 'Too Short!').max(50, 'Too Long!'),
   lastName: Yup.string().min(2, 'Too Short!').max(50, 'Too Long!').required('REQUIRED'),
+  dateOfBirth: Yup.string().required('REQUIRED'),
+  gender: Yup.mixed().oneOf(['Male', 'Female']).required('REQUIRED'),
   phoneNumber: Yup.string()
     .required('REQUIRED')
     .matches(phoneRegExp, 'Phone number is not valid')
@@ -52,7 +56,7 @@ export const medicalHistoryFormSchema = Yup.object().shape({
   city: Yup.string().required('REQUIRED'),
   state: Yup.string().required('REQUIRED'),
   pinCode: Yup.string()
-    .required()
+    .required('REQUIRED')
     .matches(/^[0-9]+$/, 'Must be only digits')
     .min(6, 'Must be exactly 6 digits')
     .max(6, 'Must be exactly 6 digits'),

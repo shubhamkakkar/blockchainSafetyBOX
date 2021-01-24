@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native';
+// @ts-ignore
 import { DEFAULT_VERTICAL_MARGIN, DEFAULT_HORIZONTAL_PADDING } from 'constants';
 
 export default StyleSheet.create({
