@@ -3,6 +3,8 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 // eslint-disable-next-line import/no-unresolved
 import { IconProps } from 'react-native-vector-icons/Icon';
 import theme from 'theme';
+// @ts-ignore
+import { DEFAULT_ICON_SIZE } from 'constants';
 import styles from './icon.styles';
 
 interface Props extends IconProps {
@@ -12,7 +14,7 @@ interface Props extends IconProps {
 export default function Icon({ isError, style = {}, ...rest }: Props) {
   return (
     <MaterialCommunityIcons
-      size={22}
+      size={DEFAULT_ICON_SIZE}
       color={isError ? theme.RED : theme.PRIMARY}
       style={[styles.defaultIconsStyle, style]}
       {...rest}

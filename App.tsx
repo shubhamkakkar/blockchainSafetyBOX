@@ -1,24 +1,34 @@
 import React from 'react';
 import {
-  Platform, StatusBar,
+  StatusBar, StyleSheet,
 } from 'react-native';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
-import theme from 'theme';
+import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import NavigationContainer from 'navigationContainer';
 import { ApolloProvider } from '@apollo/client';
+import theme from 'theme';
 import apolloClient from './apolloClient';
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'space-between',
+  },
+});
 
 export default function App() {
   return (
     <SafeAreaProvider>
-      {Platform.OS === 'android' && (
-      <StatusBar
-        backgroundColor={theme.PRIMARY}
-        networkActivityIndicatorVisible
-      />
-      )}
       <ApolloProvider client={apolloClient}>
-        <NavigationContainer />
+        <StatusBar
+          animated
+          translucent
+          backgroundColor={theme.RED}
+          networkActivityIndicatorVisible
+          barStyle="dark-content"
+        />
+        <SafeAreaView style={[styles.container, StyleSheet.absoluteFill]}>
+          <NavigationContainer />
+        </SafeAreaView>
       </ApolloProvider>
     </SafeAreaProvider>
   );

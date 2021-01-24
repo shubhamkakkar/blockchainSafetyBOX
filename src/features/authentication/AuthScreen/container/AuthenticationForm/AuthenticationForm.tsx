@@ -1,9 +1,6 @@
-import React, {
-  useEffect, useMemo,
-} from 'react';
+import React, { useEffect, useMemo } from 'react';
 import {
-  Alert,
-  Animated, Image, View,
+  Alert, Animated, Image, View,
 } from 'react-native';
 import Input from 'UI/Input';
 import AnimatedButton from 'UI/Buttons/AnimatedButton';
@@ -12,6 +9,7 @@ import { Formik, FormikHelpers } from 'formik';
 import { useLoginLazyQuery, useSignUpMutation } from 'generated/graphql';
 import request from 'utils/request';
 import { ApolloError } from '@apollo/client/errors';
+import navigationRouteNames from 'navigationContainer/navigationRouteNames';
 import {
   AuthenticationInitialState,
   authenticationInitialState,
@@ -21,7 +19,7 @@ import styles from './authenticationForm.styles';
 
 type Props = {
   isLogin: boolean;
-  goTo : (_screen: 'PublicLedger' | 'PrivateKeyDownloadScreen', _params?: any) => void
+  goTo : (_screen: navigationRouteNames, _params?: any) => void
 };
 
 type AuthenticationResponse = {
@@ -84,7 +82,8 @@ export default function AuthenticationForm({ isLogin, goTo }: Props) {
 
   useEffect(() => {
     if (authenticatedResponse.token) {
-      const screen = isLogin ? 'PublicLedger' : 'PrivateKeyDownloadScreen';
+      const screen = isLogin
+        ? navigationRouteNames.PublicLedgerScreen : navigationRouteNames.PrivateKeyDownloadScreen;
       const payload = isLogin ? {} : {
         privateKey: authenticatedResponse.privateKey,
         email: toSendNavigationParams.email,

@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  SafeAreaView, StyleSheet, View, ViewProps, ViewStyle,
+  StyleSheet, View, ViewProps,
 } from 'react-native';
 import theme from 'theme';
 
@@ -22,12 +22,9 @@ export default function MainContainer({
 }: Props) {
   return (
     <>
-      <SafeAreaView />
-      <SafeAreaView style={[styles.container, StyleSheet.absoluteFill]}>
-        <View style={[styles.container, style]}>
-          {rest.children}
-        </View>
-      </SafeAreaView>
+      <View style={[styles.container, style]}>
+        {rest.children}
+      </View>
     </>
   );
 }

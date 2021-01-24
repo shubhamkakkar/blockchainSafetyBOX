@@ -27,6 +27,7 @@ export enum USER_ROLE_TYPE {
 export const DEFAULT_HORIZONTAL_PADDING = 20;
 export const DEFAULT_VERTICAL_PADDING = 20;
 export const DEFAULT_VERTICAL_MARGIN = 20;
+export const DEFAULT_ICON_SIZE = 20;
 
 export const DEV = __DEV__;
 // env params

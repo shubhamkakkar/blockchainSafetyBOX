@@ -20,8 +20,7 @@ export default function PrivateKeyDownloadScreen(
         route.params?.email}.txt`;
       await reactNativeFileSystem.writeFile(path, route.params.privateKey, 'utf8');
       Alert.alert('Download complete');
-      // @ts-ignore
-      navigation.navigate(navigationRouteNames.PublicLedger);
+      navigation.navigate(navigationRouteNames.PublicLedgerScreen as any);
     } catch (e: any) {
       console.log('downloadPrivateKeyFile e()', e);
     }
