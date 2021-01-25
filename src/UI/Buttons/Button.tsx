@@ -34,7 +34,10 @@ export default function Button({
   ...rest
 }: ButtonProps) {
   return (
-    <TouchableOpacity style={[styles.buttonContainer, style]} {...rest}>
+    <TouchableOpacity
+      style={[styles.buttonContainer, style, rest.disabled && styles.disabledButton]}
+      {...rest}
+    >
       {children || (
       <>
         {!!leftIcon?.name && (

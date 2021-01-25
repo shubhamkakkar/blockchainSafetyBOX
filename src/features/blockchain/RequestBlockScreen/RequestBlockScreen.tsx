@@ -38,34 +38,12 @@ export default function RequestBlockScreen(props: Props) {
   return (
     <MainContainer>
       <Header title="Request Dangling Block" />
-      <View style={[styles.row, styles.marginTop]}>
-        <View style={[styles.flex, styles.allCenter]}>
-          <TextUI
-            color={!isUploadDocument ? theme.PRIMARY : theme.BLACK}
-            fontWeight={!isUploadDocument ? 'Bold' : 'Regular'}
-          >
-            Fill Form
-          </TextUI>
-        </View>
-        <Switch
-          // thumbColor={theme.LIGHT_BLACK}
-          // trackColor={{ false: `${theme.LIGHT_PRIMARY}`, true: `${theme.PRIMARY}` }}
-          // ios_backgroundColor={`${theme.LIGHT_PRIMARY}`}
-          onValueChange={toggleIsPersonalMedicalHistory}
-          value={isAnimationComplete}
-        />
-        <View style={[styles.flex, styles.allCenter]}>
-          <TextUI
-            color={isUploadDocument ? theme.PRIMARY : theme.BLACK}
-            fontWeight={isUploadDocument ? 'Bold' : 'Regular'}
-          >
-            Upload Image
-          </TextUI>
-        </View>
-      </View>
       <View style={[styles.flex, styles.marginTop, styles.horizontalSpacer]}>
         {!isUploadDocument && (
-          <Animated.ScrollView style={[styles.flex, { opacity: formScale }]}>
+          <Animated.ScrollView
+            style={[styles.flex, { opacity: formScale }]}
+            showsVerticalScrollIndicator={false}
+          >
             <MedicalHistoryForm />
           </Animated.ScrollView>
         )}

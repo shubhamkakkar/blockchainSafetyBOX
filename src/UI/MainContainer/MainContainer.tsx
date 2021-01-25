@@ -3,6 +3,7 @@ import {
   StyleSheet, View, ViewProps,
 } from 'react-native';
 import theme from 'theme';
+import { DEFAULT_HORIZONTAL_PADDING } from 'constants';
 
 const styles = StyleSheet.create({
   container: {

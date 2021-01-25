@@ -14,7 +14,7 @@ type Props = {
   expanded?: boolean
 };
 
-export default function LayutAnimationWrapper(props: Props) {
+export default function LayoutAnimationWrapper(props: Props) {
   const [expanded, setExpanded] = useState<boolean>(!!props.expanded);
 
   useEffect(() => {
@@ -44,7 +44,7 @@ export default function LayutAnimationWrapper(props: Props) {
             >
               {props.title}
             </TextUI>
-            <Icon name="chevron-up" />
+            <Icon name={`chevron-${expanded ? 'up' : 'down'}`} />
           </View>
         </TouchableOpacity>
         {expanded && (

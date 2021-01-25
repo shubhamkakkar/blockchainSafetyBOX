@@ -35,4 +35,7 @@ export default StyleSheet.create({
   rightIconContainer: {
     marginLeft: 10,
   },
+  disabledButton: {
+    backgroundColor: theme.GREY,
+  },
 });

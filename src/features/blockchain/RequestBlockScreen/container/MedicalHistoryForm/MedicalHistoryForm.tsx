@@ -1,8 +1,11 @@
 import React from 'react';
-import { LayoutAnimation, View } from 'react-native';
+import { View } from 'react-native';
 import { Formik, FormikHelpers } from 'formik';
 import Input from 'UI/Input';
 import LayoutAnimationWrapper from 'UI/LayoutAnimationWrapper';
+import ToggleActionRow from 'UI/ToggleActionRow';
+import DateTimePicker from 'UI/DateTimePicker';
+import AnimatedButton from 'UI/Buttons/AnimatedButton';
 import {
   MedicalHistoryFormInitialState, medicalHistoryFormInitialState, medicalHistoryFormSchema,
 } from './medicalHistoryForm.formik';
@@ -18,7 +21,10 @@ export default function MedicalHistoryForm(props: Props) {
     value: MedicalHistoryFormInitialState,
     helpers: FormikHelpers<MedicalHistoryFormInitialState>,
   ) {
-
+    /*
+* send this value in a param for preview, if that preview is edited. re initialize this screen
+* else send the value as stringifies object with "cipher key input"
+* */
   }
 
   return (
@@ -106,17 +112,29 @@ export default function MedicalHistoryForm(props: Props) {
                 fieldName="country"
               />
             </LayoutAnimationWrapper>
-            <LayoutAnimationWrapper title="Miscellaneous" expanded>
+            <LayoutAnimationWrapper title="Personal" expanded>
+              <ToggleActionRow
+                leftTitle="Male"
+                rightTitle="Female"
+                fieldName="gender"
+                defaultFieldValue="Male"
+                toggleToFieldValue="Female"
+              />
+              <DateTimePicker fieldName="dateOfBirth" />
               <Input
                 placeholder="Weight (in KG) *"
                 iconProps={{ name: 'weight-kilogram' }}
                 fieldName="weight"
+                keyboardType="numeric"
               />
               <Input
                 placeholder="Height (in cm) *"
                 iconProps={{ name: 'human-male-height' }}
                 fieldName="height"
+                keyboardType="numeric"
               />
+            </LayoutAnimationWrapper>
+            <LayoutAnimationWrapper title="Miscellaneous" expanded>
               <Input
                 placeholder="Any significant medical history"
                 fieldName="significantMedicalHistoryNote"
@@ -139,6 +157,16 @@ export default function MedicalHistoryForm(props: Props) {
                 scrollEnabled
               />
             </LayoutAnimationWrapper>
+            <View style={styles.submitButtonContainer}>
+              <AnimatedButton
+                disabled={isSubmitting || !isValid}
+                isLoading={isSubmitting}
+                title="Submit"
+                onPress={handleSubmit}
+                // isFailed={authenticatedResponse.error}
+                // isSuccess={!!authenticatedResponse?.token}
+              />
+            </View>
           </View>
         )}
       </Formik>

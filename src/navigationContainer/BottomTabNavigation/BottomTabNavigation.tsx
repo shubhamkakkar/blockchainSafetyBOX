@@ -1,10 +1,10 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import navigationRouteNames from 'navigationContainer/navigationRouteNames';
-import navigationRouteComponentMap from 'navigationContainer/navigationRouteComponentMap';
 import Icon from 'UI/Icon';
 import theme from 'theme';
 import { View, ViewStyle } from 'react-native';
+import navigationRouteComponentMap from '../navigationRouteComponentMap';
+import navigationRouteNames from '../navigationRouteNames';
 import styles from './bottomNavigation.styles';
 
 type TabBarIcon = {
@@ -15,10 +15,15 @@ type TabBarIcon = {
 
 const Tab = createBottomTabNavigator();
 export default function BottomTabNavigation() {
-  const commonTabOptions = (iconName:string, containerStyle?:ViewStyle, iconStyle?:ViewStyle, outline = true) => ({
+  const commonTabOptions = (
+    iconName:string, containerStyle?:ViewStyle, iconStyle?:ViewStyle, outline = true,
+  ) => ({
     tabBarIcon: ({ color, size, focused }: TabBarIcon) => (
       <View style={containerStyle || {}}>
-        <Icon name={`${iconName}${(outline && !focused) ? '-outline' : ''}`} {...{ color, size, style: iconStyle || {} }} />
+        <Icon
+          name={`${iconName}${(outline && !focused) ? '-outline' : ''}`}
+          {...{ color, size, style: iconStyle || {} }}
+        />
       </View>
     ),
   });

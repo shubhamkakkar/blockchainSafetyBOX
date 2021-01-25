@@ -7,8 +7,8 @@ export type MedicalHistoryFormInitialState = {
   lastName: string;
   middleName?: string;
   phoneNumber: string;
-  dateOfBirth: string; // TODO
-  gender: 'Male' | 'Female'; // TODO
+  dateOfBirth: Date;
+  gender: 'Male' | 'Female';
   addressLine1: string;
   addressLine2?: string;
   city: string;
@@ -21,12 +21,12 @@ export type MedicalHistoryFormInitialState = {
   listMedicalProblemNote?: string;
   listMedicineTakenRegularlyNote?: string;
 };
-export const medicalHistoryFormInitialState:MedicalHistoryFormInitialState = {
+export const medicalHistoryFormInitialState: MedicalHistoryFormInitialState = {
   firstName: '',
   lastName: '',
   middleName: '',
   phoneNumber: '',
-  dateOfBirth: '',
+  dateOfBirth: new Date('01/01/2000'),
   gender: 'Male',
   addressLine1: '',
   addressLine2: '',
@@ -44,7 +44,7 @@ export const medicalHistoryFormSchema = Yup.object().shape({
   firstName: Yup.string().min(2, 'Too Short!').max(50, 'Too Long!').required('REQUIRED'),
   middleName: Yup.string().min(2, 'Too Short!').max(50, 'Too Long!'),
   lastName: Yup.string().min(2, 'Too Short!').max(50, 'Too Long!').required('REQUIRED'),
-  dateOfBirth: Yup.string().required('REQUIRED'),
+  dateOfBirth: Yup.date().required('REQUIRED'),
   gender: Yup.mixed().oneOf(['Male', 'Female']).required('REQUIRED'),
   phoneNumber: Yup.string()
     .required('REQUIRED')

@@ -4,7 +4,7 @@ import { RouteProp } from '@react-navigation/native';
 export type NavigationStack = {
   SplashScreen: undefined;
   AuthScreen: undefined;
-  PrivateKeyDownloadScreen: { privateKey: string; email: string };
+  PrivateKeyDownloadScreen: {privateKey: string; email: string};
   PublicLedger: undefined;
 };
 
@@ -24,7 +24,10 @@ type PrivateKeyDownloadScreenNavigationProps = StackNavigationProp<
 NavigationStack,
 'PrivateKeyDownloadScreen'
 >;
-type PrivateKeyDownloadScreenRouteProps = RouteProp<NavigationStack, 'PrivateKeyDownloadScreen'>;
+type PrivateKeyDownloadScreenRouteProps = RouteProp<
+NavigationStack,
+'PrivateKeyDownloadScreen'
+>;
 
 type PublicLedgerNavigationProp = StackNavigationProp<
 NavigationStack,
