@@ -6,6 +6,8 @@ import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import NavigationContainer from 'navigationContainer';
 import { ApolloProvider } from '@apollo/client';
 import theme from 'theme';
+import store from 'store/store';
+import { Provider } from 'react-redux';
 import apolloClient from './apolloClient';
 
 const styles = StyleSheet.create({
@@ -27,7 +29,9 @@ export default function App() {
           barStyle="dark-content"
         />
         <SafeAreaView style={[styles.container, StyleSheet.absoluteFill]}>
-          <NavigationContainer />
+          <Provider store={store}>
+            <NavigationContainer />
+          </Provider>
         </SafeAreaView>
       </ApolloProvider>
     </SafeAreaProvider>
