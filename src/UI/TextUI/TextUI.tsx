@@ -34,10 +34,11 @@ export default function TextUI(
     <Text
       style={StyleSheet.flatten([
         {
-          fontFamily: `Poppins-${fontWeight}${italic}`,
           fontSize,
-          textAlign: center ? 'center' : undefined,
           color,
+          fontFamily: `Poppins-${fontWeight}${italic}`,
+          flexWrap: 'wrap',
+          textAlign: center ? 'center' : undefined,
         },
         style,
       ])}

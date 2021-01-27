@@ -3,14 +3,12 @@ import {
   StyleSheet, View, ViewProps,
 } from 'react-native';
 import theme from 'theme';
-import { DEFAULT_HORIZONTAL_PADDING } from 'constants';
 
 const styles = StyleSheet.create({
   container: {
     backgroundColor: theme.WHITE,
     flex: 1,
   },
-
 });
 
 interface Props extends ViewProps {
