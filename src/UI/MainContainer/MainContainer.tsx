@@ -12,7 +12,7 @@ const styles = StyleSheet.create({
 });
 
 interface Props extends ViewProps {
-  children: Element | Element[];
+  children: React.ReactElement | React.ReactElement[];
 }
 
 export default function MainContainer({

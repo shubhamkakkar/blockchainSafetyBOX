@@ -6,10 +6,14 @@ import Input from 'UI/Input';
 import AnimatedButton from 'UI/Buttons/AnimatedButton';
 import ImageLinks from 'ImageLinks';
 import { Formik, FormikHelpers } from 'formik';
-import { useLoginLazyQuery, useSignUpMutation } from 'generated/graphql';
+import {
+  ReturnedUserSignup, useLoginLazyQuery, User, useSignUpMutation,
+} from 'generated/graphql';
 import request from 'utils/request';
 import { ApolloError } from '@apollo/client/errors';
 import navigationRouteNames from 'navigationContainer/navigationRouteNames';
+import { useDispatch } from 'react-redux';
+import { userProfile } from 'store/actions/user.actions';
 import {
   AuthenticationInitialState,
   authenticationInitialState,
@@ -31,23 +35,19 @@ export default function AuthenticationForm({ isLogin, goTo }: Props) {
   const [loginQuery, loginQueryResponse] = useLoginLazyQuery();
   const [signUpMutation, signUpMutationResponse] = useSignUpMutation();
   const toSendNavigationParams = { email: '' };
+
+  const dispatch = useDispatch();
+
   async function formSubmitHandler(
     value: AuthenticationInitialState,
     helpers: FormikHelpers<AuthenticationInitialState>,
   ) {
     try {
       if (isLogin) {
-        await loginQuery({
-          variables: {
-            email: value.email,
-            password: value.password,
-          },
-        });
+        await loginQuery({ variables: { email: value.email, password: value.password } });
       } else {
         const { isLogin: _isLogin, confirmPassword: _confirmPassword, ...variables } = value;
-        await signUpMutation({
-          variables,
-        });
+        await signUpMutation({ variables });
       }
       toSendNavigationParams.email = value.email;
     } catch (e:any) {
@@ -63,6 +63,9 @@ export default function AuthenticationForm({ isLogin, goTo }: Props) {
       if (loginQueryResponse.data?.login) {
         authenticationResponse.token = loginQueryResponse.data.login.token;
         request.token = authenticationResponse.token;
+        dispatch(userProfile(
+          { email: toSendNavigationParams.email, ...loginQueryResponse.data.login } as User,
+        ));
       } else {
         authenticationResponse.error = !!loginQueryResponse.error;
       }
@@ -70,6 +73,11 @@ export default function AuthenticationForm({ isLogin, goTo }: Props) {
       authenticationResponse.token = signUpMutationResponse.data.signUp.token;
       authenticationResponse.privateKey = signUpMutationResponse.data.signUp.privateKey;
       request.token = authenticationResponse.token;
+      const { privateKey: _, ...user } = {
+        email: toSendNavigationParams.email,
+        ...signUpMutationResponse.data.signUp,
+      } as ReturnedUserSignup;
+      dispatch(userProfile(user as User));
     } else {
       authenticationResponse.error = !!signUpMutationResponse.error;
     }
@@ -93,16 +101,16 @@ export default function AuthenticationForm({ isLogin, goTo }: Props) {
   }, [isLogin, authenticatedResponse, toSendNavigationParams]);
 
   useEffect(() => {
+    function animate(toValue: number) {
+      Animated.timing(singUpFormFieldsOpacity, {
+        toValue,
+        useNativeDriver: true,
+      }).start();
+    }
     if (!isLogin) {
-      Animated.timing(singUpFormFieldsOpacity, {
-        toValue: 1,
-        useNativeDriver: true,
-      }).start();
+      animate(1);
     } else {
-      Animated.timing(singUpFormFieldsOpacity, {
-        toValue: 0,
-        useNativeDriver: true,
-      }).start();
+      animate(0);
     }
   }, [isLogin]);
 
@@ -122,13 +130,9 @@ export default function AuthenticationForm({ isLogin, goTo }: Props) {
     }
   }
 
-  useEffect(() => {
-    errorAlert(loginQueryResponse.error);
-  }, [loginQueryResponse.error]);
-
-  useEffect(() => {
-    errorAlert(signUpMutationResponse.error);
-  }, [signUpMutationResponse.error]);
+  useEffect(() => errorAlert(loginQueryResponse.error), [loginQueryResponse.error]);
+  useEffect(() => errorAlert(signUpMutationResponse.error),
+    [signUpMutationResponse.error]);
 
   return (
     <View style={styles.container}>
@@ -167,9 +171,7 @@ export default function AuthenticationForm({ isLogin, goTo }: Props) {
                   fieldName="lastName"
                 />
               </Animated.View>
-              <Animated.View
-                style={{ transform: [{ translateY: translateYLoginFields }] }}
-              >
+              <Animated.View style={{ transform: [{ translateY: translateYLoginFields }] }}>
                 <Animated.View style={[styles.logoContainer, { opacity: logoOpacity }]}>
                   <Image source={ImageLinks.logo} style={styles.logo} />
                 </Animated.View>
@@ -202,7 +204,7 @@ export default function AuthenticationForm({ isLogin, goTo }: Props) {
                 disabled={isSubmitting || !isValid}
                 isLoading={isSubmitting}
                 title={!isLogin ? 'Sign Up' : 'Log In'}
-                onPress={handleSubmit}
+                onPress={handleSubmit as any}
                 isFailed={authenticatedResponse.error}
                 isSuccess={!!authenticatedResponse?.token}
               />

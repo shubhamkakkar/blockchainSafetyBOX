@@ -2,7 +2,7 @@ import { User } from 'generated/graphql';
 import { USER_PROFILE } from 'store/actions/user.actions';
 import { fromJS } from 'immutable';
 
-type UserAction = {
+export type UserAction = {
   type: typeof USER_PROFILE,
   payload: User
 };

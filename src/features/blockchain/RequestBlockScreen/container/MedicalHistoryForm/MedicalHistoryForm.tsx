@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View } from 'react-native';
 import { Formik, FormikHelpers } from 'formik';
 import AnimatedButton from 'UI/Buttons/AnimatedButton';
+import { useSelector } from 'react-redux';
+import { selectUserProfile } from 'store/selectors/user.selectors';
 import MedicalHistoryFormFields from './container/MedicalHistoryFormFields';
 import {
   MedicalHistoryFormInitialState, medicalHistoryFormInitialState, medicalHistoryFormSchema,
@@ -11,10 +13,16 @@ import styles
 import PreviewMedicalHistoryModal from './container/PreviewMedicalHistoryModal';
 
 export default function MedicalHistoryForm() {
+  const userProfile = useSelector(selectUserProfile);
+
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [
     previewFormState, setPreviewFormState,
   ] = useState<MedicalHistoryFormInitialState | undefined>();
+
+  const [
+    preFilledMedicalForm, setPreFilledMedicalHistoryForm,
+  ] = useState<MedicalHistoryFormInitialState>(medicalHistoryFormInitialState);
 
   function toggleModalOpen() {
     setIsModalOpen(!isModalOpen);
@@ -32,6 +40,17 @@ export default function MedicalHistoryForm() {
   function onPreviewSaveConfirmation() {
     toggleModalOpen();
   }
+
+  useEffect(() => {
+    if (userProfile && userProfile.get('firstname')) {
+      setPreFilledMedicalHistoryForm({
+        ...preFilledMedicalForm,
+        firstName: userProfile.get('firstName'),
+        lastName: userProfile.get('lastName'),
+        middleName: userProfile.get('middleName'),
+      });
+    }
+  }, []);
 
   if (isModalOpen && previewFormState) {
     return (
@@ -64,7 +83,7 @@ export default function MedicalHistoryForm() {
                 disabled={isSubmitting || !isValid} // todo:  graphql loader
                 isLoading={isSubmitting}
                 title="Preview"
-                onPress={handleSubmit}
+                onPress={handleSubmit as any}
               />
             </View>
           </View>

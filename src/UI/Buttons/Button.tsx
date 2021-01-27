@@ -6,6 +6,7 @@ import TextUI from 'UI/TextUI';
 import theme from 'theme';
 // @ts-ignore
 import { FONT_SIZES } from 'constants';
+// eslint-disable-next-line import/no-unresolved
 import { IconProps } from 'react-native-vector-icons/Icon';
 import Icon from 'UI/Icon';
 import styles from './button.style';
@@ -13,7 +14,7 @@ import styles from './button.style';
 export interface ButtonProps extends TouchableOpacityProps {
   title?: string;
   titleColor?: theme
-  children?: Element | Element[]
+  children?: React.ReactElement | React.ReactElement[]
   fontWeight?: 'Black' | 'Bold' | 'ExtraBold' | 'ExtraLight' | 'Light' | 'Medium' | 'Regular' | 'SemiBold' | 'Thin';
   fontSize?: FONT_SIZES;
   textStyle?: TextStyle | TextStyle[];

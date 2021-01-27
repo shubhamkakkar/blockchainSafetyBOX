@@ -123,6 +123,11 @@ export default function MedicalHistoryFormFields() {
           scrollEnabled
         />
       </LayoutAnimationWrapper>
+      <Input
+        placeholder="Cipher Key *"
+        iconProps={{ name: 'shield-plus' }}
+        fieldName="cipherKey"
+      />
     </>
   );
 }

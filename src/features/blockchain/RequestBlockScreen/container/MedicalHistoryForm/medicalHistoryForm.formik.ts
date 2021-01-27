@@ -20,6 +20,7 @@ export type MedicalHistoryFormInitialState = {
   significantMedicalHistoryNote?: string;
   listMedicalProblemNote?: string;
   listMedicineTakenRegularlyNote?: string;
+  cipherKey: string
 };
 export const medicalHistoryFormInitialState: MedicalHistoryFormInitialState = {
   firstName: '',
@@ -39,6 +40,7 @@ export const medicalHistoryFormInitialState: MedicalHistoryFormInitialState = {
   significantMedicalHistoryNote: '',
   listMedicalProblemNote: '',
   listMedicineTakenRegularlyNote: '',
+  cipherKey: '',
 };
 export const medicalHistoryFormSchema = Yup.object().shape({
   firstName: Yup.string().min(2, 'Too Short!').max(50, 'Too Long!').required('REQUIRED'),
@@ -66,6 +68,8 @@ export const medicalHistoryFormSchema = Yup.object().shape({
   significantMedicalHistoryNote: Yup.string(),
   listMedicalProblemNote: Yup.string(),
   listMedicineTakenRegularlyNote: Yup.string(),
+  cipherKey: Yup.string()
+    .required('REQUIRED'),
 });
 
 /*
