@@ -8,6 +8,9 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { ASYNC_STORAGE_KEYS } from 'constants';
 import request from 'utils/request';
 import SplashScreen from 'features/authentication/SplashScreen';
+import { ReturnedUser, useUserProfileLazyQuery } from 'generated/graphql';
+import { useDispatch } from 'react-redux';
+import { userProfile } from 'store/actions/user.actions';
 import { NavigationStack } from './navigation';
 
 const Stack = createStackNavigator<NavigationStack>();
@@ -15,7 +18,8 @@ const Stack = createStackNavigator<NavigationStack>();
 export default function NavigationContainer() {
   const [isSignedIn, setIsSignedIn] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(true);
-
+  const [loadUserProfile, userProfileResponse] = useUserProfileLazyQuery();
+  const dispatch = useDispatch();
   const getAuthToken = async () => {
     try {
       const authToken = await AsyncStorage.getItem(
@@ -23,7 +27,7 @@ export default function NavigationContainer() {
       );
       if (authToken !== null) {
         request.token = authToken;
-        setTimeout(() => setIsSignedIn(true), 2000);
+        loadUserProfile();
       }
     } catch (_e) {
       setIsSignedIn(false);
@@ -31,6 +35,21 @@ export default function NavigationContainer() {
       setTimeout(() => setIsLoading(false), 3000);
     }
   };
+
+  useEffect(() => {
+    if (
+      !userProfileResponse.loading
+      && !userProfileResponse.error
+      && userProfileResponse.data?.user?.email) {
+      const user = {
+        token: request.token,
+        ...userProfileResponse.data.user,
+      };
+      dispatch(userProfile(user as ReturnedUser));
+      setTimeout(() => setIsSignedIn(true), 2000);
+    }
+  }, [userProfileResponse]);
+
   useEffect(() => {
     getAuthToken();
   }, []);
@@ -49,22 +68,22 @@ export default function NavigationContainer() {
         {!isSignedIn
         && (
         <>
-          {/* <Stack.Screen */}
-          {/*  name={navigationRouteNames.AuthScreen as any} */}
-          {/*  component={ */}
-          {/*    navigationRouteComponentMap[ */}
-          {/*      navigationRouteNames.AuthScreen */}
-          {/*    ] */}
-          {/*  } */}
-          {/* /> */}
-          {/* <Stack.Screen */}
-          {/*  name={navigationRouteNames.PrivateKeyDownloadScreen as any} */}
-          {/*  component={ */}
-          {/*    navigationRouteComponentMap[ */}
-          {/*      navigationRouteNames.PrivateKeyDownloadScreen */}
-          {/*    ] */}
-          {/*  } */}
-          {/* /> */}
+          <Stack.Screen
+            name={navigationRouteNames.AuthScreen as any}
+            component={
+              navigationRouteComponentMap[
+                navigationRouteNames.AuthScreen
+              ]
+            }
+          />
+          <Stack.Screen
+            name={navigationRouteNames.PrivateKeyDownloadScreen as any}
+            component={
+              navigationRouteComponentMap[
+                navigationRouteNames.PrivateKeyDownloadScreen
+              ]
+            }
+          />
         </>
         )}
         <Stack.Screen

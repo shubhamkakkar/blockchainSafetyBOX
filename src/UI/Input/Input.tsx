@@ -61,7 +61,7 @@ export default function Input({
           onBlur={handleBlur}
           onFocus={handleFocus}
           onChangeText={field.onChange(fieldName)}
-          value={field.value}
+          value={field.value || ''}
           {...rest}
         />
       </View>

@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { View } from 'react-native';
+import { Alert, View } from 'react-native';
 import { Formik, FormikHelpers } from 'formik';
 import AnimatedButton from 'UI/Buttons/AnimatedButton';
 import { useSelector } from 'react-redux';
 import { selectUserProfile } from 'store/selectors/user.selectors';
+import { useRequestDanglingBlockMutation } from 'generated/graphql';
+import Loader from 'UI/Loader';
 import MedicalHistoryFormFields from './container/MedicalHistoryFormFields';
 import {
   MedicalHistoryFormInitialState, medicalHistoryFormInitialState, medicalHistoryFormSchema,
@@ -17,12 +19,10 @@ export default function MedicalHistoryForm() {
 
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [
-    previewFormState, setPreviewFormState,
-  ] = useState<MedicalHistoryFormInitialState | undefined>();
-
-  const [
     preFilledMedicalForm, setPreFilledMedicalHistoryForm,
   ] = useState<MedicalHistoryFormInitialState>(medicalHistoryFormInitialState);
+
+  const [requestDanglingBlock, requestDanglingBlockResponse] = useRequestDanglingBlockMutation();
 
   function toggleModalOpen() {
     setIsModalOpen(!isModalOpen);
@@ -33,16 +33,28 @@ export default function MedicalHistoryForm() {
     helpers: FormikHelpers<MedicalHistoryFormInitialState>,
   ) {
     helpers.setSubmitting(false);
-    setPreviewFormState(value);
+    setPreFilledMedicalHistoryForm(value);
     toggleModalOpen();
   }
 
-  function onPreviewSaveConfirmation() {
-    toggleModalOpen();
+  async function onPreviewSaveConfirmation() {
+    try {
+      toggleModalOpen();
+      const { cipherKey: cipherKeyForTheMessage, ...rest } = preFilledMedicalForm;
+      await requestDanglingBlock({
+        variables: {
+          message: JSON.stringify(rest),
+          cipherKeyForTheMessage,
+        },
+      });
+    } catch (e) {
+      console.log('onPreviewSaveConfirmation e()', e);
+      Alert.alert('Error', e.message);
+    }
   }
 
   useEffect(() => {
-    if (userProfile && userProfile.get('firstname')) {
+    if (userProfile?.get('firstName')) {
       setPreFilledMedicalHistoryForm({
         ...preFilledMedicalForm,
         firstName: userProfile.get('firstName'),
@@ -50,13 +62,24 @@ export default function MedicalHistoryForm() {
         middleName: userProfile.get('middleName'),
       });
     }
-  }, []);
+  }, [userProfile]);
 
-  if (isModalOpen && previewFormState) {
+  useEffect(() => {
+    // eslint-disable-next-line no-underscore-dangle
+    if (requestDanglingBlockResponse.data?.requestDanglingBlock?._id) {
+      Alert.alert('Success', 'Block requested');
+      setPreFilledMedicalHistoryForm(medicalHistoryFormInitialState);
+    }
+  }, [requestDanglingBlockResponse]);
+
+  if (isModalOpen && preFilledMedicalForm) {
     return (
       <PreviewMedicalHistoryModal
         {...{
-          isModalOpen, toggleModalOpen, previewFormState, onPreviewSaveConfirmation,
+          isModalOpen,
+          toggleModalOpen,
+          previewFormState: preFilledMedicalForm,
+          onPreviewSaveConfirmation,
         }}
       />
     );
@@ -65,8 +88,9 @@ export default function MedicalHistoryForm() {
   return (
     <View style={styles.container}>
       {/* todo: add a loader whose state will come from graphql */}
+      { requestDanglingBlockResponse.loading && <Loader /> }
       <Formik
-        initialValues={medicalHistoryFormInitialState}
+        initialValues={preFilledMedicalForm}
         onSubmit={formSubmitHandler}
         validationSchema={medicalHistoryFormSchema}
         enableReinitialize

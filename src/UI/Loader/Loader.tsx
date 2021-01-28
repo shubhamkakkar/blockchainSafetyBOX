@@ -1,8 +1,12 @@
 import React from 'react';
 import { ActivityIndicator, ActivityIndicatorProps } from 'react-native';
+import theme from 'theme';
 
-export default function Loader(props : ActivityIndicatorProps) {
+export default function Loader({ color, ...props } : ActivityIndicatorProps) {
   return (
-    <ActivityIndicator {...props} />
+    <ActivityIndicator
+      color={color || theme.DARK_PRIMARY}
+      {...props}
+    />
   );
 }

@@ -1,9 +1,9 @@
 import React, { useMemo, useState } from 'react';
-import { Animated, Switch, View } from 'react-native';
+import { Animated, View } from 'react-native';
 import MainContainer from 'UI/MainContainer';
-import Header from 'UI/Header/Header';
+import Header from 'UI/Header';
+import KeyboardAvoidingViewUI from 'UI/KeyboardAvoidingViewUI';
 import TextUI from 'UI/TextUI';
-import theme from 'theme';
 import MedicalHistoryForm
   from 'features/blockchain/RequestBlockScreen/container/MedicalHistoryForm/MedicalHistoryForm';
 import styles from './requestBlockScreen.styles';
@@ -11,6 +11,7 @@ import styles from './requestBlockScreen.styles';
 type Props = {
 
 };
+
 export default function RequestBlockScreen(props: Props) {
   const formScale = useMemo(() => new Animated.Value(1), []);
   const uploadImageScale = formScale.interpolate({
@@ -40,12 +41,13 @@ export default function RequestBlockScreen(props: Props) {
       <Header title="Request Dangling Block" />
       <View style={[styles.flex, styles.marginTop, styles.horizontalSpacer]}>
         {!isUploadDocument && (
-          <Animated.ScrollView
+          <Animated.View
             style={[styles.flex, { opacity: formScale }]}
-            showsVerticalScrollIndicator={false}
           >
-            <MedicalHistoryForm />
-          </Animated.ScrollView>
+            <KeyboardAvoidingViewUI>
+              <MedicalHistoryForm />
+            </KeyboardAvoidingViewUI>
+          </Animated.View>
         )}
         <Animated.View style={{ opacity: uploadImageScale }}>
           {isAnimationComplete && (

@@ -1,4 +1,6 @@
-import React, { useEffect, useMemo } from 'react';
+import React, {
+  useEffect, useMemo, useState,
+} from 'react';
 import {
   Alert, Animated, Image, View,
 } from 'react-native';
@@ -7,7 +9,8 @@ import AnimatedButton from 'UI/Buttons/AnimatedButton';
 import ImageLinks from 'ImageLinks';
 import { Formik, FormikHelpers } from 'formik';
 import {
-  ReturnedUserSignup, useLoginLazyQuery, User, useSignUpMutation,
+  ReturnedUser,
+  ReturnedUserSignup, useLoginLazyQuery, useSignUpMutation,
 } from 'generated/graphql';
 import request from 'utils/request';
 import { ApolloError } from '@apollo/client/errors';
@@ -31,10 +34,10 @@ type AuthenticationResponse = {
 };
 
 export default function AuthenticationForm({ isLogin, goTo }: Props) {
+  const [email, setEmail] = useState<string>('');
   const singUpFormFieldsOpacity = useMemo(() => new Animated.Value(0), []);
   const [loginQuery, loginQueryResponse] = useLoginLazyQuery();
   const [signUpMutation, signUpMutationResponse] = useSignUpMutation();
-  const toSendNavigationParams = { email: '' };
 
   const dispatch = useDispatch();
 
@@ -43,13 +46,13 @@ export default function AuthenticationForm({ isLogin, goTo }: Props) {
     helpers: FormikHelpers<AuthenticationInitialState>,
   ) {
     try {
+      setEmail(value.email);
       if (isLogin) {
         await loginQuery({ variables: { email: value.email, password: value.password } });
       } else {
         const { isLogin: _isLogin, confirmPassword: _confirmPassword, ...variables } = value;
         await signUpMutation({ variables });
       }
-      toSendNavigationParams.email = value.email;
     } catch (e:any) {
       console.log('AuthenticationForm -> formSubmitHandler e()', e);
     } finally {
@@ -64,7 +67,7 @@ export default function AuthenticationForm({ isLogin, goTo }: Props) {
         authenticationResponse.token = loginQueryResponse.data.login.token;
         request.token = authenticationResponse.token;
         dispatch(userProfile(
-          { email: toSendNavigationParams.email, ...loginQueryResponse.data.login } as User,
+          { email, ...loginQueryResponse.data.login } as ReturnedUser,
         ));
       } else {
         authenticationResponse.error = !!loginQueryResponse.error;
@@ -74,10 +77,10 @@ export default function AuthenticationForm({ isLogin, goTo }: Props) {
       authenticationResponse.privateKey = signUpMutationResponse.data.signUp.privateKey;
       request.token = authenticationResponse.token;
       const { privateKey: _, ...user } = {
-        email: toSendNavigationParams.email,
+        email,
         ...signUpMutationResponse.data.signUp,
       } as ReturnedUserSignup;
-      dispatch(userProfile(user as User));
+      dispatch(userProfile(user as ReturnedUser));
     } else {
       authenticationResponse.error = !!signUpMutationResponse.error;
     }
@@ -94,11 +97,11 @@ export default function AuthenticationForm({ isLogin, goTo }: Props) {
         ? navigationRouteNames.PublicLedgerScreen : navigationRouteNames.PrivateKeyDownloadScreen;
       const payload = isLogin ? {} : {
         privateKey: authenticatedResponse.privateKey,
-        email: toSendNavigationParams.email,
+        email,
       };
       goTo(screen, payload);
     }
-  }, [isLogin, authenticatedResponse, toSendNavigationParams]);
+  }, [isLogin, authenticatedResponse]);
 
   useEffect(() => {
     function animate(toValue: number) {
