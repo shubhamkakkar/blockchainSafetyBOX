@@ -604,7 +604,7 @@ export type RequestDanglingBlockMutation = (
   { __typename?: 'Mutation' }
   & { requestDanglingBlock: (
     { __typename?: 'TRequestedDanglingBlock' }
-    & Pick<TRequestedDanglingBlock, '_id'>
+    & Pick<TRequestedDanglingBlock, '_id' | 'requestAt' | 'acceptCount' | 'rejectCount'>
   ) }
 );
 
@@ -715,6 +715,9 @@ export const RequestDanglingBlockDocument = gql`
     requestBlockData: {message: $message, cipherKeyForTheMessage: $cipherKeyForTheMessage}
   ) {
     _id
+    requestAt
+    acceptCount
+    rejectCount
   }
 }
     `;

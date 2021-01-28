@@ -3,6 +3,7 @@ import {
   Action, applyMiddleware, compose, createStore,
 } from 'redux';
 import userReducer from 'store/reducers/user.reducer';
+import danglingBlocksReducer from 'store/reducers/danglingBlocks.reducer';
 import { USER_LOG_OUT } from './actions/user.actions';
 
 let composeEnhancers;
@@ -16,6 +17,7 @@ if (__DEV__) {
 
 const appReducer = combineReducers({
   user: userReducer,
+  danglingBlocks: danglingBlocksReducer,
 });
 
 const rootReducer = <A extends Action>(state: any, action: A) => {

@@ -10,6 +10,9 @@ const REQUEST_DANDLING_BLOCK = gql`
             cipherKeyForTheMessage: $cipherKeyForTheMessage
         }){
             _id
+            requestAt
+            acceptCount
+            rejectCount
         }
     }
 `;
