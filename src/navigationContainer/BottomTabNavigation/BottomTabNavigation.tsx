@@ -55,9 +55,9 @@ export default function BottomTabNavigation() {
 
       />
       <Tab.Screen
-        name={navigationRouteNames.RequestBlocksScreen as any}
+        name={navigationRouteNames.MedicalFormsTopBarNavigation as any}
         component={navigationRouteComponentMap[
-          navigationRouteNames.RequestBlocksScreen
+          navigationRouteNames.MedicalFormsTopBarNavigation
         ]}
         options={commonTabOptions(
           'plus',

@@ -1,21 +1,25 @@
 import React, { useEffect, useState } from 'react';
+import MainContainer from 'UI/MainContainer';
+import KeyboardAvoidingViewUI from 'UI/KeyboardAvoidingViewUI';
 import { Alert, View } from 'react-native';
+import Loader from 'UI/Loader';
 import { Formik, FormikHelpers } from 'formik';
 import AnimatedButton from 'UI/Buttons/AnimatedButton';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectUserProfile } from 'store/selectors/user.selectors';
 import { TRequestedDanglingBlock, useRequestDanglingBlockMutation } from 'generated/graphql';
-import Loader from 'UI/Loader';
 import { addDanglingBlock, addMyDanglingBlock } from 'store/actions/danglingBlocks.actions';
-import MedicalHistoryFormFields from './container/MedicalHistoryFormFields';
 import {
-  MedicalHistoryFormInitialState, medicalHistoryFormInitialState, medicalHistoryFormSchema,
+  medicalHistoryFormInitialState,
+  MedicalHistoryFormInitialState,
+  medicalHistoryFormSchema,
 } from './medicalHistoryForm.formik';
-import styles
-  from './medicalHistoryForm.styles';
+import MedicalHistoryFormFields
+  from './container/MedicalHistoryFormFields';
 import PreviewMedicalHistoryModal from './container/PreviewMedicalHistoryModal';
+import styles from './medicalHistoryFormScreen.styles';
 
-export default function MedicalHistoryForm() {
+export default function MedicalHistoryFormScreen() {
   const userProfile = useSelector(selectUserProfile);
   const dispatch = useDispatch();
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
@@ -66,7 +70,6 @@ export default function MedicalHistoryForm() {
   }, [userProfile]);
 
   useEffect(() => {
-    // eslint-disable-next-line no-underscore-dangle
     if (requestDanglingBlockResponse.data?.requestDanglingBlock) {
       const block = {
         ...requestDanglingBlockResponse.data?.requestDanglingBlock,
@@ -99,34 +102,39 @@ export default function MedicalHistoryForm() {
       />
     );
   }
-
   return (
-    <View style={styles.container}>
-      { requestDanglingBlockResponse.loading && <Loader /> }
-      <Formik
-        initialValues={preFilledMedicalForm}
-        onSubmit={formSubmitHandler}
-        validationSchema={medicalHistoryFormSchema}
-        enableReinitialize
-      >
-        {({
-          handleSubmit,
-          isSubmitting,
-          isValid,
-        }) => (
-          <View style={styles.container}>
-            <MedicalHistoryFormFields />
-            <View style={styles.submitButtonContainer}>
-              <AnimatedButton
-                disabled={isSubmitting || !isValid} // todo:  graphql loader
-                isLoading={isSubmitting}
-                title="Preview"
-                onPress={handleSubmit as any}
-              />
-            </View>
-          </View>
-        )}
-      </Formik>
-    </View>
+    <MainContainer>
+      <KeyboardAvoidingViewUI>
+        <View style={styles.container}>
+          { requestDanglingBlockResponse.loading && <Loader /> }
+          <Formik
+            initialValues={preFilledMedicalForm}
+            onSubmit={formSubmitHandler}
+            validationSchema={medicalHistoryFormSchema}
+            enableReinitialize
+          >
+            {({
+              handleSubmit,
+              isSubmitting,
+              isValid,
+            }) => (
+              <View style={styles.container}>
+                <MedicalHistoryFormFields />
+                <View style={styles.submitButtonContainer}>
+                  <AnimatedButton
+                    disabled={isSubmitting
+                    || !isValid
+                    || requestDanglingBlockResponse.loading}
+                    isLoading={isSubmitting || requestDanglingBlockResponse.loading}
+                    title="Preview"
+                    onPress={handleSubmit as any}
+                  />
+                </View>
+              </View>
+            )}
+          </Formik>
+        </View>
+      </KeyboardAvoidingViewUI>
+    </MainContainer>
   );
 }

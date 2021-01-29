@@ -40,5 +40,6 @@ module.exports = {
       1,
       { extensions: ['.js', '.jsx', '.tsx'] },
     ],
+    'import/prefer-default-export': 'off',
   },
 };

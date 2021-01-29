@@ -5,9 +5,11 @@ enum navigationRouteNames {
   BottomTabNavigation = 'BSB.Blockchain.BottomTabNavigationContainer',
   PublicLedgerScreen = 'BSB.Blockchain.PublicLedgerScreen',
   RequestedBlocksScreen = 'BSB.Blockchain.RequestedBlocksScreen',
-  RequestBlocksScreen = 'BSB.Blockchain.RequestBlockScreen',
   SharedBlocksScreen = 'BSB.Blockchain.SharedBlocksScreen',
   ReceivedBlocksScreen = 'BSB.Blockchain.ReceivedBlocksScreen',
+  MedicalFormsTopBarNavigation = 'BSB.Blockchain.MedicalFormsTopBarNavigation',
+  MedicalHistoryFormScreen = 'BSB.Blockchain.MedicalHistoryFormScreen',
+  InsuranceDetailsScreen = 'BSB.Blockchain.InsuranceDetailsScreen',
 }
 
 export default navigationRouteNames;

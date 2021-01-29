@@ -27,6 +27,7 @@
     "node_modules",
     "babel.config.js",
     "metro.config.js",
-    "e2e/jest.config.js"
+    "e2e/jest.config.js",
+    "src/generated/graphql.ts"
   ]
 }

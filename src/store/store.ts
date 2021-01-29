@@ -9,8 +9,9 @@ import { USER_LOG_OUT } from './actions/user.actions';
 let composeEnhancers;
 if (__DEV__) {
   // @ts-ignore
-  composeEnhancers = (typeof window !== 'undefined' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__)
-      || compose;
+  composeEnhancers = (typeof window !== 'undefined'
+      && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__)
+    || compose;
 } else {
   composeEnhancers = compose;
 }
@@ -28,7 +29,4 @@ const rootReducer = <A extends Action>(state: any, action: A) => {
   return appReducer(state, action);
 };
 
-export default createStore(
-  rootReducer,
-  composeEnhancers(applyMiddleware()),
-);
+export default createStore(rootReducer, composeEnhancers(applyMiddleware()));

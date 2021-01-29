@@ -22,7 +22,9 @@ export default function PreviewMedicalHistoryModal(props: Props) {
     >
       <Header title="Preview" onBackClick={props.toggleModalOpen} />
       <ScrollView style={styles.container}>
-        <KeyValuePairRow label="Cipher Key" value={props.previewFormState.cipherKey} />
+        <LayoutAnimationWrapper title="Security" expanded>
+          <KeyValuePairRow label="Cipher Key" value={props.previewFormState.cipherKey} />
+        </LayoutAnimationWrapper>
         <LayoutAnimationWrapper title="Name" expanded>
           <KeyValuePairRow label="First Name" value={props.previewFormState.firstName} />
           <KeyValuePairRow label="Middle Name" value={props.previewFormState.middleName} />

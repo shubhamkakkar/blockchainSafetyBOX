@@ -16,3 +16,5 @@ const REQUEST_DANDLING_BLOCK = gql`
         }
     }
 `;
+
+export default REQUEST_DANDLING_BLOCK;
