@@ -8,6 +8,7 @@ import MedicalHistoryFormScreen from 'features/blockchain/MedicalHistoryFormScre
 import ReceivedBlocksScreen from 'features/blockchain/ReceivedBlocksScreen';
 import InsuranceDetailsScreen from 'features/blockchain/InsuranceDetailsScreen';
 import SharedBlocksScreen from 'features/blockchain/SharedBlocksScreen';
+import UploadReportsScreen from 'features/blockchain/UploadReportsScreen';
 import BottomTabNavigation from './BottomTabNavigation';
 import MedicalFormsTopBarNavigation from './MedicalFormsTopBarNavigation';
 
@@ -23,6 +24,7 @@ const navigationRouteComponentMap = {
   [NavigationRouteNames.MedicalFormsTopBarNavigation]: MedicalFormsTopBarNavigation,
   [NavigationRouteNames.MedicalHistoryFormScreen]: MedicalHistoryFormScreen,
   [NavigationRouteNames.InsuranceDetailsScreen]: InsuranceDetailsScreen,
+  [NavigationRouteNames.UploadReportsScreen]: UploadReportsScreen,
 };
 
 export default navigationRouteComponentMap;

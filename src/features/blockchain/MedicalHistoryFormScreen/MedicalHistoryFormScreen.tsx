@@ -33,7 +33,7 @@ export default function MedicalHistoryFormScreen() {
     setIsModalOpen(!isModalOpen);
   }
 
-  async function formSubmitHandler(
+  function formSubmitHandler(
     value: MedicalHistoryFormInitialState,
     helpers: FormikHelpers<MedicalHistoryFormInitialState>,
   ) {

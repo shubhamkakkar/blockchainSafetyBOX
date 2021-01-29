@@ -7,6 +7,7 @@ import { useField } from 'formik';
 import { dateString } from 'utils/dateHelpers';
 // @ts-ignore
 import { FONT_SIZES } from 'constants';
+import theme from 'theme';
 import FormikErrorUI from '../FormikErrorUI';
 import TextUI from '../TextUI';
 import styles from './dateTimePicker.styles';
@@ -14,11 +15,15 @@ import Icon from '../Icon';
 
 type Props = {
   fieldName: string
+  placeholder: string;
+  maximumDate?: Date
   inputContainer?: ViewStyle
   mode?: 'date' | 'time'
 };
 export default function DateTimePicker({
   fieldName,
+  placeholder,
+  maximumDate,
   mode = 'date',
   inputContainer = {},
 }: Props) {
@@ -27,8 +32,6 @@ export default function DateTimePicker({
 
   const error = useMemo(() => ((meta.touched && meta.error) ? meta.error : ''),
     [meta.error, meta.touched]);
-
-  const date = useMemo(() => new Date(), []);
 
   function onChangeHandler(event: Event, selectedDate?: Date) {
     const currentDate = selectedDate || field.value;
@@ -46,32 +49,35 @@ export default function DateTimePicker({
 
   return (
     <View style={[styles.inputContainer, inputContainer]}>
-      <View style={[
-        styles.row,
-        styles.inputFieldContainer,
-      ]}
+
+      <TouchableOpacity
+        onBlur={handleBlur}
+        onPress={toggleDatePicker}
+        style={[
+          styles.row,
+          styles.inputFieldContainer,
+          (!!error && styles.inputFieldContainerError),
+        ]}
       >
-        <Icon name="calendar" />
-        <TouchableOpacity
-          onBlur={handleBlur}
-          onPress={toggleDatePicker}
+        <Icon name="calendar" isError={!!error} />
+        <TextUI
+          fontSize={FONT_SIZES.SMALL_TEXT_ALTERNATE}
+          color={field.value ? theme.BLACK : theme.GREY}
         >
-          <TextUI
-            fontSize={FONT_SIZES.SMALL_TEXT_ALTERNATE}
-          >
-            {dateString(field.value)}
-          </TextUI>
-        </TouchableOpacity>
+          { field.value ? dateString(field.value) : placeholder}
+        </TextUI>
+      </TouchableOpacity>
+      <View style={styles.formikErrorContainer}>
+        <FormikErrorUI error={error} />
       </View>
-      <FormikErrorUI error={error} />
       {show && (
         <RNDateTimePicker
-          value={field.value}
+          value={field.value || new Date()}
           mode={mode}
           is24Hour
           display="default"
           onChange={onChangeHandler}
-          maximumDate={date}
+          maximumDate={maximumDate}
         />
       )}
     </View>

@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import LayoutAnimationWrapper from 'UI/LayoutAnimationWrapper';
 import Input from 'UI/Input';
 import ToggleActionRow from 'UI/ToggleActionRow';
 import DateTimePicker from 'UI/DateTimePicker';
+import CipherKeyFormikInput from './CipherKeyFormikInput';
 
 export default function MedicalHistoryFormFields() {
+  const maximumDate = useMemo(() => new Date(), []);
   return (
     <>
       <LayoutAnimationWrapper title="Name" expanded>
@@ -86,7 +88,11 @@ export default function MedicalHistoryFormFields() {
           defaultFieldValue="Male"
           toggleToFieldValue="Female"
         />
-        <DateTimePicker fieldName="dateOfBirth" />
+        <DateTimePicker
+          fieldName="dateOfBirth"
+          placeholder="Date of birth"
+          maximumDate={maximumDate}
+        />
         <Input
           placeholder="Weight (in KG) *"
           iconProps={{ name: 'weight-kilogram' }}
@@ -123,13 +129,7 @@ export default function MedicalHistoryFormFields() {
           scrollEnabled
         />
       </LayoutAnimationWrapper>
-      <LayoutAnimationWrapper title="Security" expanded>
-        <Input
-          placeholder="Cipher Key *"
-          iconProps={{ name: 'shield-plus' }}
-          fieldName="cipherKey"
-        />
-      </LayoutAnimationWrapper>
+      <CipherKeyFormikInput />
     </>
   );
 }

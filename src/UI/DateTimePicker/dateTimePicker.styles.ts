@@ -15,4 +15,11 @@ export default StyleSheet.create({
     padding: 10,
     marginBottom: 2,
   },
+  formikErrorContainer: {
+    alignItems: 'flex-end',
+  },
+  inputFieldContainerError: {
+    borderWidth: 1,
+    borderColor: theme.RED,
+  },
 });

@@ -16,6 +16,7 @@ export default function MedicalFormsTopBarNavigation() {
         inactiveTintColor: theme.LIGHT_BLACK,
         labelStyle: styles.topBarStyles,
       }}
+      removeClippedSubviews
     >
       <Tab.Screen
         name={navigationRouteNames.MedicalHistoryFormScreen as any}
@@ -31,7 +32,13 @@ export default function MedicalFormsTopBarNavigation() {
         ]}
         options={{ tabBarLabel: 'Insurance Details' }}
       />
-      {/* <Tab.Screen name="Upload Reports / Prescriptions" component={UploadReports} /> */}
+      <Tab.Screen
+        name={navigationRouteNames.UploadReportsScreen as any}
+        component={navigationRouteComponentMap[
+          navigationRouteNames.UploadReportsScreen
+        ]}
+        options={{ tabBarLabel: 'Upload Reports' }}
+      />
     </Tab.Navigator>
   );
 }

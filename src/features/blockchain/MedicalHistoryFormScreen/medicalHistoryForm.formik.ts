@@ -7,7 +7,7 @@ export type MedicalHistoryFormInitialState = {
   lastName: string;
   middleName?: string;
   phoneNumber: string;
-  dateOfBirth: Date;
+  dateOfBirth: Date | string;
   gender: 'Male' | 'Female';
   addressLine1: string;
   addressLine2?: string;
@@ -27,7 +27,7 @@ export const medicalHistoryFormInitialState: MedicalHistoryFormInitialState = {
   lastName: '',
   middleName: '',
   phoneNumber: '',
-  dateOfBirth: new Date('01/01/2000'),
+  dateOfBirth: '',
   gender: 'Male',
   addressLine1: '',
   addressLine2: '',
