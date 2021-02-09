@@ -1,5 +1,5 @@
-import { StackNavigationProp } from '@react-navigation/stack';
-import { RouteProp } from '@react-navigation/native';
+import {StackNavigationProp} from '@react-navigation/stack';
+import {RouteProp} from '@react-navigation/native';
 
 export type NavigationStack = {
   SplashScreen: undefined;
@@ -9,29 +9,29 @@ export type NavigationStack = {
 };
 
 type SplashScreenNavigationProp = StackNavigationProp<
-NavigationStack,
-'SplashScreen'
+  NavigationStack,
+  'SplashScreen'
 >;
 type SplashScreenRouteProp = RouteProp<NavigationStack, 'SplashScreen'>;
 
 type AuthScreenNavigationProp = StackNavigationProp<
-NavigationStack,
-'AuthScreen'
+  NavigationStack,
+  'AuthScreen'
 >;
 type AuthScreenRouteProp = RouteProp<NavigationStack, 'AuthScreen'>;
 
 type PrivateKeyDownloadScreenNavigationProps = StackNavigationProp<
-NavigationStack,
-'PrivateKeyDownloadScreen'
+  NavigationStack,
+  'PrivateKeyDownloadScreen'
 >;
 type PrivateKeyDownloadScreenRouteProps = RouteProp<
-NavigationStack,
-'PrivateKeyDownloadScreen'
+  NavigationStack,
+  'PrivateKeyDownloadScreen'
 >;
 
 type PublicLedgerNavigationProp = StackNavigationProp<
-NavigationStack,
-'PublicLedger'
+  NavigationStack,
+  'PublicLedger'
 >;
 type PublicLedgerRouteProp = RouteProp<NavigationStack, 'PublicLedger'>;
 

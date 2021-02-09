@@ -143,6 +143,12 @@ export type ReturnedUserSignup = {
   role: Scalars['String'];
 };
 
+export enum RequestedBlockMessage {
+  PersonalMedicalInformation = 'PERSONAL_MEDICAL_INFORMATION',
+  InsuranceInformation = 'INSURANCE_INFORMATION',
+  MedicalReports = 'MEDICAL_REPORTS',
+}
+
 export type TRequestedDanglingBlock = {
   __typename?: 'TRequestedDanglingBlock';
   _id: Scalars['ID'];
@@ -151,6 +157,7 @@ export type TRequestedDanglingBlock = {
   message: Scalars['String'];
   acceptCount: Scalars['Int'];
   rejectCount: Scalars['Int'];
+  messageType: RequestedBlockMessage;
 };
 
 export type TAcceptDeclineCount = {
@@ -162,6 +169,7 @@ export type TAcceptDeclineCount = {
 export type TRequestDanglingBlock = {
   cipherKeyForTheMessage: Scalars['String'];
   message: Scalars['String'];
+  messageType: RequestedBlockMessage;
 };
 
 export type TAcceptDenyParams = {
@@ -360,6 +368,7 @@ export type ResolversTypes = {
   ID: ResolverTypeWrapper<any>;
   User: ResolverTypeWrapper<any>;
   ReturnedUserSignup: ResolverTypeWrapper<any>;
+  RequestedBlockMessage: ResolverTypeWrapper<any>;
   TRequestedDanglingBlock: ResolverTypeWrapper<any>;
   Int: ResolverTypeWrapper<any>;
   TAcceptDeclineCount: ResolverTypeWrapper<any>;
@@ -631,6 +640,11 @@ export type TRequestedDanglingBlockResolvers<
   message?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   acceptCount?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   rejectCount?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  messageType?: Resolver<
+    ResolversTypes['RequestedBlockMessage'],
+    ParentType,
+    ContextType
+  >;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -812,12 +826,13 @@ export type SignUpMutation = {__typename?: 'Mutation'} & {
 export type RequestDanglingBlockMutationVariables = Exact<{
   message: Scalars['String'];
   cipherKeyForTheMessage: Scalars['String'];
+  messageType: RequestedBlockMessage;
 }>;
 
 export type RequestDanglingBlockMutation = {__typename?: 'Mutation'} & {
   requestDanglingBlock: {__typename?: 'TRequestedDanglingBlock'} & Pick<
     TRequestedDanglingBlock,
-    '_id' | 'requestAt' | 'acceptCount' | 'rejectCount'
+    '_id' | 'requestAt' | 'acceptCount' | 'rejectCount' | 'messageType'
   >;
 };
 
@@ -962,17 +977,20 @@ export const RequestDanglingBlockDocument = gql`
   mutation RequestDanglingBlock(
     $message: String!
     $cipherKeyForTheMessage: String!
+    $messageType: RequestedBlockMessage!
   ) {
     requestDanglingBlock(
       requestBlockData: {
         message: $message
         cipherKeyForTheMessage: $cipherKeyForTheMessage
+        messageType: $messageType
       }
     ) {
       _id
       requestAt
       acceptCount
       rejectCount
+      messageType
     }
   }
 `;
@@ -996,6 +1014,7 @@ export type RequestDanglingBlockMutationFn = Apollo.MutationFunction<
  *   variables: {
  *      message: // value for 'message'
  *      cipherKeyForTheMessage: // value for 'cipherKeyForTheMessage'
+ *      messageType: // value for 'messageType'
  *   },
  * });
  */

@@ -3,8 +3,14 @@ import Input from 'UI/Input';
 import DateTimePicker from 'UI/DateTimePicker';
 import CipherKeyFormikInput
   from 'features/blockchain/MedicalHistoryFormScreen/container/MedicalHistoryFormFields/CipherKeyFormikInput';
+import FileUpload from 'UI/FileUpload/FileUpload';
+import { DocumentPickerHandlerResponse } from 'types';
+import { DocumentPickerResponse } from 'react-native-document-picker';
 
 export default function InsuranceFormFields() {
+  function documentPickerHandler(file: DocumentPickerHandlerResponse | DocumentPickerResponse[]) {
+    console.log({ file });
+  }
   return (
     <>
       <Input
@@ -15,8 +21,8 @@ export default function InsuranceFormFields() {
       />
       <DateTimePicker fieldName="validFrom" placeholder="Valid From" />
       <DateTimePicker fieldName="validTo" placeholder="Valid To" />
-      {/* TODO: upload image[] */}
       <CipherKeyFormikInput />
+      <FileUpload documentPickerHandler={documentPickerHandler} />
     </>
   );
 }

@@ -65,27 +65,27 @@ export default function NavigationContainer() {
           headerShown: false,
         }}
       >
-        {!isSignedIn
-        && (
-        <>
-          <Stack.Screen
-            name={navigationRouteNames.AuthScreen as any}
-            component={
-              navigationRouteComponentMap[
-                navigationRouteNames.AuthScreen
-              ]
-            }
-          />
-          <Stack.Screen
-            name={navigationRouteNames.PrivateKeyDownloadScreen as any}
-            component={
-              navigationRouteComponentMap[
-                navigationRouteNames.PrivateKeyDownloadScreen
-              ]
-            }
-          />
-        </>
-        )}
+        {/* {!isSignedIn */}
+        {/* && ( */}
+        {/* <> */}
+        {/*  <Stack.Screen */}
+        {/*    name={navigationRouteNames.AuthScreen as any} */}
+        {/*    component={ */}
+        {/*      navigationRouteComponentMap[ */}
+        {/*        navigationRouteNames.AuthScreen */}
+        {/*      ] */}
+        {/*    } */}
+        {/*  /> */}
+        {/*  <Stack.Screen */}
+        {/*    name={navigationRouteNames.PrivateKeyDownloadScreen as any} */}
+        {/*    component={ */}
+        {/*      navigationRouteComponentMap[ */}
+        {/*        navigationRouteNames.PrivateKeyDownloadScreen */}
+        {/*      ] */}
+        {/*    } */}
+        {/*  /> */}
+        {/* </> */}
+        {/* )} */}
         <Stack.Screen
           name={navigationRouteNames.PublicLedgerScreen as any}
           component={

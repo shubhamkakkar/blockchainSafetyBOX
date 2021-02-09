@@ -7,15 +7,18 @@ import { Formik, FormikHelpers } from 'formik';
 import AnimatedButton from 'UI/Buttons/AnimatedButton';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectUserProfile } from 'store/selectors/user.selectors';
-import { TRequestedDanglingBlock, useRequestDanglingBlockMutation } from 'generated/graphql';
+import {
+  RequestedBlockMessage,
+  TRequestedDanglingBlock,
+  useRequestDanglingBlockMutation,
+} from 'generated/graphql';
 import { addDanglingBlock, addMyDanglingBlock } from 'store/actions/danglingBlocks.actions';
 import {
   medicalHistoryFormInitialState,
   MedicalHistoryFormInitialState,
   medicalHistoryFormSchema,
 } from './medicalHistoryForm.formik';
-import MedicalHistoryFormFields
-  from './container/MedicalHistoryFormFields';
+import MedicalHistoryFormFields from './container/MedicalHistoryFormFields';
 import PreviewMedicalHistoryModal from './container/PreviewMedicalHistoryModal';
 import styles from './medicalHistoryFormScreen.styles';
 
@@ -50,6 +53,7 @@ export default function MedicalHistoryFormScreen() {
         variables: {
           message: JSON.stringify(rest),
           cipherKeyForTheMessage,
+          messageType: RequestedBlockMessage.PersonalMedicalInformation,
         },
       });
     } catch (e) {

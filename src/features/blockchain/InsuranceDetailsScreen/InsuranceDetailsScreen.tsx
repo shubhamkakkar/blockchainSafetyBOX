@@ -4,7 +4,11 @@ import { Alert, View } from 'react-native';
 import KeyboardAvoidingViewUI from 'UI/KeyboardAvoidingViewUI';
 import { Formik, FormikHelpers } from 'formik';
 import AnimatedButton from 'UI/Buttons/AnimatedButton';
-import { TRequestedDanglingBlock, useRequestDanglingBlockMutation } from 'generated/graphql';
+import {
+  RequestedBlockMessage,
+  TRequestedDanglingBlock,
+  useRequestDanglingBlockMutation,
+} from 'generated/graphql';
 import { addDanglingBlock, addMyDanglingBlock } from 'store/actions/danglingBlocks.actions';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectUserProfile } from 'store/selectors/user.selectors';
@@ -12,8 +16,8 @@ import InsuranceFormFields from './container/InsuranceFormFields';
 import styles from './insuranceDetailsScreen.styles';
 import {
   initialInsuranceDetailsState,
-  insuranceDetailsSchema,
   InitialInsuranceDetailsState,
+  insuranceDetailsSchema,
 } from './insuranceDetailsScreen.formik';
 
 export default function InsuranceDetailsScreen() {
@@ -46,40 +50,44 @@ export default function InsuranceDetailsScreen() {
     helpers.setSubmitting(false);
     const { cipherKey, ...rest } = value;
     await requestDanglingBlock({
-      variables: { message: JSON.stringify(rest), cipherKeyForTheMessage: cipherKey },
+      variables: {
+        message: JSON.stringify(rest),
+        cipherKeyForTheMessage: cipherKey,
+        messageType: RequestedBlockMessage.InsuranceInformation,
+      },
     });
   }
 
   return (
     <MainContainer>
-      <KeyboardAvoidingViewUI>
-        <View style={[styles.container, styles.boundarySpacer]}>
-          <Formik
-            initialValues={initialInsuranceDetailsState}
-            onSubmit={formSubmitHandler}
-            validationSchema={insuranceDetailsSchema}
-            enableReinitialize
-          >
-            {({
-              handleSubmit,
-              isSubmitting,
-              isValid,
-            }) => (
-              <>
+      <View style={[styles.container, styles.boundarySpacer]}>
+        <Formik
+          initialValues={initialInsuranceDetailsState}
+          onSubmit={formSubmitHandler}
+          validationSchema={insuranceDetailsSchema}
+          enableReinitialize
+        >
+          {({
+            handleSubmit,
+            isSubmitting,
+            isValid,
+          }) => (
+            <>
+              <KeyboardAvoidingViewUI>
                 <InsuranceFormFields />
-                <AnimatedButton
-                  disabled={isSubmitting
-                    || !isValid
-                    || requestDanglingBlockResponse.loading}
-                  isLoading={isSubmitting || requestDanglingBlockResponse.loading}
-                  title="Submit"
-                  onPress={handleSubmit as any}
-                />
-              </>
-            )}
-          </Formik>
-        </View>
-      </KeyboardAvoidingViewUI>
+              </KeyboardAvoidingViewUI>
+              <AnimatedButton
+                disabled={isSubmitting
+            || !isValid
+            || requestDanglingBlockResponse.loading}
+                isLoading={isSubmitting || requestDanglingBlockResponse.loading}
+                title="Submit"
+                onPress={handleSubmit as any}
+              />
+            </>
+          )}
+        </Formik>
+      </View>
     </MainContainer>
   );
 }

@@ -9,6 +9,7 @@ export default StyleSheet.create({
     alignItems: 'center',
     backgroundColor: theme.PRIMARY,
     borderRadius: 5,
+    flexDirection: 'row',
   },
   borderButton: {
     borderWidth: 1.5,

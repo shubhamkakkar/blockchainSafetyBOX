@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native';
+import { Platform, StyleSheet } from 'react-native';
 import theme from 'theme';
 // @ts-ignore
 import { FONT_SIZES } from 'constants';
@@ -10,13 +10,15 @@ export default StyleSheet.create({
   inputContainer: {
     marginBottom: 15,
     alignItems: 'flex-end',
+    justifyContent: 'center',
   },
   inputFieldContainer: {
     borderWidth: 0.5,
     borderColor: theme.GREY,
     borderRadius: 5,
-    padding: 10,
-    marginBottom: 2,
+    paddingHorizontal: 10,
+    paddingVertical: Platform.OS === 'ios' ? 10 : 0,
+    alignItems: 'center',
   },
   inputFieldContainerActive: {
     borderWidth: 1,
