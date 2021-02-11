@@ -1,5 +1,5 @@
-import { DocumentPickerResponse } from 'react-native-document-picker';
+import { ImagePickerResponse } from 'react-native-image-picker';
 
-export interface DocumentPickerHandlerResponse extends Partial<DocumentPickerResponse> {
-  error?: any
+export interface ImagePickerResponseWithId extends ImagePickerResponse {
+  id: string
 }

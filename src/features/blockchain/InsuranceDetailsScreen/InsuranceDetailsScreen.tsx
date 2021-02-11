@@ -71,10 +71,15 @@ export default function InsuranceDetailsScreen() {
             handleSubmit,
             isSubmitting,
             isValid,
+            values,
+            setFieldValue,
           }) => (
             <>
               <KeyboardAvoidingViewUI>
-                <InsuranceFormFields />
+                <InsuranceFormFields
+                  images={values.images}
+                  setFieldValue={setFieldValue}
+                />
               </KeyboardAvoidingViewUI>
               <AnimatedButton
                 disabled={isSubmitting
