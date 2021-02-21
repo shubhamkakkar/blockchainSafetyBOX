@@ -23,6 +23,21 @@ const REQUEST_DANDLING_BLOCK = gql`
             messageType
         }
     }
+    
+    query RequestedDanglingBlocks(
+        $isUserOnly: Boolean
+    ) {
+        requestedBlocks(
+            isUserOnly: $isUserOnly
+        ) {
+            _id
+            user {
+                _id
+            }
+            requestAt
+            acceptCount
+            rejectCount
+            messageType
+        }
+    }
 `;
-
-export default REQUEST_DANDLING_BLOCK;

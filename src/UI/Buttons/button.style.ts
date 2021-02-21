@@ -31,12 +31,16 @@ export default StyleSheet.create({
     marginHorizontal: 10,
   },
   leftIconContainer: {
-    marginRight: 10,
+    // marginRight: 10,
   },
   rightIconContainer: {
     marginLeft: 10,
   },
   disabledButton: {
-    backgroundColor: theme.GREY,
+    backgroundColor: theme.GREY + 50,
+    borderWidth: 0,
+  },
+  disabledTextColor: {
+    color: theme.WHITE,
   },
 });

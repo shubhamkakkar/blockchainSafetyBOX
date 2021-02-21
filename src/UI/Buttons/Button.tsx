@@ -42,7 +42,7 @@ export default function Button({
       {children || (
       <>
         {!!leftIcon?.name && (
-        <View style={styles.leftIconContainer}>
+        <View style={[styles.leftIconContainer, rest.disabled && styles.disabledTextColor]}>
           <Icon {...leftIcon} />
         </View>
         ) }
@@ -50,13 +50,13 @@ export default function Button({
           fontSize={fontSize}
           fontWeight={fontWeight}
           color={titleColor}
-          style={textStyle}
+          style={[textStyle, rest.disabled && styles.disabledTextColor] as any}
         >
           {title}
         </TextUI>
         {!!rightIcon?.name
         && (
-        <View style={styles.rightIconContainer}>
+        <View style={[styles.rightIconContainer, rest.disabled && styles.disabledTextColor as any]}>
           <Icon {...rightIcon} />
         </View>
         )}

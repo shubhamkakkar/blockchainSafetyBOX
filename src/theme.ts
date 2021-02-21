@@ -7,6 +7,7 @@ enum theme {
   PRIMARY = '#35a5a5',
   LIGHT_PRIMARY = '#35a5a550',
   GREY = '#b3b3b3',
-  RED = 'red',
+  RED = '#d9534f',
+  SUCCESS = '#5cb85c'
 }
 export default theme;
