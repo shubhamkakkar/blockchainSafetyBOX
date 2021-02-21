@@ -90,7 +90,7 @@ export default function MedicalHistoryFormFields() {
         />
         <DateTimePicker
           fieldName="dateOfBirth"
-          placeholder="Date of birth"
+          placeholder="Date of birth *"
           maximumDate={maximumDate}
         />
         <Input

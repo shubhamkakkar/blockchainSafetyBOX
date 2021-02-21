@@ -41,7 +41,13 @@ export default function PreviewMedicalHistoryModal(props: Props) {
         </LayoutAnimationWrapper>
         <LayoutAnimationWrapper title="Personal" expanded>
           <KeyValuePairRow label="Gender" value={props.previewFormState.gender} />
-          <KeyValuePairRow label="DOB" value={props.previewFormState.dateOfBirth.toDateString()} />
+          <KeyValuePairRow
+            label="DOB"
+            value={
+            // @ts-ignore
+            props.previewFormState.dateOfBirth.toDateString()
+            }
+          />
           <KeyValuePairRow label="Weight (in KG)" value={props.previewFormState.weight} />
           <KeyValuePairRow label="Height (in cm)" value={props.previewFormState.height} />
         </LayoutAnimationWrapper>

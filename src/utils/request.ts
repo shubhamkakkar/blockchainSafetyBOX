@@ -1,3 +1,6 @@
+// @ts-ignore
+import { APIUrl } from 'constants';
+
 class Request {
   apiUrl: string;
 
@@ -8,5 +11,6 @@ class Request {
   }
 }
 
-const request = new Request('http://127.0.0.1:4001');
+// @ts-ignore
+const request = new Request(APIUrl);
 export default request;

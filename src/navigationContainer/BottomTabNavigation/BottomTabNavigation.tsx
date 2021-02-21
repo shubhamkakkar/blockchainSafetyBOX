@@ -32,7 +32,7 @@ export default function BottomTabNavigation() {
       lazy
       tabBarOptions={{
         activeTintColor: theme.PRIMARY,
-        inactiveTintColor: theme.PRIMARY,
+        inactiveTintColor: theme.LIGHT_BLACK,
         showLabel: false,
         keyboardHidesTabBar: true,
         style: styles.topShadow,
@@ -55,17 +55,6 @@ export default function BottomTabNavigation() {
 
       />
       <Tab.Screen
-        name={navigationRouteNames.MedicalFormsTopBarNavigation as any}
-        component={navigationRouteComponentMap[
-          navigationRouteNames.MedicalFormsTopBarNavigation
-        ]}
-        options={commonTabOptions(
-          'plus',
-          { ...styles.centerButtonContainer, ...styles.topShadow },
-          styles.iconStyle,
-        )}
-      />
-      <Tab.Screen
         name={navigationRouteNames.SharedBlocksScreen as any}
         component={navigationRouteComponentMap[
           navigationRouteNames.SharedBlocksScreen
@@ -79,6 +68,15 @@ export default function BottomTabNavigation() {
           navigationRouteNames.ReceivedBlocksScreen
         ]}
         options={commonTabOptions('collapse-all')}
+      />
+      <Tab.Screen
+        name={navigationRouteNames.MedicalFormsTopBarNavigation as any}
+        component={navigationRouteComponentMap[
+          navigationRouteNames.MedicalFormsTopBarNavigation
+        ]}
+        options={commonTabOptions(
+          'plus',
+        )}
       />
     </Tab.Navigator>
   );

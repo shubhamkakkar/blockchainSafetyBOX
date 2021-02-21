@@ -32,3 +32,7 @@ export const DEFAULT_ICON_SIZE = 20;
 export const DEV = __DEV__;
 // env params
 export const APIUrl = Config.API_URL;
+export const CLOUDINARY = {
+  CLOUD_NAME: Config.CLOUDINARY_CLOUD_NAME,
+  UPLOAD_PRESET: Config.CLOUDINARY_UPLOAD_PRESET,
+};

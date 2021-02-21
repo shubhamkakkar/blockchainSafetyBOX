@@ -4,7 +4,7 @@ import { FONT_SIZES } from 'constants';
 
 export default StyleSheet.create({
   topBarStyles: {
-    fontSize: FONT_SIZES.MEDIUM_TEXT_ALTERNATIVE,
+    fontSize: FONT_SIZES.MEDIUM_TEXT,
     fontWeight: 'bold',
     textTransform: 'capitalize',
   },

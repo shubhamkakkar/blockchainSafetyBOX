@@ -7,12 +7,8 @@ import { Formik, FormikHelpers } from 'formik';
 import AnimatedButton from 'UI/Buttons/AnimatedButton';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectUserProfile } from 'store/selectors/user.selectors';
-import {
-  RequestedBlockMessage,
-  TRequestedDanglingBlock,
-  useRequestDanglingBlockMutation,
-} from 'generated/graphql';
-import { addDanglingBlock, addMyDanglingBlock } from 'store/actions/danglingBlocks.actions';
+import { RequestedBlockMessage, useRequestDanglingBlockMutation } from 'generated/graphql';
+import danglingBlockDispatchHandler from 'utils/danglingBlockDispatchHandler';
 import {
   medicalHistoryFormInitialState,
   MedicalHistoryFormInitialState,
@@ -48,7 +44,10 @@ export default function MedicalHistoryFormScreen() {
   async function onPreviewSaveConfirmation() {
     try {
       toggleModalOpen();
-      const { cipherKey: cipherKeyForTheMessage, ...rest } = preFilledMedicalForm;
+      const {
+        cipherKey: cipherKeyForTheMessage,
+        ...rest
+      } = preFilledMedicalForm;
       await requestDanglingBlock({
         variables: {
           message: JSON.stringify(rest),
@@ -75,20 +74,9 @@ export default function MedicalHistoryFormScreen() {
 
   useEffect(() => {
     if (requestDanglingBlockResponse.data?.requestDanglingBlock) {
-      const block = {
-        ...requestDanglingBlockResponse.data?.requestDanglingBlock,
-        user: {
-          firstName: userProfile.get('firstName'),
-          lastName: userProfile.get('lastName'),
-          middleName: userProfile.get('middleName'),
-        },
-      };
-      dispatch(addDanglingBlock(
-        block as TRequestedDanglingBlock,
-      ));
-      dispatch(addMyDanglingBlock(
-        block as TRequestedDanglingBlock,
-      ));
+      danglingBlockDispatchHandler(
+        requestDanglingBlockResponse.data?.requestDanglingBlock, userProfile, dispatch,
+      );
       Alert.alert('Success', 'Block requested');
       setPreFilledMedicalHistoryForm(medicalHistoryFormInitialState);
     }
@@ -110,7 +98,7 @@ export default function MedicalHistoryFormScreen() {
     <MainContainer>
       <KeyboardAvoidingViewUI>
         <View style={styles.container}>
-          { requestDanglingBlockResponse.loading && <Loader /> }
+          {requestDanglingBlockResponse.loading && <Loader />}
           <Formik
             initialValues={preFilledMedicalForm}
             onSubmit={formSubmitHandler}
@@ -127,8 +115,8 @@ export default function MedicalHistoryFormScreen() {
                 <View style={styles.submitButtonContainer}>
                   <AnimatedButton
                     disabled={isSubmitting
-                    || !isValid
-                    || requestDanglingBlockResponse.loading}
+                                        || !isValid
+                                        || requestDanglingBlockResponse.loading}
                     isLoading={isSubmitting || requestDanglingBlockResponse.loading}
                     title="Preview"
                     onPress={handleSubmit as any}

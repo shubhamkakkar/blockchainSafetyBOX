@@ -15,11 +15,17 @@ type Props = {
 
 export default function InsuranceFormFields(props: Props) {
   function onImagePickerPressHandler(image: ImagePickerResponse) {
-    props.setFieldValue('images', [...props.images, image]);
+    if (!image.errorCode) {
+      props.setFieldValue('images', [...props.images, {
+        uri: image.uri, type: image.type, name: image.fileName,
+      }]);
+    }
   }
 
   function removeImage(index: number) {
-    const images = props.images.splice(index, 1);
+    const images = props.images.filter(
+      (_image, imageIndex) => imageIndex !== index,
+    );
     props.setFieldValue('images', images);
   }
 
@@ -35,7 +41,7 @@ export default function InsuranceFormFields(props: Props) {
       <DateTimePicker fieldName="validTo" placeholder="Valid To" />
       <CipherKeyFormikInput />
       <ImagePicker onImagePickerPressHandler={onImagePickerPressHandler} />
-      <ListSelectedImages images={props.images} removeImage={removeImage} />
+      <ListSelectedImages images={props.images} removeImage={removeImage} isHorizontal />
     </>
   );
 }
