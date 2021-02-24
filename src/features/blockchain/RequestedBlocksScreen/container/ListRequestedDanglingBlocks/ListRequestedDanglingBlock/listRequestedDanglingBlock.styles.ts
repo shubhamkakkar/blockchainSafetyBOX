@@ -4,18 +4,17 @@ import theme from 'theme';
 
 export default StyleSheet.create({
   container: {
-    margin: DEFAULT_VERTICAL_MARGIN,
+    // marginBottom: DEFAULT_VERTICAL_MARGIN,
     borderBottomWidth: 0.5,
     borderBottomColor: theme.GREY,
-    paddingBottom: DEFAULT_VERTICAL_MARGIN,
+    paddingHorizontal: DEFAULT_VERTICAL_MARGIN,
+    paddingVertical: DEFAULT_VERTICAL_MARGIN / 2,
   },
   actionRowContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
   requestedAtContainer: {
-    flexDirection: 'row',
     marginBottom: 10,
-    alignItems: 'center',
   },
 });

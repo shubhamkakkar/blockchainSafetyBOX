@@ -26,6 +26,7 @@ export type Query = {
   allUsers: Array<Maybe<User>>;
   user: User;
   requestedBlocks: Array<Maybe<TRequestedDanglingBlock>>;
+  isAlreadyVoted: Scalars['Boolean'];
   myRequestedBlocks: Array<Maybe<TRequestedDanglingBlock>>;
   publicLedger: Array<Maybe<TPublicLedger>>;
   sharedBlocks: Array<SharedBlock>;
@@ -44,6 +45,11 @@ export type QueryLoginArgs = {
 
 export type QueryRequestedBlocksArgs = {
   isUserOnly?: Maybe<Scalars['Boolean']>;
+};
+
+
+export type QueryIsAlreadyVotedArgs = {
+  blockId: Scalars['ID'];
 };
 
 
@@ -332,12 +338,12 @@ export type ResolversTypes = {
   Query: ResolverTypeWrapper<{}>;
   Boolean: ResolverTypeWrapper<any>;
   String: ResolverTypeWrapper<any>;
+  ID: ResolverTypeWrapper<any>;
   Mutation: ResolverTypeWrapper<{}>;
   Subscription: ResolverTypeWrapper<{}>;
   TSignupArgs: ResolverTypeWrapper<any>;
   TLoginArgs: ResolverTypeWrapper<any>;
   ReturnedUser: ResolverTypeWrapper<any>;
-  ID: ResolverTypeWrapper<any>;
   User: ResolverTypeWrapper<any>;
   ReturnedUserSignup: ResolverTypeWrapper<any>;
   RequestedBlockMessage: ResolverTypeWrapper<any>;
@@ -365,12 +371,12 @@ export type ResolversParentTypes = {
   Query: {};
   Boolean: any;
   String: any;
+  ID: any;
   Mutation: {};
   Subscription: {};
   TSignupArgs: any;
   TLoginArgs: any;
   ReturnedUser: any;
-  ID: any;
   User: any;
   ReturnedUserSignup: any;
   TRequestedDanglingBlock: any;
@@ -405,6 +411,7 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   allUsers?: Resolver<Array<Maybe<ResolversTypes['User']>>, ParentType, ContextType>;
   user?: Resolver<ResolversTypes['User'], ParentType, ContextType>;
   requestedBlocks?: Resolver<Array<Maybe<ResolversTypes['TRequestedDanglingBlock']>>, ParentType, ContextType, RequireFields<QueryRequestedBlocksArgs, never>>;
+  isAlreadyVoted?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<QueryIsAlreadyVotedArgs, 'blockId'>>;
   myRequestedBlocks?: Resolver<Array<Maybe<ResolversTypes['TRequestedDanglingBlock']>>, ParentType, ContextType>;
   publicLedger?: Resolver<Array<Maybe<ResolversTypes['TPublicLedger']>>, ParentType, ContextType>;
   sharedBlocks?: Resolver<Array<ResolversTypes['SharedBlock']>, ParentType, ContextType>;
@@ -636,9 +643,33 @@ export type RequestedDanglingBlocksQuery = (
     & Pick<TRequestedDanglingBlock, '_id' | 'requestAt' | 'acceptCount' | 'rejectCount' | 'messageType'>
     & { user: (
       { __typename?: 'User' }
-      & Pick<User, '_id'>
+      & Pick<User, '_id' | 'firstName' | 'lastName' | 'middleName'>
     ) }
   )>> }
+);
+
+export type AcceptDeclineDanglingBlockMutationVariables = Exact<{
+  blockId: Scalars['ID'];
+  isAccept?: Maybe<Scalars['Boolean']>;
+}>;
+
+
+export type AcceptDeclineDanglingBlockMutation = (
+  { __typename?: 'Mutation' }
+  & { acceptDeclineBlock?: Maybe<(
+    { __typename?: 'TAcceptDeclineCount' }
+    & Pick<TAcceptDeclineCount, 'acceptCount' | 'rejectCount'>
+  )> }
+);
+
+export type IsAlreadyVotedQueryVariables = Exact<{
+  blockId: Scalars['ID'];
+}>;
+
+
+export type IsAlreadyVotedQuery = (
+  { __typename?: 'Query' }
+  & Pick<Query, 'isAlreadyVoted'>
 );
 
 export type UserProfileQueryVariables = Exact<{ [key: string]: never; }>;
@@ -788,6 +819,9 @@ export const RequestedDanglingBlocksDocument = gql`
     _id
     user {
       _id
+      firstName
+      lastName
+      middleName
     }
     requestAt
     acceptCount
@@ -822,6 +856,71 @@ export function useRequestedDanglingBlocksLazyQuery(baseOptions?: Apollo.LazyQue
 export type RequestedDanglingBlocksQueryHookResult = ReturnType<typeof useRequestedDanglingBlocksQuery>;
 export type RequestedDanglingBlocksLazyQueryHookResult = ReturnType<typeof useRequestedDanglingBlocksLazyQuery>;
 export type RequestedDanglingBlocksQueryResult = Apollo.QueryResult<RequestedDanglingBlocksQuery, RequestedDanglingBlocksQueryVariables>;
+export const AcceptDeclineDanglingBlockDocument = gql`
+    mutation AcceptDeclineDanglingBlock($blockId: ID!, $isAccept: Boolean) {
+  acceptDeclineBlock(acceptDenyParams: {blockId: $blockId, isAccept: $isAccept}) {
+    acceptCount
+    rejectCount
+  }
+}
+    `;
+export type AcceptDeclineDanglingBlockMutationFn = Apollo.MutationFunction<AcceptDeclineDanglingBlockMutation, AcceptDeclineDanglingBlockMutationVariables>;
+
+/**
+ * __useAcceptDeclineDanglingBlockMutation__
+ *
+ * To run a mutation, you first call `useAcceptDeclineDanglingBlockMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useAcceptDeclineDanglingBlockMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [acceptDeclineDanglingBlockMutation, { data, loading, error }] = useAcceptDeclineDanglingBlockMutation({
+ *   variables: {
+ *      blockId: // value for 'blockId'
+ *      isAccept: // value for 'isAccept'
+ *   },
+ * });
+ */
+export function useAcceptDeclineDanglingBlockMutation(baseOptions?: Apollo.MutationHookOptions<AcceptDeclineDanglingBlockMutation, AcceptDeclineDanglingBlockMutationVariables>) {
+        return Apollo.useMutation<AcceptDeclineDanglingBlockMutation, AcceptDeclineDanglingBlockMutationVariables>(AcceptDeclineDanglingBlockDocument, baseOptions);
+      }
+export type AcceptDeclineDanglingBlockMutationHookResult = ReturnType<typeof useAcceptDeclineDanglingBlockMutation>;
+export type AcceptDeclineDanglingBlockMutationResult = Apollo.MutationResult<AcceptDeclineDanglingBlockMutation>;
+export type AcceptDeclineDanglingBlockMutationOptions = Apollo.BaseMutationOptions<AcceptDeclineDanglingBlockMutation, AcceptDeclineDanglingBlockMutationVariables>;
+export const IsAlreadyVotedDocument = gql`
+    query IsAlreadyVoted($blockId: ID!) {
+  isAlreadyVoted(blockId: $blockId)
+}
+    `;
+
+/**
+ * __useIsAlreadyVotedQuery__
+ *
+ * To run a query within a React component, call `useIsAlreadyVotedQuery` and pass it any options that fit your needs.
+ * When your component renders, `useIsAlreadyVotedQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useIsAlreadyVotedQuery({
+ *   variables: {
+ *      blockId: // value for 'blockId'
+ *   },
+ * });
+ */
+export function useIsAlreadyVotedQuery(baseOptions: Apollo.QueryHookOptions<IsAlreadyVotedQuery, IsAlreadyVotedQueryVariables>) {
+        return Apollo.useQuery<IsAlreadyVotedQuery, IsAlreadyVotedQueryVariables>(IsAlreadyVotedDocument, baseOptions);
+      }
+export function useIsAlreadyVotedLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<IsAlreadyVotedQuery, IsAlreadyVotedQueryVariables>) {
+          return Apollo.useLazyQuery<IsAlreadyVotedQuery, IsAlreadyVotedQueryVariables>(IsAlreadyVotedDocument, baseOptions);
+        }
+export type IsAlreadyVotedQueryHookResult = ReturnType<typeof useIsAlreadyVotedQuery>;
+export type IsAlreadyVotedLazyQueryHookResult = ReturnType<typeof useIsAlreadyVotedLazyQuery>;
+export type IsAlreadyVotedQueryResult = Apollo.QueryResult<IsAlreadyVotedQuery, IsAlreadyVotedQueryVariables>;
 export const UserProfileDocument = gql`
     query UserProfile {
   user {

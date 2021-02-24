@@ -4,6 +4,7 @@ enum navigationRouteNames {
   PrivateKeyDownloadScreen = 'BSB.Authentication.PrivateKeyDownloadScreen',
   BottomTabNavigation = 'BSB.Blockchain.BottomTabNavigationContainer',
   PublicLedgerScreen = 'BSB.Blockchain.PublicLedgerScreen',
+  RequestedBlocksStackNavigation = 'BSB.Blockchain.RequestedBlocksStackNavigation',
   RequestedBlocksScreen = 'BSB.Blockchain.RequestedBlocksScreen',
   SharedBlocksScreen = 'BSB.Blockchain.SharedBlocksScreen',
   ReceivedBlocksScreen = 'BSB.Blockchain.ReceivedBlocksScreen',

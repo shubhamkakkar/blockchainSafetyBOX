@@ -9,8 +9,9 @@ import ReceivedBlocksScreen from 'features/blockchain/ReceivedBlocksScreen';
 import InsuranceDetailsScreen from 'features/blockchain/InsuranceDetailsScreen';
 import SharedBlocksScreen from 'features/blockchain/SharedBlocksScreen';
 import UploadReportsScreen from 'features/blockchain/UploadReportsScreen';
+import RequestedDanglingBlockStack from 'navigationContainer/RequestedDanglingBlockStack';
+import MedicalFormsTopBarNavigation from './RequestedDanglingBlockStack/MedicalFormsTopBarNavigation';
 import BottomTabNavigation from './BottomTabNavigation';
-import MedicalFormsTopBarNavigation from './MedicalFormsTopBarNavigation';
 
 const navigationRouteComponentMap = {
   [NavigationRouteNames.SplashScreen]: SplashScreen,
@@ -18,6 +19,7 @@ const navigationRouteComponentMap = {
   [NavigationRouteNames.PrivateKeyDownloadScreen]: PrivateKeyDownloadScreen,
   [NavigationRouteNames.BottomTabNavigation]: BottomTabNavigation,
   [NavigationRouteNames.PublicLedgerScreen]: PublicLedgerScreen,
+  [NavigationRouteNames.RequestedBlocksStackNavigation]: RequestedDanglingBlockStack,
   [NavigationRouteNames.RequestedBlocksScreen]: RequestedBlocksScreen,
   [NavigationRouteNames.SharedBlocksScreen]: SharedBlocksScreen,
   [NavigationRouteNames.ReceivedBlocksScreen]: ReceivedBlocksScreen,

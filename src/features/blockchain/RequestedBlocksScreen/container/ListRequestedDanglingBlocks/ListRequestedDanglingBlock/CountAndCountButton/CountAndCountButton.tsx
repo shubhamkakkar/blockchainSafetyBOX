@@ -9,7 +9,8 @@ type Props = {
   onPress: () => void
   value: number;
   isReject?: boolean
-  disabled: boolean
+  disabled: boolean;
+  showAcceptDeclineButtons?: boolean
 };
 export default function CountAndCountButton(props: Props) {
   return (
@@ -19,16 +20,18 @@ export default function CountAndCountButton(props: Props) {
         {' '}
         Count
       </TextUI>
-      <TextUI>
+      <TextUI fontWeight="Bold">
         {props.value}
       </TextUI>
-      <BorderButton
-        onPress={props.onPress}
-        title={props.title}
-        style={[styles.baseButton, props.isReject && styles.rejectButton]}
-        textStyle={[props.isReject ? styles.rejectButtonTitle : styles.baseTitle]}
-        disabled={props.disabled}
-      />
+      {props.showAcceptDeclineButtons && (
+        <BorderButton
+          onPress={props.onPress}
+          title={props.title}
+          style={[styles.baseButton, props.isReject && styles.rejectButton]}
+          textStyle={[props.isReject ? styles.rejectButtonTitle : styles.baseTitle]}
+          disabled={props.disabled}
+        />
+      )}
     </View>
   );
 }

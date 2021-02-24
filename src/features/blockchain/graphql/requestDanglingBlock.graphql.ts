@@ -23,7 +23,8 @@ const REQUEST_DANDLING_BLOCK = gql`
             messageType
         }
     }
-    
+    `;
+const REQUESTED_DANGLING_BLOCKS = gql`
     query RequestedDanglingBlocks(
         $isUserOnly: Boolean
     ) {
@@ -32,12 +33,37 @@ const REQUEST_DANDLING_BLOCK = gql`
         ) {
             _id
             user {
-                _id
+                _id,
+                firstName, 
+                lastName,
+                middleName,
             }
             requestAt
             acceptCount
             rejectCount
             messageType
         }
+    }
+`;
+const ACCEPT_DECLINE_DANGLING_BLOCK = gql`
+    mutation AcceptDeclineDanglingBlock(
+        $blockId: ID!
+        $isAccept: Boolean
+    ) {
+        acceptDeclineBlock(acceptDenyParams: {
+            blockId: $blockId
+            isAccept: $isAccept
+        }) {
+            acceptCount,
+            rejectCount,
+        }
+    }
+`;
+
+const IS_ALREADY_VOTED = gql`
+    query IsAlreadyVoted(
+        $blockId: ID!
+    ) {
+        isAlreadyVoted(blockId: $blockId)
     }
 `;

@@ -3,8 +3,7 @@ import MainContainer from 'UI/MainContainer';
 import Header from 'UI/Header/Header';
 import ListRequestedDanglingBlocks from './container/ListRequestedDanglingBlocks';
 
-type Props = {};
-export default function RequestedBlocksScreen(props: Props) {
+export default function RequestedBlocksScreen() {
   return (
     <MainContainer>
       <Header title="Requested Blocks" />

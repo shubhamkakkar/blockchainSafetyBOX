@@ -47,9 +47,9 @@ export default function BottomTabNavigation() {
         options={commonTabOptions('book-account')}
       />
       <Tab.Screen
-        name={navigationRouteNames.RequestedBlocksScreen as any}
+        name={navigationRouteNames.RequestedBlocksStackNavigation as any}
         component={navigationRouteComponentMap[
-          navigationRouteNames.RequestedBlocksScreen
+          navigationRouteNames.RequestedBlocksStackNavigation
         ]}
         options={commonTabOptions('plus-network')}
 
@@ -68,15 +68,6 @@ export default function BottomTabNavigation() {
           navigationRouteNames.ReceivedBlocksScreen
         ]}
         options={commonTabOptions('collapse-all')}
-      />
-      <Tab.Screen
-        name={navigationRouteNames.MedicalFormsTopBarNavigation as any}
-        component={navigationRouteComponentMap[
-          navigationRouteNames.MedicalFormsTopBarNavigation
-        ]}
-        options={commonTabOptions(
-          'plus',
-        )}
       />
     </Tab.Navigator>
   );
