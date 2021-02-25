@@ -69,7 +69,7 @@ export default function NavigationContainer() {
         {/* && ( */}
         {/* <> */}
         {/*  <Stack.Screen */}
-        {/*    name={navigationRouteNames.AuthScreen as any} */}
+        {/*    name={navigationRouteNames.AuthScreen} */}
         {/*    component={ */}
         {/*      navigationRouteComponentMap[ */}
         {/*        navigationRouteNames.AuthScreen */}
@@ -77,7 +77,7 @@ export default function NavigationContainer() {
         {/*    } */}
         {/*  /> */}
         {/*  <Stack.Screen */}
-        {/*    name={navigationRouteNames.PrivateKeyDownloadScreen as any} */}
+        {/*    name={navigationRouteNames.PrivateKeyDownloadScreen} */}
         {/*    component={ */}
         {/*      navigationRouteComponentMap[ */}
         {/*        navigationRouteNames.PrivateKeyDownloadScreen */}
@@ -87,7 +87,7 @@ export default function NavigationContainer() {
         {/* </> */}
         {/* )} */}
         <Stack.Screen
-          name={navigationRouteNames.PublicLedgerScreen as any}
+          name={navigationRouteNames.PublicLedgerScreen}
           component={
               navigationRouteComponentMap[
                 navigationRouteNames.BottomTabNavigation

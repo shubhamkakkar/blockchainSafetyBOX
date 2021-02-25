@@ -1,8 +1,10 @@
 import { StyleSheet } from 'react-native';
+// @ts-ignore
+import { DEFAULT_VERTICAL_PADDING } from 'constants';
 
 export default StyleSheet.create({
-  flex: {
+  container: {
     flex: 1,
-    backgroundColor: 'red',
+    padding: DEFAULT_VERTICAL_PADDING,
   },
 });

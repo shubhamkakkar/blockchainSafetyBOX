@@ -6,6 +6,7 @@ enum navigationRouteNames {
   PublicLedgerScreen = 'BSB.Blockchain.PublicLedgerScreen',
   RequestedBlocksStackNavigation = 'BSB.Blockchain.RequestedBlocksStackNavigation',
   RequestedBlocksScreen = 'BSB.Blockchain.RequestedBlocksScreen',
+  MyRequestedBlocksScreen = 'BSB.Blockchain.MyRequestedBlocksScreen',
   SharedBlocksScreen = 'BSB.Blockchain.SharedBlocksScreen',
   ReceivedBlocksScreen = 'BSB.Blockchain.ReceivedBlocksScreen',
   MedicalFormsTopBarNavigation = 'BSB.Blockchain.MedicalFormsTopBarNavigation',

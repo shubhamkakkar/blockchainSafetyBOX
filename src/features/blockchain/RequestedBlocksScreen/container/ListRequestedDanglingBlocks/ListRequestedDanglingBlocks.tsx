@@ -1,5 +1,5 @@
-import React, { useEffect, useMemo } from 'react';
-import { FlatList, View } from 'react-native';
+import React, { useEffect } from 'react';
+import { FlatList } from 'react-native';
 import EmptyUI from 'UI/EmptyUI';
 import {
   AcceptDeclineDanglingBlockMutationVariables,
@@ -11,7 +11,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { selectUserProfile } from 'store/selectors/user.selectors';
 // @ts-ignore
 import { USER_ROLE_TYPE } from 'constants';
-import { addDanglingBlocks } from 'store/actions/danglingBlocks.actions';
+import { addDanglingBlocks, addMyDanglingBlocks } from 'store/actions/danglingBlocks.actions';
 import { danglingBlocks, myDanglingBlocks } from 'store/selectors/danglingBlocks.selectors';
 import { RecordOf } from 'immutable';
 import ListRequestedDanglingBlock from './ListRequestedDanglingBlock';
@@ -24,10 +24,6 @@ export default function ListRequestedDanglingBlocks(props: Props) {
   const userProfile = useSelector(selectUserProfile);
   const storedRequestedBlocks = useSelector(
     props.isUserOnly ? myDanglingBlocks : danglingBlocks,
-  );
-  const showAcceptDeclineButtons = useMemo(
-    () => props.isUserOnly || userProfile?.get('role') === USER_ROLE_TYPE.ADMIN,
-    [props.isUserOnly, userProfile],
   );
   const [requestBocks, requestedBlocks] = useRequestedDanglingBlocksLazyQuery(
     { variables: { isUserOnly: !!props.isUserOnly } },
@@ -63,8 +59,9 @@ export default function ListRequestedDanglingBlocks(props: Props) {
 
   useEffect(() => {
     if (requestedBlocks?.data?.requestedBlocks) {
+      const dispatchAction = props.isUserOnly ? addMyDanglingBlocks : addDanglingBlocks;
       dispatch(
-        addDanglingBlocks(requestedBlocks?.data?.requestedBlocks as TRequestedDanglingBlock[]),
+        dispatchAction(requestedBlocks?.data?.requestedBlocks as TRequestedDanglingBlock[]),
       );
     }
   }, [requestedBlocks]);
@@ -76,7 +73,7 @@ export default function ListRequestedDanglingBlocks(props: Props) {
       <ListRequestedDanglingBlock
         {...{
           item,
-          showAcceptDeclineButtons,
+          userProfile,
           updateAcceptRejectCount,
         }}
       />

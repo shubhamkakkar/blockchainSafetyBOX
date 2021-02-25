@@ -2,6 +2,7 @@ import React from 'react';
 import { FlatList, ImageBackground, TouchableOpacity } from 'react-native';
 import { ImagePickerResponse } from 'react-native-image-picker';
 import Icon from 'UI/Icon';
+import EmptyUI from 'UI/EmptyUI';
 import styles from './listSelectedImages.styles';
 
 type Props = {
@@ -44,6 +45,7 @@ export default function ListSelectedImages(props: Props) {
       contentContainerStyle={styles.contentContainerStyle}
       horizontal={!!props.isHorizontal}
       numColumns={props.numColumns || 1}
+      ListEmptyComponent={<EmptyUI />}
     />
   );
 }

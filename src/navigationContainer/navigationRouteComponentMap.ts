@@ -4,6 +4,7 @@ import AuthScreen from 'features/authentication/AuthScreen';
 import PrivateKeyDownloadScreen from 'features/authentication/PrivateKeyDownloadScreen';
 import PublicLedgerScreen from 'features/blockchain/PublicLedgerScreen';
 import RequestedBlocksScreen from 'features/blockchain/RequestedBlocksScreen';
+import MyRequestedBlocksScreen from 'features/blockchain/MyRequestedBlocksScreen';
 import MedicalHistoryFormScreen from 'features/blockchain/MedicalHistoryFormScreen';
 import ReceivedBlocksScreen from 'features/blockchain/ReceivedBlocksScreen';
 import InsuranceDetailsScreen from 'features/blockchain/InsuranceDetailsScreen';
@@ -21,6 +22,7 @@ const navigationRouteComponentMap = {
   [NavigationRouteNames.PublicLedgerScreen]: PublicLedgerScreen,
   [NavigationRouteNames.RequestedBlocksStackNavigation]: RequestedDanglingBlockStack,
   [NavigationRouteNames.RequestedBlocksScreen]: RequestedBlocksScreen,
+  [NavigationRouteNames.MyRequestedBlocksScreen]: MyRequestedBlocksScreen,
   [NavigationRouteNames.SharedBlocksScreen]: SharedBlocksScreen,
   [NavigationRouteNames.ReceivedBlocksScreen]: ReceivedBlocksScreen,
   [NavigationRouteNames.MedicalFormsTopBarNavigation]: MedicalFormsTopBarNavigation,

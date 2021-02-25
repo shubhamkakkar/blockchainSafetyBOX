@@ -4,6 +4,7 @@ import ImagePicker from 'UI/ImagePicker';
 import ListSelectedImages
   from 'features/blockchain/InsuranceDetailsScreen/container/ListSelectedImages';
 import { ImagePickerResponse } from 'react-native-image-picker';
+import styles from './uploadReportsScreen.styles';
 
 export default function UploadReportsScreen() {
   const [images, setImages] = useState<ImagePickerResponse[]>([]);
@@ -21,7 +22,7 @@ export default function UploadReportsScreen() {
   }
 
   return (
-    <MainContainer>
+    <MainContainer style={styles.container}>
       <ListSelectedImages images={images} removeImage={removeImage} numColumns={2} />
       <ImagePicker onImagePickerPressHandler={onImagePickerPressHandler} />
     </MainContainer>

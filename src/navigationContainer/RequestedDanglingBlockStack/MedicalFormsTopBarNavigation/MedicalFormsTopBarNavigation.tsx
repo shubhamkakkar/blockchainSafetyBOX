@@ -3,14 +3,14 @@ import { createMaterialTopTabNavigator } from '@react-navigation/material-top-ta
 import navigationRouteNames from 'navigationContainer/navigationRouteNames';
 import navigationRouteComponentMap from 'navigationContainer/navigationRouteComponentMap';
 import theme from 'theme';
+import { MedicalFormsTopBarNavigationStack } from 'navigationContainer/navigation';
 import styles from './medicalFormsTopBarNavigation.styles';
 
-const Tab = createMaterialTopTabNavigator();
+const Tab = createMaterialTopTabNavigator<MedicalFormsTopBarNavigationStack>();
 
 export default function MedicalFormsTopBarNavigation() {
   return (
     <Tab.Navigator
-      lazy
       tabBarOptions={{
         activeTintColor: theme.DARK_PRIMARY,
         inactiveTintColor: theme.LIGHT_BLACK,
@@ -19,21 +19,21 @@ export default function MedicalFormsTopBarNavigation() {
       removeClippedSubviews
     >
       <Tab.Screen
-        name={navigationRouteNames.MedicalHistoryFormScreen as any}
+        name={navigationRouteNames.MedicalHistoryFormScreen}
         component={navigationRouteComponentMap[
           navigationRouteNames.MedicalHistoryFormScreen
         ]}
-        options={{ tabBarLabel: 'Home' }}
+        options={{ tabBarLabel: 'Medical History' }}
       />
       <Tab.Screen
-        name={navigationRouteNames.InsuranceDetailsScreen as any}
+        name={navigationRouteNames.InsuranceDetailsScreen}
         component={navigationRouteComponentMap[
           navigationRouteNames.InsuranceDetailsScreen
         ]}
         options={{ tabBarLabel: 'Insurance Details' }}
       />
       <Tab.Screen
-        name={navigationRouteNames.UploadReportsScreen as any}
+        name={navigationRouteNames.UploadReportsScreen}
         component={navigationRouteComponentMap[
           navigationRouteNames.UploadReportsScreen
         ]}

@@ -1,34 +1,40 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { View } from 'react-native';
 import {
   AcceptDeclineDanglingBlockMutationVariables,
-  TRequestedDanglingBlock, useIsAlreadyVotedLazyQuery, useIsAlreadyVotedQuery,
+  useIsAlreadyVotedLazyQuery,
 } from 'generated/graphql';
 import TextUI from 'UI/TextUI';
 import messageTypeEnumToStringConverter from 'utils/messageTypeEnumToStringConverter';
 import theme from 'theme';
 import { humanReadableDate } from 'utils/dateHelpers';
 // @ts-ignore
-import { FONT_SIZES } from 'constants';
+import { FONT_SIZES, USER_ROLE_TYPE } from 'constants';
 import { RecordOf } from 'immutable';
 import CountAndCountButton from './CountAndCountButton';
 import styles from './listRequestedDanglingBlock.styles';
 
 type Props = {
   item: RecordOf<any>,
-  showAcceptDeclineButtons?: boolean;
+  userProfile: any,
   updateAcceptRejectCount: (
     _variables: AcceptDeclineDanglingBlockMutationVariables, _cb: () => void
   ) => void,
 };
 export default function ListRequestedDanglingBlock(
-  { item, showAcceptDeclineButtons, updateAcceptRejectCount }: Props,
+  { item, userProfile, updateAcceptRejectCount }: Props,
 ) {
+  const showAcceptDeclineButtons = useMemo(() => userProfile
+    .get('role') === USER_ROLE_TYPE.ADMIN
+      && item.get('user').get('_id') !== userProfile.get('_id'), []);
+
+  const blockId = useMemo(() => item.get('_id'), []);
   const [acceptCount, setAcceptCount] = useState<number>(item.get('acceptCount'));
   const [rejectCount, setRejectCount] = useState<number>(item.get('rejectCount'));
   const [isAlreadyVoted, isAlreadyVotedResponse] = useIsAlreadyVotedLazyQuery();
 
-  const isVoted = item.acceptCount !== acceptCount || item.rejectCount !== rejectCount;
+  const isVoted = item.get('acceptCount') !== acceptCount
+      || item.get('rejectCount') !== rejectCount;
   function updateAcceptRejectCountHandler(isAccept?: boolean) {
     if (isAccept) {
       setAcceptCount(acceptCount + 1);
@@ -38,22 +44,20 @@ export default function ListRequestedDanglingBlock(
   }
   function onRejectCountPressHandler() {
     updateAcceptRejectCount({
-      blockId: item.get('_id'),
+      blockId,
     }, updateAcceptRejectCountHandler);
   }
 
   function onAcceptCountPressHandler() {
     updateAcceptRejectCount({
-      // eslint-disable-next-line no-underscore-dangle
-      blockId: item._id,
+      blockId,
       isAccept: true,
     }, () => updateAcceptRejectCountHandler(true));
   }
 
   useEffect(() => {
     if (showAcceptDeclineButtons) {
-    // eslint-disable-next-line no-underscore-dangle
-      isAlreadyVoted({ variables: { blockId: item._id } });
+      isAlreadyVoted({ variables: { blockId } });
     }
   }, []);
 
