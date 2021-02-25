@@ -1,5 +1,7 @@
 import React, { useEffect } from 'react';
-import { FlatList } from 'react-native';
+import {
+  Animated, FlatList, NativeScrollEvent, NativeSyntheticEvent,
+} from 'react-native';
 import EmptyUI from 'UI/EmptyUI';
 import {
   AcceptDeclineDanglingBlockMutationVariables,
@@ -9,17 +11,19 @@ import {
 } from 'generated/graphql';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectUserProfile } from 'store/selectors/user.selectors';
-// @ts-ignore
-import { USER_ROLE_TYPE } from 'constants';
 import { addDanglingBlocks, addMyDanglingBlocks } from 'store/actions/danglingBlocks.actions';
 import { danglingBlocks, myDanglingBlocks } from 'store/selectors/danglingBlocks.selectors';
 import { RecordOf } from 'immutable';
+// @ts-ignore
+import { HEADER_MAX_HEIGHT_WITHOUT_DESCRIPTION_COMPONENT } from 'constants';
 import ListRequestedDanglingBlock from './ListRequestedDanglingBlock';
 
 type Props = {
-  isUserOnly?: boolean
+  isUserOnly?: boolean;
+  scrollPositionHandler: (_event: NativeSyntheticEvent<NativeScrollEvent>) => void
 };
 export default function ListRequestedDanglingBlocks(props: Props) {
+  const AnimatedFlatList = Animated.createAnimatedComponent(FlatList);
   const dispatch = useDispatch();
   const userProfile = useSelector(selectUserProfile);
   const storedRequestedBlocks = useSelector(
@@ -85,14 +89,17 @@ export default function ListRequestedDanglingBlocks(props: Props) {
   }, []);
 
   return (
-    <FlatList<RecordOf<TRequestedDanglingBlock>>
+    <AnimatedFlatList
       data={storedRequestedBlocks?.toArray() || [] as any}
       extraData={storedRequestedBlocks || []}
-      renderItem={renderListRequestedDanglingBlockItem}
-      keyExtractor={(item) => item.get('_id')}
+      renderItem={renderListRequestedDanglingBlockItem as any}
+      keyExtractor={(item: RecordOf<TRequestedDanglingBlock> | any) => item.get('_id')}
       ListEmptyComponent={<EmptyUI isLoading={requestedBlocks.loading} />}
       onRefresh={refetchHandler}
       refreshing={requestedBlocks.loading}
+      scrollEventThrottle={16}
+      onScroll={props.scrollPositionHandler}
+      contentContainerStyle={{ paddingTop: HEADER_MAX_HEIGHT_WITHOUT_DESCRIPTION_COMPONENT }}
     />
   );
 }
