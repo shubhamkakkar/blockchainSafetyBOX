@@ -44,3 +44,36 @@ export type MedicalFormsTopBarNavigationStack = {
   [navigationRouteNames.InsuranceDetailsScreen]: undefined;
   [navigationRouteNames.UploadReportsScreen]: undefined;
 };
+
+export type MedicalHistoryFormScreenNavigationProps = {
+  navigation: StackNavigationProp<
+  MedicalFormsTopBarNavigationStack,
+  navigationRouteNames.MedicalHistoryFormScreen
+  >;
+  route: RouteProp<
+  MedicalFormsTopBarNavigationStack,
+  navigationRouteNames.MedicalHistoryFormScreen
+  >;
+};
+
+export type InsuranceDetailsScreenNavigationProps = {
+  navigation: StackNavigationProp<
+  MedicalFormsTopBarNavigationStack,
+  navigationRouteNames.InsuranceDetailsScreen
+  >;
+  route: RouteProp<
+  MedicalFormsTopBarNavigationStack,
+  navigationRouteNames.InsuranceDetailsScreen
+  >;
+};
+
+export type UploadReportsScreenNavigationProps = {
+  navigation: StackNavigationProp<
+  MedicalFormsTopBarNavigationStack,
+  navigationRouteNames.UploadReportsScreen
+  >;
+  route: RouteProp<
+  MedicalFormsTopBarNavigationStack,
+  navigationRouteNames.UploadReportsScreen
+  >;
+};

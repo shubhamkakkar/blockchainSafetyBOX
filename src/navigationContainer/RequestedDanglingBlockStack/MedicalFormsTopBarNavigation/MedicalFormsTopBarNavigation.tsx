@@ -1,44 +1,35 @@
 import React from 'react';
-import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
-import navigationRouteNames from 'navigationContainer/navigationRouteNames';
-import navigationRouteComponentMap from 'navigationContainer/navigationRouteComponentMap';
-import theme from 'theme';
-import { MedicalFormsTopBarNavigationStack } from 'navigationContainer/navigation';
-import styles from './medicalFormsTopBarNavigation.styles';
+import { createStackNavigator } from '@react-navigation/stack';
+import navigationRouteNames from '../../navigationRouteNames';
+import navigationRouteComponentMap from '../../navigationRouteComponentMap';
+import { MedicalFormsTopBarNavigationStack } from '../../navigation';
 
-const Tab = createMaterialTopTabNavigator<MedicalFormsTopBarNavigationStack>();
+const Stack = createStackNavigator<MedicalFormsTopBarNavigationStack>();
 
 export default function MedicalFormsTopBarNavigation() {
   return (
-    <Tab.Navigator
-      tabBarOptions={{
-        activeTintColor: theme.DARK_PRIMARY,
-        inactiveTintColor: theme.LIGHT_BLACK,
-        labelStyle: styles.topBarStyles,
-      }}
-      removeClippedSubviews
+    <Stack.Navigator
+      detachInactiveScreens
+      headerMode="none"
     >
-      <Tab.Screen
+      <Stack.Screen
         name={navigationRouteNames.MedicalHistoryFormScreen}
         component={navigationRouteComponentMap[
           navigationRouteNames.MedicalHistoryFormScreen
         ]}
-        options={{ tabBarLabel: 'Medical History' }}
       />
-      <Tab.Screen
+      <Stack.Screen
         name={navigationRouteNames.InsuranceDetailsScreen}
         component={navigationRouteComponentMap[
           navigationRouteNames.InsuranceDetailsScreen
         ]}
-        options={{ tabBarLabel: 'Insurance Details' }}
       />
-      <Tab.Screen
+      <Stack.Screen
         name={navigationRouteNames.UploadReportsScreen}
         component={navigationRouteComponentMap[
           navigationRouteNames.UploadReportsScreen
         ]}
-        options={{ tabBarLabel: 'Upload Reports' }}
       />
-    </Tab.Navigator>
+    </Stack.Navigator>
   );
 }

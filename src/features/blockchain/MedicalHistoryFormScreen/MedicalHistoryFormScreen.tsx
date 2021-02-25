@@ -9,6 +9,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { selectUserProfile } from 'store/selectors/user.selectors';
 import { RequestedBlockMessage, useRequestDanglingBlockMutation } from 'generated/graphql';
 import danglingBlockDispatchHandler from 'utils/danglingBlockDispatchHandler';
+import { MedicalHistoryFormScreenNavigationProps } from 'navigationContainer/navigation';
+import MedicalFormsSegmentedTabs
+  from 'navigationContainer/RequestedDanglingBlockStack/MedicalFormsTopBarNavigation/container/MedicalFormsSegmentedTabs';
 import {
   medicalHistoryFormInitialState,
   MedicalHistoryFormInitialState,
@@ -18,7 +21,9 @@ import MedicalHistoryFormFields from './container/MedicalHistoryFormFields';
 import PreviewMedicalHistoryModal from './container/PreviewMedicalHistoryModal';
 import styles from './medicalHistoryFormScreen.styles';
 
-export default function MedicalHistoryFormScreen() {
+export default function MedicalHistoryFormScreen(
+  { navigation }: MedicalHistoryFormScreenNavigationProps,
+) {
   const userProfile = useSelector(selectUserProfile);
   const dispatch = useDispatch();
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
@@ -96,6 +101,7 @@ export default function MedicalHistoryFormScreen() {
   }
   return (
     <MainContainer>
+      <MedicalFormsSegmentedTabs navigation={navigation} activeIndex={0} />
       <KeyboardAvoidingViewUI>
         <View style={styles.container}>
           {requestDanglingBlockResponse.loading && <Loader />}
