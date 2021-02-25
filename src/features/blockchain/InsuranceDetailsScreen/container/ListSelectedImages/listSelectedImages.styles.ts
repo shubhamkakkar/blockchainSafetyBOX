@@ -11,7 +11,8 @@ export default StyleSheet.create({
     alignItems: 'flex-end',
   },
   contentContainerStyle: {
-    marginTop: DEFAULT_VERTICAL_MARGIN,
+    marginVertical: DEFAULT_VERTICAL_MARGIN,
+    flexGrow: 1,
   },
   deleteIconButton: {
     borderRadius: 50,

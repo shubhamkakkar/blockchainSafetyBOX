@@ -9,6 +9,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { selectUserProfile } from 'store/selectors/user.selectors';
 import danglingBlockDispatchHandler from 'utils/danglingBlockDispatchHandler';
 import cloudinaryImageUpload from 'utils/cloudinaryImageUpload';
+import MedicalFormsSegmentedTabs
+  from 'navigationContainer/RequestedDanglingBlockStack/MedicalFormsTopBarNavigation/container/MedicalFormsSegmentedTabs';
+import { InsuranceDetailsScreenNavigationProps } from 'navigationContainer/navigation';
 import InsuranceFormFields from './container/InsuranceFormFields';
 import styles from './insuranceDetailsScreen.styles';
 import {
@@ -17,7 +20,7 @@ import {
   insuranceDetailsSchema,
 } from './insuranceDetailsScreen.formik';
 
-export default function InsuranceDetailsScreen() {
+export default function InsuranceDetailsScreen({ navigation }: InsuranceDetailsScreenNavigationProps) {
   const userProfile = useSelector(selectUserProfile);
   const dispatch = useDispatch();
   const [requestDanglingBlock, requestDanglingBlockResponse] = useRequestDanglingBlockMutation();
@@ -54,6 +57,7 @@ export default function InsuranceDetailsScreen() {
 
   return (
     <MainContainer>
+      <MedicalFormsSegmentedTabs navigation={navigation} activeIndex={1} />
       <View style={[styles.container, styles.boundarySpacer]}>
         <Formik
           initialValues={initialInsuranceDetailsState}
