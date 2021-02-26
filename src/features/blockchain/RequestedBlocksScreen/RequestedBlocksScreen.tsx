@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import MainContainer from 'UI/MainContainer';
 import AnimatedHeader from 'UI/AnimatedHeader';
 import { Animated } from 'react-native';
@@ -6,8 +6,7 @@ import ListRequestedDanglingBlocks from './container/ListRequestedDanglingBlocks
 import AnimatedMenuTray from './container/AnimatedMenuTray';
 
 export default function RequestedBlocksScreen(props: any) {
-  const scrollY = new Animated.Value(0);
-
+  const scrollY = useMemo(() => new Animated.Value(0), []);
   return (
     <MainContainer>
       <ListRequestedDanglingBlocks

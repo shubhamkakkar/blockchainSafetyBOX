@@ -10,25 +10,20 @@ const styles = StyleSheet.create({
     padding: 10,
     borderBottomWidth: 1.5,
     borderBottomColor: theme.LIGHT_PRIMARY,
-    width: '100%',
   },
   flexColumn: {
     flexDirection: 'column',
   },
-  titleSubtitleContainer: {
-    flexDirection: 'column',
-    alignItems: 'center',
-    position: 'absolute',
-    width: '100%',
-    left: DEFAULT_ICON_SIZE / 2,
+  leftIconStyle: {
+    marginRight: 0,
   },
   headerTitle: {
-    color: theme.PRIMARY,
-    alignItems: 'center',
-    fontSize: FONT_SIZES.MEDIUM_TEXT,
+    fontSize: FONT_SIZES.MEDIUM_LARGE_TEXT,
+    fontWeight: 'bold',
+    color: theme.DARK_PRIMARY,
   },
   headerSubTitle: {
-    fontSize: 13,
+    fontSize: FONT_SIZES.SMALL_TEXT,
     flexDirection: 'row',
     color: theme.LIGHT_BLACK,
     justifyContent: 'center',

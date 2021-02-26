@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import MainContainer from 'UI/MainContainer';
 import { View } from 'react-native';
-import AuthenticationForm from 'features/authentication/AuthScreen/container/AuthenticationForm';
 import Button from 'UI/Buttons';
 import theme from 'theme';
 // @ts-ignore
@@ -9,6 +8,7 @@ import { FONT_SIZES } from 'constants';
 import TextUI from 'UI/TextUI';
 import { AuthScreenNavigation } from 'navigationContainer/navigation';
 import navigationRouteNames from 'navigationContainer/navigationRouteNames';
+import AuthenticationForm from './container/AuthenticationForm';
 import styles from './authScreen.styles';
 
 export default function AuthScreen({ navigation }: AuthScreenNavigation) {

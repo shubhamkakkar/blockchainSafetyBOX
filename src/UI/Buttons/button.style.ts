@@ -3,12 +3,11 @@ import theme from 'theme';
 
 export default StyleSheet.create({
   buttonContainer: {
-    paddingVertical: 5,
-    paddingHorizontal: 10,
+    padding: 10,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: theme.PRIMARY,
-    borderRadius: 5,
+    borderRadius: 10,
     flexDirection: 'row',
   },
   borderButton: {

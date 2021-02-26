@@ -8,15 +8,18 @@ import { DEFAULT_ICON_SIZE } from 'constants';
 import styles from './icon.styles';
 
 interface Props extends IconProps {
-  isError?: boolean
+  isError?: boolean;
+  noMargin?: boolean
 }
 
-export default function Icon({ isError, style = {}, ...rest }: Props) {
+export default function Icon({
+  isError, noMargin, style = {}, ...rest
+}: Props) {
   return (
     <MaterialCommunityIcons
       size={DEFAULT_ICON_SIZE}
       color={isError ? theme.RED : theme.PRIMARY}
-      style={[styles.defaultIconsStyle, style]}
+      style={[!noMargin && styles.defaultIconsStyle, style]}
       {...rest}
     />
   );

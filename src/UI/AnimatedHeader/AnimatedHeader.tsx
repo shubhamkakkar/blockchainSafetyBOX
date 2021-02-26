@@ -12,8 +12,9 @@ import {
 } from 'constants';
 import { Navigation } from 'types';
 import theme from 'theme';
+import navigationRouteNames from 'navigationContainer/navigationRouteNames';
 import Icon from '../Icon';
-import TextPoppins from '../TextUI';
+import Text from '../TextUI';
 import styles from './animatedHeader.styles';
 
 interface Props extends Navigation {
@@ -21,10 +22,9 @@ interface Props extends Navigation {
   title: string;
   onBackClick?: () => void;
   titleImage?: string;
-  titleRightIcon?: string;
-  onTitleBarRightIconPress?: () => void;
   DescriptionComponent?: React.ReactElement | React.ReactElement[];
-  descriptionComponentStyles?: ViewStyle
+  descriptionComponentStyles?: ViewStyle;
+  isRightIcon?: boolean
 }
 
 export default function AnimatedHeader({
@@ -33,10 +33,9 @@ export default function AnimatedHeader({
   onBackClick,
   title,
   titleImage,
-  titleRightIcon,
-  onTitleBarRightIconPress,
   DescriptionComponent,
   descriptionComponentStyles = {},
+  isRightIcon = true,
 }: Props) {
   const HEADER_MAX_HEIGHT: number = useMemo(
     () => (DescriptionComponent
@@ -44,9 +43,10 @@ export default function AnimatedHeader({
       : HEADER_MAX_HEIGHT_WITHOUT_DESCRIPTION_COMPONENT), [DescriptionComponent],
   );
   const HEADER_MIN_HEIGHT: number = useMemo(
-    () => (DescriptionComponent
-      ? HEADER_MIN_HEIGHT_WITH_DESCRIPTION_COMPONENT
-      : HEADER_MIN_HEIGHT_WITHOUT_DESCRIPTION_COMPONENT), [DescriptionComponent],
+    () => (
+      DescriptionComponent
+        ? HEADER_MIN_HEIGHT_WITH_DESCRIPTION_COMPONENT
+        : HEADER_MIN_HEIGHT_WITHOUT_DESCRIPTION_COMPONENT), [DescriptionComponent],
   );
   const HEADER_SCROLL_DISTANCE: number = useMemo(
     () => HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT, [DescriptionComponent],
@@ -72,19 +72,22 @@ export default function AnimatedHeader({
   });
 
   const backButtonTranslateY = scrollY.interpolate({
-    inputRange: [0, HEADER_SCROLL_DISTANCE / 2, HEADER_SCROLL_DISTANCE],
-    outputRange: [0, DescriptionComponent ? 50 : 20, DescriptionComponent ? 90 : 40],
+    inputRange: [0, HEADER_SCROLL_DISTANCE],
+    outputRange: [0, DescriptionComponent
+      ? HEADER_MIN_HEIGHT_WITH_DESCRIPTION_COMPONENT + 10
+      : HEADER_MIN_HEIGHT_WITHOUT_DESCRIPTION_COMPONENT,
+    ],
     extrapolate: 'clamp',
   });
 
-  const searchBarOpacity = scrollY.interpolate({
-    inputRange: [0, HEADER_SCROLL_DISTANCE / 2, HEADER_SCROLL_DISTANCE],
-    outputRange: [1, 0, 0],
+  const descriptionComponentOpacity = scrollY.interpolate({
+    inputRange: [0, HEADER_SCROLL_DISTANCE],
+    outputRange: [1, 0],
   });
 
   const titleContainerTranslateY = scrollY.interpolate({
     inputRange: [0, HEADER_SCROLL_DISTANCE],
-    outputRange: [0, DescriptionComponent ? 50 : 0],
+    outputRange: [0, DescriptionComponent ? 50 : 10],
     extrapolate: 'clamp',
   });
 
@@ -102,10 +105,8 @@ export default function AnimatedHeader({
     }
   }
 
-  function onTitleBarRightIconPressHandler() {
-    if (!disableDescriptionContainerActions && onTitleBarRightIconPress) {
-      onTitleBarRightIconPress();
-    }
+  function onUserProfileIconPress() {
+    navigation.navigate(navigationRouteNames.UserProfileScreen);
   }
 
   return (
@@ -149,11 +150,11 @@ export default function AnimatedHeader({
             styles.titleAndImageContainer,
             { transform: [{ translateX: titleTranslateX }] }]}
         >
-          <TextPoppins
+          <Text
             style={styles.title}
           >
             {title}
-          </TextPoppins>
+          </Text>
           {titleImage && !disableDescriptionContainerActions && (
           <Icon
             name={titleImage}
@@ -161,13 +162,15 @@ export default function AnimatedHeader({
           />
           )}
         </Animated.View>
-        <TouchableOpacity onPress={onTitleBarRightIconPressHandler}>
-          <Icon name="logout" size={25} color={theme.DARK_PRIMARY} />
+        {isRightIcon && (
+        <TouchableOpacity onPress={onUserProfileIconPress}>
+          <Icon name="account-settings" size={25} color={theme.DARK_PRIMARY} />
         </TouchableOpacity>
+        )}
       </Animated.View>
       {DescriptionComponent && !disableDescriptionContainerActions && (
         <Animated.View
-          style={[descriptionComponentStyles, { opacity: searchBarOpacity }]}
+          style={[descriptionComponentStyles, { opacity: descriptionComponentOpacity }]}
         >
           {DescriptionComponent}
         </Animated.View>

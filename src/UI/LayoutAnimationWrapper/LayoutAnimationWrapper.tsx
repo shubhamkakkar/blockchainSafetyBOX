@@ -1,6 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import {
-  LayoutAnimation, Platform, TouchableOpacity, UIManager, View, ViewStyle,
+  LayoutAnimation,
+  Platform,
+  TextStyle,
+  TouchableOpacity,
+  UIManager,
+  View,
+  ViewStyle,
 } from 'react-native';
 import Icon from 'UI/Icon';
 import TextUI from '../TextUI';
@@ -11,7 +17,8 @@ type Props = {
   children: React.ReactElement | React.ReactElement[];
   buttonContainer?: ViewStyle;
   centerTitle?: boolean;
-  expanded?: boolean
+  expanded?: boolean;
+  buttonTitleStyle?: TextStyle;
 };
 
 export default function LayoutAnimationWrapper(props: Props) {
@@ -40,7 +47,7 @@ export default function LayoutAnimationWrapper(props: Props) {
           <View style={styles.buttonWrapper}>
             <TextUI
               center={props.centerTitle}
-              style={styles.buttonTitle}
+              style={[styles.buttonTitle, props.buttonTitleStyle || {}]}
             >
               {props.title}
             </TextUI>

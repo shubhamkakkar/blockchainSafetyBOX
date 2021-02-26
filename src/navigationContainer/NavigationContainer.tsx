@@ -16,7 +16,9 @@ import { NavigationStack } from './navigation';
 const Stack = createStackNavigator<NavigationStack>();
 
 export default function NavigationContainer() {
-  const [isSignedIn, setIsSignedIn] = useState<boolean>(false);
+  const [initialRoute, setInitalRoute] = useState<navigationRouteNames>(
+    navigationRouteNames.AuthScreen,
+  );
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [loadUserProfile, userProfileResponse] = useUserProfileLazyQuery();
   const dispatch = useDispatch();
@@ -28,31 +30,37 @@ export default function NavigationContainer() {
       if (authToken !== null) {
         request.token = authToken;
         loadUserProfile();
+      } else {
+        setTimeout(() => setIsLoading(false), 3000);
       }
     } catch (_e) {
-      setIsSignedIn(false);
-    } finally {
+      console.log('e getAuthToken', _e);
       setTimeout(() => setIsLoading(false), 3000);
     }
   };
 
   useEffect(() => {
+    console.log('userProfileResponse', userProfileResponse);
     if (
       !userProfileResponse.loading
       && !userProfileResponse.error
       && userProfileResponse.data?.user?.email) {
-      const user = {
+      dispatch(userProfile({
         token: request.token,
         ...userProfileResponse.data.user,
-      };
-      dispatch(userProfile(user as ReturnedUser));
-      setTimeout(() => setIsSignedIn(true), 2000);
+      } as ReturnedUser));
+      setIsLoading(false);
+      setInitalRoute(navigationRouteNames.PublicLedgerScreen);
+    } else if (userProfileResponse.error) {
+      setTimeout(() => setIsLoading(false), 3000);
     }
   }, [userProfileResponse]);
 
   useEffect(() => {
     getAuthToken();
   }, []);
+
+  console.log('initialRoute', initialRoute, isLoading);
 
   if (isLoading) {
     return <SplashScreen />;
@@ -64,33 +72,37 @@ export default function NavigationContainer() {
         screenOptions={{
           headerShown: false,
         }}
+        initialRouteName={initialRoute as any}
       >
-        {!isSignedIn
-         && (
-         <>
-           <Stack.Screen
-             name={navigationRouteNames.AuthScreen}
-             component={
-              navigationRouteComponentMap[
-                navigationRouteNames.AuthScreen
-              ]
-            }
-           />
-           <Stack.Screen
-             name={navigationRouteNames.PrivateKeyDownloadScreen}
-             component={
-              navigationRouteComponentMap[
-                navigationRouteNames.PrivateKeyDownloadScreen
-              ]
-            }
-           />
-         </>
-         )}
+        <Stack.Screen
+          name={navigationRouteNames.AuthScreen}
+          component={
+                navigationRouteComponentMap[
+                  navigationRouteNames.AuthScreen
+                ]
+              }
+        />
+        <Stack.Screen
+          name={navigationRouteNames.PrivateKeyDownloadScreen}
+          component={
+                navigationRouteComponentMap[
+                  navigationRouteNames.PrivateKeyDownloadScreen
+                ]
+              }
+        />
         <Stack.Screen
           name={navigationRouteNames.PublicLedgerScreen}
           component={
               navigationRouteComponentMap[
                 navigationRouteNames.BottomTabNavigation
+              ]
+            }
+        />
+        <Stack.Screen
+          name={navigationRouteNames.UserProfileScreen}
+          component={
+              navigationRouteComponentMap[
+                navigationRouteNames.UserProfileScreen
               ]
             }
         />

@@ -26,15 +26,19 @@ const Header: FC<Props> = (props: Props) => {
   } = props;
   return (
     <View style={[styles.headerContainer, containerStyles]}>
-      <View style={[styles.titleSubtitleContainer, subTitleContainerStyle]}>
+      {!noBackButton && (
+      <TouchableOpacity onPress={goBack}>
+        <Icon
+          style={styles.leftIconStyle}
+          name="chevron-left"
+          size={30}
+        />
+      </TouchableOpacity>
+      )}
+      <View style={subTitleContainerStyle}>
         <TextUI fontWeight="Bold" style={styles.headerTitle}>{title}</TextUI>
         {!!subTitle && <TextUI style={styles.headerSubTitle}>{subTitle}</TextUI>}
       </View>
-      {!noBackButton && (
-        <TouchableOpacity onPress={goBack}>
-          <Icon name="chevron-left" />
-        </TouchableOpacity>
-      )}
     </View>
   );
 };

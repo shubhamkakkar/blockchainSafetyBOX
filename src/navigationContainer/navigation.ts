@@ -8,6 +8,7 @@ export type NavigationStack = {
   [navigationRouteNames.PrivateKeyDownloadScreen]: {privateKey: string; email: string};
   [navigationRouteNames.PublicLedgerScreen]: undefined;
   [navigationRouteNames.RequestedBlocksStackNavigation]: undefined;
+  [navigationRouteNames.UserProfileScreen]: undefined;
 };
 
 type AuthScreenNavigationProp = StackNavigationProp<

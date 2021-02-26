@@ -15,7 +15,6 @@ export default StyleSheet.create({
     backgroundColor: theme.WHITE,
     borderBottomWidth: 1,
     borderBottomColor: theme.LIGHT_PRIMARY,
-    paddingTop: 10,
   },
   topBar: {
     marginLeft: DEFAULT_HORIZONTAL_PADDING,

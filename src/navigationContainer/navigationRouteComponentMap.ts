@@ -11,6 +11,7 @@ import InsuranceDetailsScreen from 'features/blockchain/InsuranceDetailsScreen';
 import SharedBlocksScreen from 'features/blockchain/SharedBlocksScreen';
 import UploadReportsScreen from 'features/blockchain/UploadReportsScreen';
 import RequestedDanglingBlockStack from 'navigationContainer/RequestedDanglingBlockStack';
+import UserProfileScreen from 'features/user/UserProfileScreen';
 import MedicalFormsTopBarNavigation from './RequestedDanglingBlockStack/MedicalFormsTopBarNavigation';
 import BottomTabNavigation from './BottomTabNavigation';
 
@@ -29,6 +30,7 @@ const navigationRouteComponentMap = {
   [NavigationRouteNames.MedicalHistoryFormScreen]: MedicalHistoryFormScreen,
   [NavigationRouteNames.InsuranceDetailsScreen]: InsuranceDetailsScreen,
   [NavigationRouteNames.UploadReportsScreen]: UploadReportsScreen,
+  [NavigationRouteNames.UserProfileScreen]: UserProfileScreen,
 };
 
 export default navigationRouteComponentMap;

@@ -25,7 +25,7 @@ export default function ListRequestedDanglingBlock(
   { item, userProfile, updateAcceptRejectCount }: Props,
 ) {
   const showAcceptDeclineButtons = useMemo(() => userProfile
-    .get('role') === USER_ROLE_TYPE.ADMIN
+    ?.get('role') === USER_ROLE_TYPE.ADMIN
       && item.get('user').get('_id') !== userProfile.get('_id'), []);
 
   const blockId = useMemo(() => item.get('_id'), []);

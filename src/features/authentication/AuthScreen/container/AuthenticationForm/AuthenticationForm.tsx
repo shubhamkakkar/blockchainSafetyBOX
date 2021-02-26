@@ -160,7 +160,6 @@ export default function AuthenticationForm({ isLogin, goTo }: Props) {
                   placeholder="First name *"
                   iconProps={{ name: 'account' }}
                   fieldName="firstName"
-                  autoFocus={!isLogin}
                 />
                 <Input
                   placeholder="Middle name"
@@ -182,7 +181,6 @@ export default function AuthenticationForm({ isLogin, goTo }: Props) {
                   placeholder="Email *"
                   iconProps={{ name: 'email' }}
                   fieldName="email"
-                  autoFocus={isLogin}
                 />
                 <Input
                   placeholder="Password *"

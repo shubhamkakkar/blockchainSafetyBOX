@@ -57,7 +57,7 @@ export default function Button({
         {!!rightIcon?.name
         && (
         <View style={[styles.rightIconContainer, rest.disabled && styles.disabledTextColor as any]}>
-          <Icon {...rightIcon} />
+          <Icon noMargin {...rightIcon} />
         </View>
         )}
       </>

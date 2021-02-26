@@ -13,6 +13,7 @@ enum navigationRouteNames {
   MedicalHistoryFormScreen = 'BSB.Blockchain.MedicalHistoryFormScreen',
   InsuranceDetailsScreen = 'BSB.Blockchain.InsuranceDetailsScreen',
   UploadReportsScreen = 'BSB.Blockchain.UploadReportsScreen',
+  UserProfileScreen = 'BSB.User.UserProfileScreen',
 }
 
 export default navigationRouteNames;

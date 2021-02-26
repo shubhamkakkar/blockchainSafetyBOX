@@ -8,9 +8,14 @@ export const USER_LOG_OUT = '@BSB/user/userLogout';
 
 export function userProfile(payload: ReturnedUser) {
   AsyncStorage.setItem(ASYNC_STORAGE_KEYS.AUTH_TOKEN, payload.token);
-  return { type: USER_PROFILE, payload };
+  return {
+    type: USER_PROFILE,
+    payload,
+  };
 }
 
 export function userLogout() {
-  return { type: USER_LOG_OUT };
+  return {
+    type: USER_LOG_OUT,
+  };
 }
