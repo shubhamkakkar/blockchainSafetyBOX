@@ -15,6 +15,9 @@ import { userLogout } from 'store/actions/user.actions';
 import navigationRouteNames from 'navigationContainer/navigationRouteNames';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import request from 'utils/request';
+// @ts-ignore
+import { ASYNC_STORAGE_KEYS } from 'constants';
+import { CommonActions } from '@react-navigation/native';
 import styles from './userProfileScreen.styles';
 
 export default function UserProfileScreen({ navigation }: Navigation) {
@@ -23,10 +26,15 @@ export default function UserProfileScreen({ navigation }: Navigation) {
   const dispatch = useDispatch();
 
   async function onLogoutPress() {
-    AsyncStorage.clear();
+    await AsyncStorage.removeItem(ASYNC_STORAGE_KEYS.AUTH_TOKEN);
     request.token = '';
     dispatch(userLogout());
-    navigation.navigate(navigationRouteNames.AuthScreen);
+    navigation.dispatch(
+      CommonActions.reset({
+        index: 0,
+        routes: [{ name: navigationRouteNames.AuthScreen }],
+      }),
+    );
   }
 
   return (

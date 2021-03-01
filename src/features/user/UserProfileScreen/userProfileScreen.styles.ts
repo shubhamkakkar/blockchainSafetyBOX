@@ -33,6 +33,9 @@ export default StyleSheet.create({
   },
   buttonPadding: {
     paddingHorizontal: 30,
+    paddingVertical: 10,
+    borderRadius: 0,
+    backgroundColor: theme.RED,
   },
   buttonContainer: {
     marginTop: 20,

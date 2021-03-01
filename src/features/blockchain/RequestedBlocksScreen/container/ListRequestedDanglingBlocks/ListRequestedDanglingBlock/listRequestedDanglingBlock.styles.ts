@@ -1,10 +1,10 @@
 import { StyleSheet } from 'react-native';
+// @ts-ignore
 import { DEFAULT_VERTICAL_MARGIN } from 'constants';
 import theme from 'theme';
 
 export default StyleSheet.create({
   container: {
-    // marginBottom: DEFAULT_VERTICAL_MARGIN,
     borderBottomWidth: 0.5,
     borderBottomColor: theme.GREY,
     paddingHorizontal: DEFAULT_VERTICAL_MARGIN,
@@ -16,5 +16,11 @@ export default StyleSheet.create({
   },
   requestedAtContainer: {
     marginBottom: 10,
+  },
+  isOwnerIcon: {
+    marginLeft: 10,
+  },
+  row: {
+    flexDirection: 'row',
   },
 });

@@ -6,7 +6,7 @@ export default StyleSheet.create({
     marginTop: 15,
     borderWidth: 1,
     borderColor: theme.SUCCESS,
-    borderRadius: 0,
+    borderRadius: 5,
   },
   baseTitle: {
     color: theme.SUCCESS,

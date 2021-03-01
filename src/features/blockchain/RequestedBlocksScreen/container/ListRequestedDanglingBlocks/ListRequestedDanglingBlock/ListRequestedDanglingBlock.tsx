@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { View } from 'react-native';
 import {
-  AcceptDeclineDanglingBlockMutationVariables,
+  AcceptDeclineDanglingBlockMutationVariables, useAcceptDeclineDanglingBlockMutation,
   useIsAlreadyVotedLazyQuery,
 } from 'generated/graphql';
 import TextUI from 'UI/TextUI';
@@ -11,48 +11,60 @@ import { humanReadableDate } from 'utils/dateHelpers';
 // @ts-ignore
 import { FONT_SIZES, USER_ROLE_TYPE } from 'constants';
 import { RecordOf } from 'immutable';
+import Icon from 'UI/Icon';
 import CountAndCountButton from './CountAndCountButton';
 import styles from './listRequestedDanglingBlock.styles';
 
 type Props = {
   item: RecordOf<any>,
   userProfile: any,
-  updateAcceptRejectCount: (
-    _variables: AcceptDeclineDanglingBlockMutationVariables, _cb: () => void
-  ) => void,
 };
 export default function ListRequestedDanglingBlock(
-  { item, userProfile, updateAcceptRejectCount }: Props,
+  { item, userProfile }: Props,
 ) {
-  const showAcceptDeclineButtons = useMemo(() => userProfile
-    ?.get('role') === USER_ROLE_TYPE.ADMIN
-      && item.get('user').get('_id') !== userProfile.get('_id'), []);
-
+  const isOwner = useMemo(() => item.get('user').get('_id')
+      === userProfile?.get('_id'), []);
+  const showAcceptDeclineButtons = useMemo(() => userProfile?.get('role')
+      === USER_ROLE_TYPE.ADMIN && !isOwner, []);
   const blockId = useMemo(() => item.get('_id'), []);
+
   const [acceptCount, setAcceptCount] = useState<number>(item.get('acceptCount'));
   const [rejectCount, setRejectCount] = useState<number>(item.get('rejectCount'));
-  const [isAlreadyVoted, isAlreadyVotedResponse] = useIsAlreadyVotedLazyQuery();
 
   const isVoted = item.get('acceptCount') !== acceptCount
       || item.get('rejectCount') !== rejectCount;
-  function updateAcceptRejectCountHandler(isAccept?: boolean) {
-    if (isAccept) {
-      setAcceptCount(acceptCount + 1);
-    } else {
-      setRejectCount(rejectCount + 1);
+
+  const [isAlreadyVoted, isAlreadyVotedResponse] = useIsAlreadyVotedLazyQuery();
+  const [
+    acceptDeclineDanglingBlockMutation,
+  ] = useAcceptDeclineDanglingBlockMutation();
+
+  async function updateAcceptRejectCount(
+    variables: AcceptDeclineDanglingBlockMutationVariables,
+  ) {
+    try {
+      await acceptDeclineDanglingBlockMutation({ variables });
+      if (variables.isAccept) {
+        setAcceptCount(acceptCount + 1);
+      } else {
+        setRejectCount(rejectCount + 1);
+      }
+    } catch (e) {
+      console.log('updateAcceptRejectCount e()', e);
     }
   }
+
   function onRejectCountPressHandler() {
     updateAcceptRejectCount({
       blockId,
-    }, updateAcceptRejectCountHandler);
+    });
   }
 
   function onAcceptCountPressHandler() {
     updateAcceptRejectCount({
       blockId,
       isAccept: true,
-    }, () => updateAcceptRejectCountHandler(true));
+    });
   }
 
   useEffect(() => {
@@ -64,9 +76,12 @@ export default function ListRequestedDanglingBlock(
   return (
     <View style={styles.container}>
       <View>
-        <TextUI fontWeight="SemiBold">
-          {messageTypeEnumToStringConverter(item.get('messageType'))}
-        </TextUI>
+        <View style={styles.row}>
+          <TextUI fontWeight="SemiBold">
+            {messageTypeEnumToStringConverter(item.get('messageType'))}
+          </TextUI>
+          {isOwner && <Icon name="human-greeting" style={styles.isOwnerIcon} isError />}
+        </View>
         <View style={styles.requestedAtContainer}>
           <TextUI color={theme.GREY} fontSize={FONT_SIZES.SMALL_TEXT}>
             {`By ${item.get('user').get('firstName')} ${item.get('user').get('lastName')}`}

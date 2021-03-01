@@ -16,7 +16,7 @@ import { NavigationStack } from './navigation';
 const Stack = createStackNavigator<NavigationStack>();
 
 export default function NavigationContainer() {
-  const [initialRoute, setInitalRoute] = useState<navigationRouteNames>(
+  const [initialRoute, setInitialRoute] = useState<navigationRouteNames>(
     navigationRouteNames.AuthScreen,
   );
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -31,28 +31,28 @@ export default function NavigationContainer() {
         request.token = authToken;
         loadUserProfile();
       } else {
-        setTimeout(() => setIsLoading(false), 3000);
+        setIsLoading(false);
       }
     } catch (_e) {
       console.log('e getAuthToken', _e);
-      setTimeout(() => setIsLoading(false), 3000);
+      setIsLoading(false);
     }
   };
 
   useEffect(() => {
-    console.log('userProfileResponse', userProfileResponse);
     if (
-      !userProfileResponse.loading
+      userProfileResponse.called
+      && !userProfileResponse.loading
       && !userProfileResponse.error
       && userProfileResponse.data?.user?.email) {
       dispatch(userProfile({
         token: request.token,
         ...userProfileResponse.data.user,
       } as ReturnedUser));
+      setInitialRoute(navigationRouteNames.PublicLedgerScreen);
       setIsLoading(false);
-      setInitalRoute(navigationRouteNames.PublicLedgerScreen);
     } else if (userProfileResponse.error) {
-      setTimeout(() => setIsLoading(false), 3000);
+      setIsLoading(false);
     }
   }, [userProfileResponse]);
 
@@ -60,12 +60,9 @@ export default function NavigationContainer() {
     getAuthToken();
   }, []);
 
-  console.log('initialRoute', initialRoute, isLoading);
-
   if (isLoading) {
     return <SplashScreen />;
   }
-
   return (
     <NativeNavigationContainer>
       <Stack.Navigator

@@ -3,12 +3,7 @@ import {
   Animated, FlatList, NativeScrollEvent, NativeSyntheticEvent,
 } from 'react-native';
 import EmptyUI from 'UI/EmptyUI';
-import {
-  AcceptDeclineDanglingBlockMutationVariables,
-  TRequestedDanglingBlock,
-  useAcceptDeclineDanglingBlockMutation,
-  useRequestedDanglingBlocksLazyQuery,
-} from 'generated/graphql';
+import { TRequestedDanglingBlock, useRequestedDanglingBlocksLazyQuery } from 'generated/graphql';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectUserProfile } from 'store/selectors/user.selectors';
 import { addDanglingBlocks, addMyDanglingBlocks } from 'store/actions/danglingBlocks.actions';
@@ -32,9 +27,6 @@ export default function ListRequestedDanglingBlocks(props: Props) {
   const [requestBocks, requestedBlocks] = useRequestedDanglingBlocksLazyQuery(
     { variables: { isUserOnly: !!props.isUserOnly } },
   );
-  const [
-    acceptDeclineDanglingBlockMutation,
-  ] = useAcceptDeclineDanglingBlockMutation();
 
   async function fetchData() {
     try {
@@ -50,17 +42,6 @@ export default function ListRequestedDanglingBlocks(props: Props) {
     }
   }
 
-  async function updateAcceptRejectCount(
-    variables: AcceptDeclineDanglingBlockMutationVariables, cb: () => void,
-  ) {
-    try {
-      await acceptDeclineDanglingBlockMutation({ variables });
-      cb();
-    } catch (e) {
-      console.log('updateAcceptRejectCount e()', e);
-    }
-  }
-
   useEffect(() => {
     if (requestedBlocks?.data?.requestedBlocks) {
       const dispatchAction = props.isUserOnly ? addMyDanglingBlocks : addDanglingBlocks;
@@ -70,6 +51,10 @@ export default function ListRequestedDanglingBlocks(props: Props) {
     }
   }, [requestedBlocks]);
 
+  useEffect(() => {
+    fetchData();
+  }, []);
+
   function renderListRequestedDanglingBlockItem(
     { item }: { item: RecordOf<TRequestedDanglingBlock> },
   ) {
@@ -78,15 +63,10 @@ export default function ListRequestedDanglingBlocks(props: Props) {
         {...{
           item,
           userProfile,
-          updateAcceptRejectCount,
         }}
       />
     );
   }
-
-  useEffect(() => {
-    fetchData();
-  }, []);
 
   return (
     <AnimatedFlatList

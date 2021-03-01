@@ -6,7 +6,7 @@ const httpLink = createHttpLink({
   uri: `${request.apiUrl}`,
 });
 
-const authLink = setContext((_, { headers }) => ({
+const authLink = setContext(async (_, { headers }) => ({
   headers: {
     ...headers,
     Authorization: request.token,
@@ -16,5 +16,18 @@ const authLink = setContext((_, { headers }) => ({
 const apolloClient = new ApolloClient({
   link: authLink.concat(httpLink),
   cache: new InMemoryCache(),
+  defaultOptions: {
+    watchQuery: {
+      fetchPolicy: 'no-cache',
+      errorPolicy: 'ignore',
+    },
+    query: {
+      fetchPolicy: 'no-cache',
+      errorPolicy: 'all',
+    },
+    mutate: {
+      errorPolicy: 'all',
+    },
+  },
 });
 export default apolloClient;

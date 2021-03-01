@@ -1,8 +1,6 @@
 import { User } from 'generated/graphql';
 import { USER_LOG_OUT, USER_PROFILE } from 'store/actions/user.actions';
 import { fromJS } from 'immutable';
-import request from 'utils/request';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export type UserAction = {
   type: typeof USER_PROFILE | typeof USER_LOG_OUT,
