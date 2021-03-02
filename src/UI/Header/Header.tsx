@@ -1,6 +1,8 @@
 import { useNavigation } from '@react-navigation/native';
 import React, { FC } from 'react';
-import { TouchableOpacity, View, ViewStyle } from 'react-native';
+import {
+  TextStyle, TouchableOpacity, View, ViewStyle,
+} from 'react-native';
 import Icon from '../Icon';
 import TextUI from '../TextUI';
 import styles from './header.style';
@@ -12,6 +14,7 @@ type Props = {
   noBackButton? : boolean;
   containerStyles?: ViewStyle;
   subTitleContainerStyle?: ViewStyle;
+  headerStyle?: TextStyle
 };
 
 const Header: FC<Props> = (props: Props) => {
@@ -22,6 +25,7 @@ const Header: FC<Props> = (props: Props) => {
     subTitle,
     noBackButton,
     containerStyles = {},
+    headerStyle = {},
     subTitleContainerStyle = {},
   } = props;
   return (
@@ -36,7 +40,7 @@ const Header: FC<Props> = (props: Props) => {
       </TouchableOpacity>
       )}
       <View style={subTitleContainerStyle}>
-        <TextUI fontWeight="Bold" style={styles.headerTitle}>{title}</TextUI>
+        <TextUI fontWeight="Bold" style={[styles.headerTitle, headerStyle]}>{title}</TextUI>
         {!!subTitle && <TextUI style={styles.headerSubTitle}>{subTitle}</TextUI>}
       </View>
     </View>

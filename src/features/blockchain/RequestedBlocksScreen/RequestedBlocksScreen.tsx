@@ -1,7 +1,8 @@
 import React, { useMemo } from 'react';
 import MainContainer from 'UI/MainContainer';
-import AnimatedHeader from 'UI/AnimatedHeader';
 import { Animated } from 'react-native';
+import FadeInFadeOutAnimatedContainer from 'UI/FadeInFadeOutAnimatedContainer';
+import TextUI from 'UI/TextUI';
 import ListRequestedDanglingBlocks from './container/ListRequestedDanglingBlocks';
 import AnimatedMenuTray from './container/AnimatedMenuTray';
 
@@ -16,10 +17,10 @@ export default function RequestedBlocksScreen(props: any) {
         )}
       />
       <AnimatedMenuTray {...props} />
-      <AnimatedHeader
-        title="Requested Blocks"
+      <FadeInFadeOutAnimatedContainer
+        preAnimatedComponent={<TextUI style={{ fontSize: 30 }}>Shubham</TextUI>}
+        postAnimatedComponent={<TextUI>Miguel</TextUI>}
         scrollY={scrollY}
-        navigation={props.navigation}
       />
     </MainContainer>
   );
