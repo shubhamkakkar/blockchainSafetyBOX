@@ -140,7 +140,7 @@ export default function AnimatedHeader({
           styles.topBar,
           {
             transform: [{
-              translateY: titleContainerTranslateY,
+              translateX: titleTranslateX,
             }],
           },
         ]}
@@ -148,7 +148,11 @@ export default function AnimatedHeader({
         <Animated.View
           style={[
             styles.titleAndImageContainer,
-            { transform: [{ translateX: titleTranslateX }] }]}
+            {
+              transform: [{
+                translateY: titleContainerTranslateY,
+              }],
+            }]}
         >
           <Text
             style={styles.title}
