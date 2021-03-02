@@ -1,9 +1,7 @@
 import React, { useMemo } from 'react';
 import MainContainer from 'UI/MainContainer';
 import AnimatedHeader from 'UI/AnimatedHeader';
-import { Animated, View } from 'react-native';
-import AnimatedTextHeader from 'UI/AnimatedTextHeader';
-import Icon from 'UI/Icon';
+import { Animated } from 'react-native';
 import ListRequestedDanglingBlocks from './container/ListRequestedDanglingBlocks';
 import AnimatedMenuTray from './container/AnimatedMenuTray';
 
