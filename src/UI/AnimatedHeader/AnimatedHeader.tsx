@@ -125,6 +125,8 @@ export default function AnimatedHeader({
               translateY: backButtonTranslateY,
             },
           ],
+          zIndex: 100,
+          elevation: 100,
         }}
       >
         <TouchableOpacity onPress={goBack} style={styles.goBackArrow}>
@@ -140,7 +142,7 @@ export default function AnimatedHeader({
           styles.topBar,
           {
             transform: [{
-              translateX: titleTranslateX,
+              translateY: titleContainerTranslateY,
             }],
           },
         ]}
@@ -150,7 +152,7 @@ export default function AnimatedHeader({
             styles.titleAndImageContainer,
             {
               transform: [{
-                translateY: titleContainerTranslateY,
+                translateX: titleTranslateX,
               }],
             }]}
         >

@@ -82,7 +82,7 @@ export default function ListRequestedDanglingBlocks(props: Props) {
       refreshing={requestedBlocks.loading}
       scrollEventThrottle={16}
       onScroll={props.scrollPositionHandler}
-      contentContainerStyle={{ paddingTop: HEADER_MIN_HEIGHT_WITHOUT_DESCRIPTION_COMPONENT }}
+      contentContainerStyle={{ paddingTop: HEADER_MAX_HEIGHT_WITHOUT_DESCRIPTION_COMPONENT }}
     />
   );
 }
