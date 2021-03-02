@@ -4,6 +4,7 @@ import {
 } from 'redux';
 import userReducer from 'store/reducers/user.reducer';
 import danglingBlocksReducer from 'store/reducers/danglingBlocks.reducer';
+import publicLedgerReducer from 'store/reducers/publicLedger.reducer';
 
 let composeEnhancers;
 if (__DEV__) {
@@ -18,6 +19,7 @@ if (__DEV__) {
 const appReducer = combineReducers({
   user: userReducer,
   danglingBlocks: danglingBlocksReducer,
+  publicLedger: publicLedgerReducer,
 });
 
 const rootReducer = <A extends Action>(state: any, action: A) => appReducer(state, action);

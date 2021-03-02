@@ -14,7 +14,6 @@ type DanglingBlocksActions = {
   | typeof ADD_MY_REQUESTED_DANGLING_BLOCKS,
   payload: TRequestedDanglingBlock | TRequestedDanglingBlock[]
 };
-
 export default function danglingBlocksReducer(
   state = fromJS({}),
   actions: DanglingBlocksActions,

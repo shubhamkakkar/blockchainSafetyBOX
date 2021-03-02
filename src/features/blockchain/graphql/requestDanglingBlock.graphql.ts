@@ -67,3 +67,23 @@ const IS_ALREADY_VOTED = gql`
         isAlreadyVoted(blockId: $blockId)
     }
 `;
+
+const PUBLIC_LEDGER = gql`
+    query publicLedger {
+        publicLedger {
+            _id,
+            ownerId,
+            shared {
+                sharedAt,
+                recipientUser {
+                    _id,
+                    firstName,
+                    lastName,
+                    middleName
+                }
+            }
+            data,
+            createdAt,
+        }
+    }
+`;

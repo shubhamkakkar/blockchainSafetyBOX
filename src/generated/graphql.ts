@@ -672,6 +672,25 @@ export type IsAlreadyVotedQuery = (
   & Pick<Query, 'isAlreadyVoted'>
 );
 
+export type PublicLedgerQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type PublicLedgerQuery = (
+  { __typename?: 'Query' }
+  & { publicLedger: Array<Maybe<(
+    { __typename?: 'TPublicLedger' }
+    & Pick<TPublicLedger, '_id' | 'ownerId' | 'data' | 'createdAt'>
+    & { shared: Array<(
+      { __typename?: 'SharedBlock' }
+      & Pick<SharedBlock, 'sharedAt'>
+      & { recipientUser: (
+        { __typename?: 'User' }
+        & Pick<User, '_id' | 'firstName' | 'lastName' | 'middleName'>
+      ) }
+    )> }
+  )>> }
+);
+
 export type UserProfileQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -921,6 +940,50 @@ export function useIsAlreadyVotedLazyQuery(baseOptions?: Apollo.LazyQueryHookOpt
 export type IsAlreadyVotedQueryHookResult = ReturnType<typeof useIsAlreadyVotedQuery>;
 export type IsAlreadyVotedLazyQueryHookResult = ReturnType<typeof useIsAlreadyVotedLazyQuery>;
 export type IsAlreadyVotedQueryResult = Apollo.QueryResult<IsAlreadyVotedQuery, IsAlreadyVotedQueryVariables>;
+export const PublicLedgerDocument = gql`
+    query publicLedger {
+  publicLedger {
+    _id
+    ownerId
+    shared {
+      sharedAt
+      recipientUser {
+        _id
+        firstName
+        lastName
+        middleName
+      }
+    }
+    data
+    createdAt
+  }
+}
+    `;
+
+/**
+ * __usePublicLedgerQuery__
+ *
+ * To run a query within a React component, call `usePublicLedgerQuery` and pass it any options that fit your needs.
+ * When your component renders, `usePublicLedgerQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = usePublicLedgerQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function usePublicLedgerQuery(baseOptions?: Apollo.QueryHookOptions<PublicLedgerQuery, PublicLedgerQueryVariables>) {
+        return Apollo.useQuery<PublicLedgerQuery, PublicLedgerQueryVariables>(PublicLedgerDocument, baseOptions);
+      }
+export function usePublicLedgerLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<PublicLedgerQuery, PublicLedgerQueryVariables>) {
+          return Apollo.useLazyQuery<PublicLedgerQuery, PublicLedgerQueryVariables>(PublicLedgerDocument, baseOptions);
+        }
+export type PublicLedgerQueryHookResult = ReturnType<typeof usePublicLedgerQuery>;
+export type PublicLedgerLazyQueryHookResult = ReturnType<typeof usePublicLedgerLazyQuery>;
+export type PublicLedgerQueryResult = Apollo.QueryResult<PublicLedgerQuery, PublicLedgerQueryVariables>;
 export const UserProfileDocument = gql`
     query UserProfile {
   user {

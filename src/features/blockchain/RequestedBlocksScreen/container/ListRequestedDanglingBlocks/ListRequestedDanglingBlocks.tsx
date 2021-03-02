@@ -10,7 +10,10 @@ import { addDanglingBlocks, addMyDanglingBlocks } from 'store/actions/danglingBl
 import { danglingBlocks, myDanglingBlocks } from 'store/selectors/danglingBlocks.selectors';
 import { RecordOf } from 'immutable';
 // @ts-ignore
-import { HEADER_MAX_HEIGHT_WITHOUT_DESCRIPTION_COMPONENT } from 'constants';
+import {
+  HEADER_MAX_HEIGHT_WITHOUT_DESCRIPTION_COMPONENT,
+  HEADER_MIN_HEIGHT_WITHOUT_DESCRIPTION_COMPONENT,
+} from 'constants';
 import ListRequestedDanglingBlock from './ListRequestedDanglingBlock';
 
 type Props = {
@@ -79,7 +82,7 @@ export default function ListRequestedDanglingBlocks(props: Props) {
       refreshing={requestedBlocks.loading}
       scrollEventThrottle={16}
       onScroll={props.scrollPositionHandler}
-      contentContainerStyle={{ paddingTop: HEADER_MAX_HEIGHT_WITHOUT_DESCRIPTION_COMPONENT }}
+      contentContainerStyle={{ paddingTop: HEADER_MIN_HEIGHT_WITHOUT_DESCRIPTION_COMPONENT }}
     />
   );
 }

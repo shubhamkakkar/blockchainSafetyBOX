@@ -71,22 +71,22 @@ export default function NavigationContainer() {
         }}
         initialRouteName={initialRoute as any}
       >
-        <Stack.Screen
-          name={navigationRouteNames.AuthScreen}
-          component={
-                navigationRouteComponentMap[
-                  navigationRouteNames.AuthScreen
-                ]
-              }
-        />
-        <Stack.Screen
-          name={navigationRouteNames.PrivateKeyDownloadScreen}
-          component={
-                navigationRouteComponentMap[
-                  navigationRouteNames.PrivateKeyDownloadScreen
-                ]
-              }
-        />
+        {/* <Stack.Screen */}
+        {/*  name={navigationRouteNames.AuthScreen} */}
+        {/*  component={ */}
+        {/*        navigationRouteComponentMap[ */}
+        {/*          navigationRouteNames.AuthScreen */}
+        {/*        ] */}
+        {/*      } */}
+        {/* /> */}
+        {/* <Stack.Screen */}
+        {/*  name={navigationRouteNames.PrivateKeyDownloadScreen} */}
+        {/*  component={ */}
+        {/*        navigationRouteComponentMap[ */}
+        {/*          navigationRouteNames.PrivateKeyDownloadScreen */}
+        {/*        ] */}
+        {/*      } */}
+        {/* /> */}
         <Stack.Screen
           name={navigationRouteNames.PublicLedgerScreen}
           component={
