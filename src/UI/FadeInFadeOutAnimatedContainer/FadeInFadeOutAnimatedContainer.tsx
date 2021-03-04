@@ -1,7 +1,9 @@
 import React, { useMemo } from 'react';
 import { Animated } from 'react-native';
 import {
+  // @ts-ignore
   HEADER_MAX_HEIGHT_WITHOUT_DESCRIPTION_COMPONENT,
+  // @ts-ignore
   HEADER_MIN_HEIGHT_WITHOUT_DESCRIPTION_COMPONENT,
 } from 'constants';
 import styles from './fadeInFadeOutAnimatedContainer.styles';

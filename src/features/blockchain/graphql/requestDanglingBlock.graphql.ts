@@ -84,6 +84,7 @@ const PUBLIC_LEDGER = gql`
             }
             data,
             createdAt,
+            hash
         }
     }
 `;

@@ -45,14 +45,13 @@ export default function ListPublicLedger(props: Props) {
 
   return (
     <AnimatedFlatList
-      scrollEnabled={false}
       data={storedPublicLedgerBlocks?.toArray() || []}
       extraData={storedPublicLedgerBlocks?.toArray() || []}
       keyExtractor={(item: Map<TPublicLedger, any> | any) => item?.get('_id')}
       renderItem={renderPublicLedgerBlock as any}
       scrollEventThrottle={16}
       onScroll={props.scrollPositionHandler}
-      // contentContainerStyle={{ paddingTop: HEADER_MAX_HEIGHT_WITHOUT_DESCRIPTION_COMPONENT }}
+      contentContainerStyle={{ paddingTop: HEADER_MAX_HEIGHT_WITHOUT_DESCRIPTION_COMPONENT }}
     />
   );
 }

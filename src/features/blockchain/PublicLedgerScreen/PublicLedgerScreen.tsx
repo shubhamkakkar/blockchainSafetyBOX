@@ -1,7 +1,7 @@
 import React from 'react';
 import MainContainer from 'UI/MainContainer';
 import { Animated } from 'react-native';
-import AnimatedTextHeader from 'UI/AnimatedTextHeader';
+import AnimatedHeader from 'UI/AnimatedHeader';
 import ListPublicLedger from './container/ListPublicLedger';
 import styles from './publicLedgerScreen.styles';
 
@@ -15,9 +15,8 @@ export default function PublicLedgerScreen(props: any) {
           { useNativeDriver: true },
         )}
       />
-      <AnimatedTextHeader
-        initialTitle="Public Ledger"
-        onAnimationCompleteTitle="Public Ledger On Animation Complete"
+      <AnimatedHeader
+        title="Public Ledger"
         scrollY={scrollY}
         navigation={props.navigation}
       />

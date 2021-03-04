@@ -217,7 +217,9 @@ export type TPublicLedger = {
   data: Scalars['String'];
   ownerId: Scalars['ID'];
   shared: Array<SharedBlock>;
-  createdAt?: Maybe<Scalars['DateTime']>;
+  createdAt: Scalars['DateTime'];
+  prevHash: Scalars['String'];
+  hash: Scalars['String'];
 };
 
 export type MyBlock = {
@@ -527,7 +529,9 @@ export type TPublicLedgerResolvers<ContextType = any, ParentType extends Resolve
   data?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   ownerId?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   shared?: Resolver<Array<ResolversTypes['SharedBlock']>, ParentType, ContextType>;
-  createdAt?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
+  createdAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
+  prevHash?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  hash?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -679,7 +683,7 @@ export type PublicLedgerQuery = (
   { __typename?: 'Query' }
   & { publicLedger: Array<Maybe<(
     { __typename?: 'TPublicLedger' }
-    & Pick<TPublicLedger, '_id' | 'ownerId' | 'data' | 'createdAt'>
+    & Pick<TPublicLedger, '_id' | 'ownerId' | 'data' | 'createdAt' | 'hash'>
     & { shared: Array<(
       { __typename?: 'SharedBlock' }
       & Pick<SharedBlock, 'sharedAt'>
@@ -956,6 +960,7 @@ export const PublicLedgerDocument = gql`
     }
     data
     createdAt
+    hash
   }
 }
     `;
