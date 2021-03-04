@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import {
   Animated, FlatList, NativeScrollEvent, NativeSyntheticEvent,
 } from 'react-native';
@@ -20,6 +20,37 @@ export default function ListPublicLedger(props: Props) {
   const dispatch = useDispatch();
   const userProfile = useSelector(selectUserProfile);
   const storedPublicLedgerBlocks = useSelector(publicLedgerBlocks);
+  const infoIconAnimation = useMemo(() => new Animated.Value(0), []);
+
+  function triggerAnimation() {
+    Animated.timing(infoIconAnimation, {
+      toValue: 1,
+      useNativeDriver: true,
+      duration: 1000,
+    }).start(() => {
+      Animated.timing(infoIconAnimation, {
+        toValue: 0,
+        useNativeDriver: true,
+        duration: 1000,
+      }).start(triggerAnimation);
+    });
+  }
+
+  useEffect(() => {
+    if (publicLedgerResponse.called
+        && !publicLedgerResponse.error
+        && !publicLedgerResponse.loading
+        && publicLedgerResponse.data?.publicLedger
+    ) {
+      triggerAnimation();
+      dispatch(addBlocksToPublicLedger(publicLedgerResponse.data.publicLedger as TPublicLedger[]));
+    }
+  }, [publicLedgerResponse]);
+
+  const infoIconTranslateY = infoIconAnimation.interpolate({
+    inputRange: [0, 1],
+    outputRange: [5, -5],
+  });
 
   function renderPublicLedgerBlock({ item, index }: any) {
     return (
@@ -29,19 +60,10 @@ export default function ListPublicLedger(props: Props) {
         prevDate={index >= 1
           ? storedPublicLedgerBlocks?.toArray()[index - 1].get('createdAt')
           : undefined}
+        infoIconTranslateY={infoIconTranslateY}
       />
     );
   }
-
-  useEffect(() => {
-    if (publicLedgerResponse.called
-            && !publicLedgerResponse.error
-            && !publicLedgerResponse.loading
-            && publicLedgerResponse.data?.publicLedger
-    ) {
-      dispatch(addBlocksToPublicLedger(publicLedgerResponse.data.publicLedger as TPublicLedger[]));
-    }
-  }, [publicLedgerResponse]);
 
   return (
     <AnimatedFlatList

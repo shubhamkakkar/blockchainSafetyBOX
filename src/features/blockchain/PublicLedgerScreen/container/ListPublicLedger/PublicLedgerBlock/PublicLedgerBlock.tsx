@@ -1,5 +1,5 @@
 import React from 'react';
-import { View } from 'react-native';
+import { Animated, TouchableOpacity, View } from 'react-native';
 import { dateString, determineIsSameDay, twelveHourClockTime } from 'utils/dateHelpers';
 import TextUI from 'UI/TextUI';
 import Icon from 'UI/Icon';
@@ -9,15 +9,22 @@ import styles from './publicLedgerBlock.styles';
 type Props = {
   item: any;
   userId: string;
-  prevDate?: string
+  prevDate?: string;
+  infoIconTranslateY: Animated.AnimatedInterpolation
 };
 
 export default function PublicLedgerBlock({
   item,
   prevDate,
   userId,
+  infoIconTranslateY,
 }: Props) {
   const isSameDayBool = determineIsSameDay(item.get('createdAt'), prevDate);
+
+  function onInfoIconPress() {
+
+  }
+
   return (
     <View style={styles.container}>
       {!isSameDayBool ? (
@@ -38,9 +45,21 @@ export default function PublicLedgerBlock({
               </TextUI>
             </View>
             {item.get('ownerId') === userId && (
-            <View style={styles.row}>
-              <Icon name="human-greeting" isError />
-            </View>
+            <Animated.View
+              style={[
+                styles.row, styles.hMargin5,
+                { transform: [{ translateY: infoIconTranslateY }] },
+              ]}
+            >
+              <TouchableOpacity onPress={onInfoIconPress}>
+                <Icon
+                  name="information-outline"
+                  size={30}
+                  noMargin
+                  color={theme.SUCCESS}
+                />
+              </TouchableOpacity>
+            </Animated.View>
             )}
           </View>
         </View>

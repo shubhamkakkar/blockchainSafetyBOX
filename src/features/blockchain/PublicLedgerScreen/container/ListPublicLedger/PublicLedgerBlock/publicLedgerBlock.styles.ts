@@ -22,4 +22,7 @@ export default StyleSheet.create({
   spaceBetween: {
     justifyContent: 'space-between',
   },
+  hMargin5: {
+    marginHorizontal: 5,
+  },
 });
