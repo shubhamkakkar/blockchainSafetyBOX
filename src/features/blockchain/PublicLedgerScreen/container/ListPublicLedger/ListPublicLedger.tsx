@@ -21,11 +21,14 @@ export default function ListPublicLedger(props: Props) {
   const userProfile = useSelector(selectUserProfile);
   const storedPublicLedgerBlocks = useSelector(publicLedgerBlocks);
 
-  function renderPublicLedgerBlock({ item }: any) {
+  function renderPublicLedgerBlock({ item, index }: any) {
     return (
       <PublicLedgerBlock
         item={item}
         userId={userProfile?.get('_id')}
+        prevDate={index >= 1
+          ? storedPublicLedgerBlocks?.toArray()[index - 1].get('createdAt')
+          : undefined}
       />
     );
   }
@@ -42,13 +45,14 @@ export default function ListPublicLedger(props: Props) {
 
   return (
     <AnimatedFlatList
+      scrollEnabled={false}
       data={storedPublicLedgerBlocks?.toArray() || []}
       extraData={storedPublicLedgerBlocks?.toArray() || []}
       keyExtractor={(item: Map<TPublicLedger, any> | any) => item?.get('_id')}
       renderItem={renderPublicLedgerBlock as any}
       scrollEventThrottle={16}
       onScroll={props.scrollPositionHandler}
-      contentContainerStyle={{ paddingTop: HEADER_MAX_HEIGHT_WITHOUT_DESCRIPTION_COMPONENT }}
+      // contentContainerStyle={{ paddingTop: HEADER_MAX_HEIGHT_WITHOUT_DESCRIPTION_COMPONENT }}
     />
   );
 }

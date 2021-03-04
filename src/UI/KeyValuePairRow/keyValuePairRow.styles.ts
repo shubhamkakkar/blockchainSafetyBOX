@@ -6,11 +6,12 @@ export default StyleSheet.create({
     marginBottom: 10,
   },
   keyContainer: {
-    flex: 1,
     marginRight: 5,
   },
   valueContainer: {
-    flex: 1,
     marginLeft: 5,
+  },
+  flex: {
+    flex: 1,
   },
 });
