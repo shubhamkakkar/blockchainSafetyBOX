@@ -29,6 +29,7 @@ export default function KeyboardAvoidingViewUI({
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
     >
       <ScrollView
+        keyboardShouldPersistTaps="handled"
         contentContainerStyle={[styles.scrollViewContentContainerStyle, customStyleScrollView]}
       >
         {children}

@@ -47,6 +47,17 @@ export type PublicLedgerScreenNavigationProps = {
   >;
 };
 
+export type MyBLockScreenNavigationProps = {
+  navigation: StackNavigationProp<
+  NavigationStack,
+  navigationRouteNames.MyBlockScreen
+  >;
+  route: RouteProp<
+  NavigationStack,
+  navigationRouteNames.MyBlockScreen
+  >;
+};
+
 export type RequestedBlocksNavigationStack = {
   [navigationRouteNames.RequestedBlocksScreen]: undefined;
   [navigationRouteNames.MyRequestedBlocksScreen]: undefined;

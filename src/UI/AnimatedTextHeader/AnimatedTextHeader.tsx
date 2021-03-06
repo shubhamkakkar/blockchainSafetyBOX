@@ -11,7 +11,7 @@ import {
 } from 'constants';
 import styles from './animatedTextHeader.styles';
 
-interface Props extends Navigation {
+interface Props extends Partial<Navigation> {
   initialTitle: string;
   onAnimationCompleteTitle: string;
   subTitle?: string;
