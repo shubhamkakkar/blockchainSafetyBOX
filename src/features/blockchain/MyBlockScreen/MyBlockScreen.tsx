@@ -30,7 +30,7 @@ export default function MyBlockScreen(props: MyBLockScreenNavigationProps) {
           >
             <Icon name="account-settings" size={25} color={theme.DARK_PRIMARY} />
           </TouchableOpacity>
-)}
+        )}
       />
     </MainContainer>
   );

@@ -90,6 +90,7 @@ const PUBLIC_LEDGER = gql`
                 middleName
                 email
             }
+            messageType
         }
     }
 `;
@@ -104,16 +105,7 @@ const MY_BLOCK = gql`
             cipherTextOfBlock: $cipherKey
         }) {
             data,
-            createdAt
-            shared {
-                sharedAt,
-                sharedAt,
-                recipientUser {
-                    firstName
-                    lastName
-                    middleName
-                }
-            }
+            prevHash
         }
     }
 `;

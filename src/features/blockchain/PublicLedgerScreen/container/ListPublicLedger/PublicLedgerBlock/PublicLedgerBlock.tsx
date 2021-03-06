@@ -6,6 +6,7 @@ import Icon from 'UI/Icon';
 import theme from 'theme';
 import LayoutAnimationWrapper from 'UI/LayoutAnimationWrapper';
 import { FONT_SIZES } from 'constants';
+import { DecryptBlock } from 'types';
 import styles from './publicLedgerBlock.styles';
 
 type Props = {
@@ -13,7 +14,7 @@ type Props = {
   userId: string;
   prevDate?: string;
   infoIconTranslateY: Animated.AnimatedInterpolation;
-  onInfoIconPressHandler: (_blockId: string) => void
+  onInfoIconPressHandler: (_block: DecryptBlock) => void
   isAdmin: boolean
 };
 
@@ -26,8 +27,9 @@ export default function PublicLedgerBlock({
   isAdmin,
 }: Props) {
   const isSameDayBool = determineIsSameDay(item.get('createdAt'), prevDate);
+
   function onInfoIconPress() {
-    onInfoIconPressHandler(item.get('_id'));
+    onInfoIconPressHandler(item.toJS());
   }
 
   return (
@@ -68,9 +70,11 @@ export default function PublicLedgerBlock({
           )}
         </View>
         {isAdmin && item.get('ownerId') !== userId && (
-          <TextUI color={theme.GREY} fontSize={FONT_SIZES.SMALL_TEXT}>
-            {`By ${item.get('ownerProfile')?.get('firstName')} ${item.get('ownerProfile')?.get('lastName')}`}
-          </TextUI>
+        <TextUI color={theme.GREY} fontSize={FONT_SIZES.SMALL_TEXT}>
+          {`By ${item.get('ownerProfile')
+            ?.get('firstName')} ${item.get('ownerProfile')
+            ?.get('lastName')}`}
+        </TextUI>
         )}
         <LayoutAnimationWrapper
           title="Hash"

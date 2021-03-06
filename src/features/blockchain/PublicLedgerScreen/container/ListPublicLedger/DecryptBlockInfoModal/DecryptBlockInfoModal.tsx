@@ -5,17 +5,18 @@ import { Alert, View } from 'react-native';
 import CipherKeyFormikInput
   from 'features/blockchain/MedicalHistoryFormScreen/container/MedicalHistoryFormFields/CipherKeyFormikInput';
 import AnimatedButton from 'UI/Buttons/AnimatedButton';
-import { MyBlock, useMyBlockLazyQuery } from 'generated/graphql';
+import { useMyBlockLazyQuery } from 'generated/graphql';
+import { DecryptBlock, MyBlockProps } from 'types';
 import styles from './decryptBlockInfoModal.styles';
 
 type Props = {
   isOpen: boolean;
   onClose: () => void;
-  toCheckBlockModalId: string;
-  onSuccessHandler: (_block: MyBlock) => void
+  toDecryptBlock: DecryptBlock;
+  onSuccessHandler: (_block: MyBlockProps) => void
 };
 export default function DecryptBlockInfoModal({
-  toCheckBlockModalId: blockId,
+  toDecryptBlock,
   onSuccessHandler,
   ...rest
 }: Props) {
@@ -29,7 +30,8 @@ export default function DecryptBlockInfoModal({
   function onSubmitHandler() {
     myBlockMutation({
       variables: {
-        blockId,
+        // eslint-disable-next-line no-underscore-dangle
+        blockId: toDecryptBlock._id,
         cipherKey,
       },
     });
@@ -38,8 +40,13 @@ export default function DecryptBlockInfoModal({
   useEffect(() => {
     if (myBlockResponse.called && (!!myBlockResponse.error || !myBlockResponse.data)) {
       Alert.alert('Error', myBlockResponse.error?.message || 'Invalid Signature');
-    } else if (myBlockResponse?.data?.myBlock?.createdAt) {
-      onSuccessHandler(myBlockResponse?.data?.myBlock as MyBlock);
+    } else if (myBlockResponse?.data?.myBlock?.prevHash) {
+      const block: MyBlockProps = {
+        ...toDecryptBlock,
+        prevHash: myBlockResponse?.data?.myBlock.prevHash,
+        data: myBlockResponse?.data?.myBlock.data,
+      };
+      onSuccessHandler(block);
     }
   }, [myBlockResponse.error, myBlockResponse.data]);
 
@@ -66,7 +73,7 @@ export default function DecryptBlockInfoModal({
           disabled={!cipherKey.trim().length}
           onPress={onSubmitHandler}
           isLoading={myBlockResponse.loading}
-          isSuccess={!!myBlockResponse.data?.myBlock.createdAt}
+          isSuccess={!!myBlockResponse.data?.myBlock.prevHash}
           isFailed={myBlockResponse.called && (!!myBlockResponse.error || !myBlockResponse.data)}
         />
       </View>

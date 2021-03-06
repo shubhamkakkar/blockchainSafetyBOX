@@ -218,16 +218,15 @@ export type TPublicLedger = {
   ownerId: Scalars['ID'];
   shared: Array<SharedBlock>;
   createdAt: Scalars['DateTime'];
-  prevHash: Scalars['String'];
   hash: Scalars['String'];
   ownerProfile?: Maybe<User>;
+  messageType?: Maybe<RequestedBlockMessage>;
 };
 
 export type MyBlock = {
   __typename?: 'MyBlock';
   data: Scalars['String'];
-  shared: Array<SharedBlock>;
-  createdAt?: Maybe<Scalars['DateTime']>;
+  prevHash: Scalars['String'];
 };
 
 export type TSharedBlockResponse = {
@@ -531,16 +530,15 @@ export type TPublicLedgerResolvers<ContextType = any, ParentType extends Resolve
   ownerId?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   shared?: Resolver<Array<ResolversTypes['SharedBlock']>, ParentType, ContextType>;
   createdAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
-  prevHash?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   hash?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   ownerProfile?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
+  messageType?: Resolver<Maybe<ResolversTypes['RequestedBlockMessage']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export type MyBlockResolvers<ContextType = any, ParentType extends ResolversParentTypes['MyBlock'] = ResolversParentTypes['MyBlock']> = {
   data?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  shared?: Resolver<Array<ResolversTypes['SharedBlock']>, ParentType, ContextType>;
-  createdAt?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
+  prevHash?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -685,7 +683,7 @@ export type PublicLedgerQuery = (
   { __typename?: 'Query' }
   & { publicLedger: Array<Maybe<(
     { __typename?: 'TPublicLedger' }
-    & Pick<TPublicLedger, '_id' | 'ownerId' | 'createdAt' | 'hash'>
+    & Pick<TPublicLedger, '_id' | 'ownerId' | 'createdAt' | 'hash' | 'messageType'>
     & { shared: Array<(
       { __typename?: 'SharedBlock' }
       & Pick<SharedBlock, 'sharedAt'>
@@ -710,15 +708,7 @@ export type MyBlockQuery = (
   { __typename?: 'Query' }
   & { myBlock: (
     { __typename?: 'MyBlock' }
-    & Pick<MyBlock, 'data' | 'createdAt'>
-    & { shared: Array<(
-      { __typename?: 'SharedBlock' }
-      & Pick<SharedBlock, 'sharedAt'>
-      & { recipientUser: (
-        { __typename?: 'User' }
-        & Pick<User, 'firstName' | 'lastName' | 'middleName'>
-      ) }
-    )> }
+    & Pick<MyBlock, 'data' | 'prevHash'>
   ) }
 );
 
@@ -993,6 +983,7 @@ export const PublicLedgerDocument = gql`
       middleName
       email
     }
+    messageType
   }
 }
     `;
@@ -1025,16 +1016,7 @@ export const MyBlockDocument = gql`
     query MyBlock($blockId: ID!, $cipherKey: String!) {
   myBlock(myBlockArgs: {blockId: $blockId, cipherTextOfBlock: $cipherKey}) {
     data
-    createdAt
-    shared {
-      sharedAt
-      sharedAt
-      recipientUser {
-        firstName
-        lastName
-        middleName
-      }
-    }
+    prevHash
   }
 }
     `;

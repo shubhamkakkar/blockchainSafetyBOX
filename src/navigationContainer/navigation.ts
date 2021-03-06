@@ -1,30 +1,24 @@
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RouteProp } from '@react-navigation/native';
-import { MyBlock } from 'generated/graphql';
+import { MyBlockProps } from 'types';
 import navigationRouteNames from './navigationRouteNames';
 
 export type NavigationStack = {
   [navigationRouteNames.SplashScreen]: undefined;
   [navigationRouteNames.AuthScreen]: undefined;
-  [navigationRouteNames.PrivateKeyDownloadScreen]: {privateKey: string; email: string};
+  [navigationRouteNames.PrivateKeyDownloadScreen]: { privateKey: string; email: string };
   [navigationRouteNames.PublicLedgerScreen]: undefined;
-  [navigationRouteNames.MyBlockScreen]: { block: MyBlock | undefined };
+  [navigationRouteNames.MyBlockScreen]: { block: MyBlockProps | undefined };
   [navigationRouteNames.RequestedBlocksStackNavigation]: undefined;
   [navigationRouteNames.UserProfileScreen]: undefined;
 };
 
-type AuthScreenNavigationProp = StackNavigationProp<
-NavigationStack, navigationRouteNames.AuthScreen
->;
+type AuthScreenNavigationProp = StackNavigationProp<NavigationStack, navigationRouteNames.AuthScreen>;
 type AuthScreenRouteProp = RouteProp<NavigationStack, navigationRouteNames.AuthScreen>;
 
-type PrivateKeyDownloadScreenNavigationProps = StackNavigationProp<
-NavigationStack,
-navigationRouteNames.PrivateKeyDownloadScreen
->;
-type PrivateKeyDownloadScreenRouteProps = RouteProp<
-NavigationStack, navigationRouteNames.PrivateKeyDownloadScreen
->;
+type PrivateKeyDownloadScreenNavigationProps = StackNavigationProp<NavigationStack,
+navigationRouteNames.PrivateKeyDownloadScreen>;
+type PrivateKeyDownloadScreenRouteProps = RouteProp<NavigationStack, navigationRouteNames.PrivateKeyDownloadScreen>;
 
 export type AuthScreenNavigation = {
   navigation: AuthScreenNavigationProp;
@@ -37,25 +31,17 @@ export type PrivateKeyDownloadScreenNavigation = {
 };
 
 export type PublicLedgerScreenNavigationProps = {
-  navigation: StackNavigationProp<
-  NavigationStack,
-  navigationRouteNames.PublicLedgerScreen
-  >;
-  route: RouteProp<
-  NavigationStack,
-  navigationRouteNames.PublicLedgerScreen
-  >;
+  navigation: StackNavigationProp<NavigationStack,
+  navigationRouteNames.PublicLedgerScreen>;
+  route: RouteProp<NavigationStack,
+  navigationRouteNames.PublicLedgerScreen>;
 };
 
 export type MyBLockScreenNavigationProps = {
-  navigation: StackNavigationProp<
-  NavigationStack,
-  navigationRouteNames.MyBlockScreen
-  >;
-  route: RouteProp<
-  NavigationStack,
-  navigationRouteNames.MyBlockScreen
-  >;
+  navigation: StackNavigationProp<NavigationStack,
+  navigationRouteNames.MyBlockScreen>;
+  route: RouteProp<NavigationStack,
+  navigationRouteNames.MyBlockScreen>;
 };
 
 export type RequestedBlocksNavigationStack = {
@@ -71,34 +57,22 @@ export type MedicalFormsTopBarNavigationStack = {
 };
 
 export type MedicalHistoryFormScreenNavigationProps = {
-  navigation: StackNavigationProp<
-  MedicalFormsTopBarNavigationStack,
-  navigationRouteNames.MedicalHistoryFormScreen
-  >;
-  route: RouteProp<
-  MedicalFormsTopBarNavigationStack,
-  navigationRouteNames.MedicalHistoryFormScreen
-  >;
+  navigation: StackNavigationProp<MedicalFormsTopBarNavigationStack,
+  navigationRouteNames.MedicalHistoryFormScreen>;
+  route: RouteProp<MedicalFormsTopBarNavigationStack,
+  navigationRouteNames.MedicalHistoryFormScreen>;
 };
 
 export type InsuranceDetailsScreenNavigationProps = {
-  navigation: StackNavigationProp<
-  MedicalFormsTopBarNavigationStack,
-  navigationRouteNames.InsuranceDetailsScreen
-  >;
-  route: RouteProp<
-  MedicalFormsTopBarNavigationStack,
-  navigationRouteNames.InsuranceDetailsScreen
-  >;
+  navigation: StackNavigationProp<MedicalFormsTopBarNavigationStack,
+  navigationRouteNames.InsuranceDetailsScreen>;
+  route: RouteProp<MedicalFormsTopBarNavigationStack,
+  navigationRouteNames.InsuranceDetailsScreen>;
 };
 
 export type UploadReportsScreenNavigationProps = {
-  navigation: StackNavigationProp<
-  MedicalFormsTopBarNavigationStack,
-  navigationRouteNames.UploadReportsScreen
-  >;
-  route: RouteProp<
-  MedicalFormsTopBarNavigationStack,
-  navigationRouteNames.UploadReportsScreen
-  >;
+  navigation: StackNavigationProp<MedicalFormsTopBarNavigationStack,
+  navigationRouteNames.UploadReportsScreen>;
+  route: RouteProp<MedicalFormsTopBarNavigationStack,
+  navigationRouteNames.UploadReportsScreen>;
 };

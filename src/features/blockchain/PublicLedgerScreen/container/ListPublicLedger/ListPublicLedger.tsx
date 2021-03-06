@@ -13,12 +13,14 @@ import DecryptBlockInfoModal
   from 'features/blockchain/PublicLedgerScreen/container/ListPublicLedger/DecryptBlockInfoModal';
 import { PublicLedgerScreenNavigationProps } from 'navigationContainer/navigation';
 import navigationRouteNames from 'navigationContainer/navigationRouteNames';
+import { DecryptBlock, MyBlockProps } from 'types';
 import PublicLedgerBlock from './PublicLedgerBlock';
 
 type Props = {
   scrollPositionHandler: (_event: NativeSyntheticEvent<NativeScrollEvent>) => void;
   navigation: PublicLedgerScreenNavigationProps['navigation']
 };
+
 export default function ListPublicLedger(props: Props) {
   const publicLedgerResponse = usePublicLedgerQuery();
   const AnimatedFlatList = Animated.createAnimatedComponent(FlatList);
@@ -26,7 +28,7 @@ export default function ListPublicLedger(props: Props) {
   const userProfile = useSelector(selectUserProfile);
   const storedPublicLedgerBlocks = useSelector(publicLedgerBlocks);
   const infoIconAnimation = useMemo(() => new Animated.Value(0), []);
-  const [toCheckBlockModalId, setToCheckBlockModalId] = useState<string>('');
+  const [toDecryptBlock, setToDecryptBlock] = useState<DecryptBlock | undefined>(undefined);
   function triggerAnimation() {
     Animated.timing(infoIconAnimation, {
       toValue: 1,
@@ -41,12 +43,12 @@ export default function ListPublicLedger(props: Props) {
     });
   }
 
-  function onInfoIconPress(blockId: string) {
-    setToCheckBlockModalId(blockId);
+  function onInfoIconPress(block: DecryptBlock) {
+    setToDecryptBlock(block);
   }
 
   function onDecryptBlockInfoModalClose() {
-    setToCheckBlockModalId('');
+    setToDecryptBlock(undefined);
   }
 
   const infoIconTranslateY = infoIconAnimation.interpolate({
@@ -65,7 +67,7 @@ export default function ListPublicLedger(props: Props) {
     }
   }, [publicLedgerResponse]);
 
-  function onSuccess(block: MyBlock) {
+  function onSuccess(block: MyBlockProps) {
     onDecryptBlockInfoModalClose();
     props.navigation.navigate(navigationRouteNames.MyBlockScreen, { block });
   }
@@ -100,11 +102,11 @@ export default function ListPublicLedger(props: Props) {
   return (
     <>
       {memorizedFlatList}
-      { !!toCheckBlockModalId
+      { !!toDecryptBlock
         && (
         <DecryptBlockInfoModal
-          isOpen={!!toCheckBlockModalId}
-          toCheckBlockModalId={toCheckBlockModalId}
+          isOpen={!!toDecryptBlock}
+          toDecryptBlock={toDecryptBlock}
           onClose={onDecryptBlockInfoModalClose}
           onSuccessHandler={onSuccess}
         />
