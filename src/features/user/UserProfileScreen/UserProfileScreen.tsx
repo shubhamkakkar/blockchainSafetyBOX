@@ -18,11 +18,13 @@ import request from 'utils/request';
 // @ts-ignore
 import { ASYNC_STORAGE_KEYS } from 'constants';
 import { CommonActions } from '@react-navigation/native';
+import TextUI from 'UI/TextUI';
 import styles from './userProfileScreen.styles';
 
 export default function UserProfileScreen({ navigation }: Navigation) {
   const scrollY = new Animated.Value(0);
   const userProfile = useSelector(selectUserProfile);
+  console.log('userProfile', userProfile);
   const dispatch = useDispatch();
 
   async function onLogoutPress() {
@@ -64,22 +66,24 @@ export default function UserProfileScreen({ navigation }: Navigation) {
               title="Public Key"
               buttonTitleStyle={styles.publicKeyTitleStyle}
             >
-              <KeyValuePairRow label="Key" value={userProfile?.get('publicKey')} />
+              <TextUI>
+                {userProfile?.get('publicKey')}
+              </TextUI>
             </LayoutAnimationWrapper>
           </LayoutAnimationWrapper>
-          <View style={[styles.allCenter, styles.buttonContainer]}>
-            <Button
-              style={styles.buttonPadding}
-              title="Logout"
-              rightIcon={{
-                name: 'logout',
-                color: theme.WHITE,
-              }}
-              onPress={onLogoutPress}
-            />
-          </View>
         </View>
       </Animated.ScrollView>
+      <View style={[styles.allCenter, styles.buttonContainer]}>
+        <Button
+          style={styles.buttonPadding}
+          title="Logout"
+          rightIcon={{
+            name: 'logout',
+            color: theme.WHITE,
+          }}
+          onPress={onLogoutPress}
+        />
+      </View>
       <AnimatedHeader
         title="User Profile"
         scrollY={scrollY}

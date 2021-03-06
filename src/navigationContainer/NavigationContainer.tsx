@@ -53,8 +53,12 @@ export default function NavigationContainer() {
       } as ReturnedUser));
       setInitialRoute(navigationRouteNames.PublicLedgerScreen);
       setIsLoading(false);
-    } else if (userProfileResponse.error) {
+    } else if (
+      userProfileResponse.error
+    // || (userProfileResponse.called && !userProfileResponse.data)
+    ) {
       setIsLoading(false);
+      setInitialRoute(navigationRouteNames.AuthScreen);
     }
   }, [userProfileResponse]);
 
@@ -105,6 +109,15 @@ export default function NavigationContainer() {
                 navigationRouteNames.BottomTabNavigation
               ]
             }
+        />
+        <Stack.Screen
+          name={navigationRouteNames.MyBlockScreen}
+          component={
+              navigationRouteComponentMap[
+                navigationRouteNames.MyBlockScreen
+              ]
+            }
+          initialParams={{ block: undefined }}
         />
       </Stack.Navigator>
     </NativeNavigationContainer>

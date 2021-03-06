@@ -1,5 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import { Animated, TouchableOpacity, ViewStyle } from 'react-native';
+import {
+  Animated, TouchableOpacity, ViewStyle,
+} from 'react-native';
 import {
   // @ts-ignore
   HEADER_MAX_HEIGHT_WITH_DESCRIPTION_COMPONENT,
@@ -119,15 +121,15 @@ export default function AnimatedHeader({
         }]}
     >
       <Animated.View
-        style={{
+        style={[{
           transform: [
             {
               translateY: backButtonTranslateY,
             },
           ],
-          zIndex: 100,
-          elevation: 100,
-        }}
+        },
+        styles.actionRow,
+        ]}
       >
         <TouchableOpacity onPress={goBack} style={styles.goBackArrow}>
           <Icon
@@ -136,16 +138,20 @@ export default function AnimatedHeader({
             size={30}
           />
         </TouchableOpacity>
+        {isRightIcon && (
+        <TouchableOpacity
+          onPress={onUserProfileIconPress}
+        >
+          <Icon name="account-settings" size={25} color={theme.DARK_PRIMARY} />
+        </TouchableOpacity>
+        )}
       </Animated.View>
-      <Animated.View
-        style={[
-          styles.topBar,
-          {
-            transform: [{
-              translateY: titleContainerTranslateY,
-            }],
-          },
-        ]}
+      <Animated.View style={[
+        styles.topBar, {
+          transform: [{
+            translateY: titleContainerTranslateY,
+          }],
+        }]}
       >
         <Animated.View
           style={[
@@ -162,17 +168,12 @@ export default function AnimatedHeader({
             {title}
           </Text>
           {titleImage && !disableDescriptionContainerActions && (
-          <Icon
-            name={titleImage}
-            color={theme.DARK_PRIMARY}
-          />
+            <Icon
+              name={titleImage}
+              color={theme.DARK_PRIMARY}
+            />
           )}
         </Animated.View>
-        {isRightIcon && (
-        <TouchableOpacity onPress={onUserProfileIconPress}>
-          <Icon name="account-settings" size={25} color={theme.DARK_PRIMARY} />
-        </TouchableOpacity>
-        )}
       </Animated.View>
       {DescriptionComponent && !disableDescriptionContainerActions && (
         <Animated.View

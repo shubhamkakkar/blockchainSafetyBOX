@@ -82,9 +82,14 @@ const PUBLIC_LEDGER = gql`
                     middleName
                 }
             }
-            data,
             createdAt,
             hash
+            ownerProfile {
+                firstName
+                lastName
+                middleName
+                email
+            }
         }
     }
 `;

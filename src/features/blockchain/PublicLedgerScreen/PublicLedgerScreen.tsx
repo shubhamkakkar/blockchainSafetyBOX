@@ -14,6 +14,7 @@ export default function PublicLedgerScreen(props: any) {
           [{ nativeEvent: { contentOffset: { y: scrollY } } }],
           { useNativeDriver: true },
         )}
+        navigation={props.navigation}
       />
       <AnimatedHeader
         title="Public Ledger"

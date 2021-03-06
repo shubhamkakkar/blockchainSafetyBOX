@@ -16,26 +16,26 @@ type DanglingBlocksActions = {
 };
 export default function danglingBlocksReducer(
   state = fromJS({}),
-  actions: DanglingBlocksActions,
+  action: DanglingBlocksActions,
 ) {
-  switch (actions.type) {
+  switch (action.type) {
     case ADD_REQUEST_DANGLING_BLOCK: {
-      const existingRequestedBlocks = state.get('requestedBlocks');
-      return state.set('requestedBlocks', fromJS(
-        [...(existingRequestedBlocks || []), actions.payload],
+      const existingRequestedBlocks = state?.get('requestedBlocks');
+      return state?.set('requestedBlocks', fromJS(
+        [...(existingRequestedBlocks || []), action.payload],
       ));
     }
     case ADD_REQUESTED_DANGLING_BLOCKS: {
-      return state.set('requestedBlocks', fromJS(actions.payload));
+      return state?.set('requestedBlocks', fromJS(action.payload));
     }
     case ADD_MY_REQUEST_DANGLING_BLOCK: {
-      const existingMyRequestedBlocks = state.get('myRequestedBlocks');
-      return state.set('myRequestedBlocks', fromJS(
-        [...(existingMyRequestedBlocks || []), actions.payload],
+      const existingMyRequestedBlocks = state?.get('myRequestedBlocks');
+      return state?.set('myRequestedBlocks', fromJS(
+        [...(existingMyRequestedBlocks || []), action.payload],
       ));
     }
     case ADD_MY_REQUESTED_DANGLING_BLOCKS: {
-      return state.set('myRequestedBlocks', fromJS(actions.payload));
+      return state?.set('myRequestedBlocks', fromJS(action.payload));
     }
     default: {
       return state;

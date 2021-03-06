@@ -10,7 +10,7 @@ const initialState = fromJS({});
 export default function userReducer(state = initialState, action: UserAction) {
   switch (action.type) {
     case USER_PROFILE: {
-      return state.set('userProfile', fromJS(action.payload));
+      return state?.set('userProfile', fromJS(action.payload));
     }
     case USER_LOG_OUT: {
       return initialState;

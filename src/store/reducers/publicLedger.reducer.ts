@@ -10,18 +10,18 @@ type PublicLedgerActions = {
 
 export default function publicLedgerReducer(
   state = fromJS({}),
-  actions: PublicLedgerActions,
+  action: PublicLedgerActions,
 ) {
-  switch (actions.type) {
+  switch (action.type) {
     case ADD_BLOCKS_TO_PUBLIC_LEDGER: {
-      return state.set('blocks', fromJS(actions.payload));
+      return state?.set('blocks', fromJS(action.payload));
     }
     case ADD_BLOCK_TO_PUBLIC_LEDGER: {
-      const existingBlocks = state.get('blocks');
+      const existingBlocks = state?.get('blocks');
       if (existingBlocks) {
-        return state.updateIn(['blocks'], (list) => list.push(fromJS(action.payload)));
+        return state?.updateIn(['blocks'], (list: any) => list.push(fromJS(action.payload)));
       }
-      return state.set('blocks', fromJS([action.payload]));
+      return state?.set('blocks', fromJS([action.payload]));
     }
     default: {
       return state;

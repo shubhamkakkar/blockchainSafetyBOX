@@ -1,5 +1,6 @@
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RouteProp } from '@react-navigation/native';
+import { MyBlock } from 'generated/graphql';
 import navigationRouteNames from './navigationRouteNames';
 
 export type NavigationStack = {
@@ -7,6 +8,7 @@ export type NavigationStack = {
   [navigationRouteNames.AuthScreen]: undefined;
   [navigationRouteNames.PrivateKeyDownloadScreen]: {privateKey: string; email: string};
   [navigationRouteNames.PublicLedgerScreen]: undefined;
+  [navigationRouteNames.MyBlockScreen]: { block: MyBlock | undefined };
   [navigationRouteNames.RequestedBlocksStackNavigation]: undefined;
   [navigationRouteNames.UserProfileScreen]: undefined;
 };
@@ -32,6 +34,17 @@ export type AuthScreenNavigation = {
 export type PrivateKeyDownloadScreenNavigation = {
   navigation: PrivateKeyDownloadScreenNavigationProps;
   route: PrivateKeyDownloadScreenRouteProps;
+};
+
+export type PublicLedgerScreenNavigationProps = {
+  navigation: StackNavigationProp<
+  NavigationStack,
+  navigationRouteNames.PublicLedgerScreen
+  >;
+  route: RouteProp<
+  NavigationStack,
+  navigationRouteNames.PublicLedgerScreen
+  >;
 };
 
 export type RequestedBlocksNavigationStack = {

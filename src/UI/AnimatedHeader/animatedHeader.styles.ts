@@ -19,9 +19,6 @@ export default StyleSheet.create({
   topBar: {
     marginLeft: DEFAULT_HORIZONTAL_PADDING,
     marginRight: 5,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
   },
   title: {
     fontSize: FONT_SIZES.MEDIUM_LARGE_TEXT,
@@ -39,5 +36,12 @@ export default StyleSheet.create({
   },
   titleAndImageContainer: {
     flexDirection: 'row',
+  },
+  actionRow: {
+    flexDirection: 'row',
+    zIndex: 100,
+    elevation: 100,
+    justifyContent: 'space-between',
+    alignItems: 'center',
   },
 });

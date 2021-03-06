@@ -12,6 +12,7 @@ import SharedBlocksScreen from 'features/blockchain/SharedBlocksScreen';
 import UploadReportsScreen from 'features/blockchain/UploadReportsScreen';
 import RequestedDanglingBlockStack from 'navigationContainer/RequestedDanglingBlockStack';
 import UserProfileScreen from 'features/user/UserProfileScreen';
+import MyBlockScreen from 'features/blockchain/MyBlockScreen';
 import MedicalFormsTopBarNavigation from './RequestedDanglingBlockStack/MedicalFormsTopBarNavigation';
 import BottomTabNavigation from './BottomTabNavigation';
 
@@ -21,6 +22,7 @@ const navigationRouteComponentMap = {
   [NavigationRouteNames.PrivateKeyDownloadScreen]: PrivateKeyDownloadScreen,
   [NavigationRouteNames.BottomTabNavigation]: BottomTabNavigation,
   [NavigationRouteNames.PublicLedgerScreen]: PublicLedgerScreen,
+  [NavigationRouteNames.MyBlockScreen]: MyBlockScreen,
   [NavigationRouteNames.RequestedBlocksStackNavigation]: RequestedDanglingBlockStack,
   [NavigationRouteNames.RequestedBlocksScreen]: RequestedBlocksScreen,
   [NavigationRouteNames.MyRequestedBlocksScreen]: MyRequestedBlocksScreen,
