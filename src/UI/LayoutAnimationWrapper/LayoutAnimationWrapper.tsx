@@ -16,7 +16,7 @@ type Props = {
   title: string;
   children: React.ReactElement | React.ReactElement[];
   buttonContainer?: ViewStyle;
-  centerTitle?: boolean;
+  isAllCenter?: boolean;
   expanded?: boolean;
   buttonTitleStyle?: TextStyle;
 };
@@ -43,17 +43,18 @@ export default function LayoutAnimationWrapper(props: Props) {
           { paddingBottom: expanded ? 5 : 0 },
         ]}
       >
-        <TouchableOpacity onPress={toggleLayout}>
-          <View style={styles.buttonWrapper}>
-            <TextUI
-              center={props.centerTitle}
-              style={[styles.buttonTitle, props.buttonTitleStyle || {}]}
-            >
-              {props.title}
-            </TextUI>
-            <Icon name={`chevron-${expanded ? 'up' : 'down'}`} />
-          </View>
-        </TouchableOpacity>
+        <View style={[props.isAllCenter && styles.allCenter]}>
+          <TouchableOpacity onPress={toggleLayout}>
+            <View style={[styles.buttonWrapper]}>
+              <TextUI
+                style={[styles.buttonTitle, props.buttonTitleStyle || {}]}
+              >
+                {props.title}
+              </TextUI>
+              <Icon name={`chevron-${expanded ? 'up' : 'down'}`} />
+            </View>
+          </TouchableOpacity>
+        </View>
         {expanded && (
         <View
           style={[

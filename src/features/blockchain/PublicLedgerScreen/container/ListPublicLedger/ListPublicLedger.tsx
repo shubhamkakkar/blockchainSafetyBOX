@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import {
   Animated, FlatList, NativeScrollEvent, NativeSyntheticEvent,
 } from 'react-native';
@@ -9,6 +9,8 @@ import { HEADER_MAX_HEIGHT_WITHOUT_DESCRIPTION_COMPONENT } from 'constants';
 import { TPublicLedger, usePublicLedgerQuery } from 'generated/graphql';
 import { addBlocksToPublicLedger } from 'store/actions/publicLedger.actions';
 import { publicLedgerBlocks } from 'store/selectors/publicLedger.selector';
+import DecryptBlockInfoModal
+  from 'features/blockchain/PublicLedgerScreen/container/ListPublicLedger/DecryptBlockInfoModal';
 import PublicLedgerBlock from './PublicLedgerBlock';
 
 type Props = {
@@ -21,7 +23,7 @@ export default function ListPublicLedger(props: Props) {
   const userProfile = useSelector(selectUserProfile);
   const storedPublicLedgerBlocks = useSelector(publicLedgerBlocks);
   const infoIconAnimation = useMemo(() => new Animated.Value(0), []);
-
+  const [toCheckBlockModalId, setToCheckBlockModalId] = useState<string>('');
   function triggerAnimation() {
     Animated.timing(infoIconAnimation, {
       toValue: 1,
@@ -36,6 +38,19 @@ export default function ListPublicLedger(props: Props) {
     });
   }
 
+  function onInfoIconPress(blockId: string) {
+    setToCheckBlockModalId(blockId);
+  }
+
+  function onDecryptBlockInfoModalClose() {
+    setToCheckBlockModalId('');
+  }
+
+  const infoIconTranslateY = infoIconAnimation.interpolate({
+    inputRange: [0, 1],
+    outputRange: [15, -5],
+  });
+
   useEffect(() => {
     if (publicLedgerResponse.called
         && !publicLedgerResponse.error
@@ -46,12 +61,6 @@ export default function ListPublicLedger(props: Props) {
       dispatch(addBlocksToPublicLedger(publicLedgerResponse.data.publicLedger as TPublicLedger[]));
     }
   }, [publicLedgerResponse]);
-
-  const infoIconTranslateY = infoIconAnimation.interpolate({
-    inputRange: [0, 1],
-    outputRange: [5, -5],
-  });
-
   function renderPublicLedgerBlock({ item, index }: any) {
     return (
       <PublicLedgerBlock
@@ -61,19 +70,30 @@ export default function ListPublicLedger(props: Props) {
           ? storedPublicLedgerBlocks?.toArray()[index - 1].get('createdAt')
           : undefined}
         infoIconTranslateY={infoIconTranslateY}
+        onInfoIconPressHandler={onInfoIconPress}
       />
     );
   }
 
   return (
-    <AnimatedFlatList
-      data={storedPublicLedgerBlocks?.toArray() || []}
-      extraData={storedPublicLedgerBlocks?.toArray() || []}
-      keyExtractor={(item: Map<TPublicLedger, any> | any) => item?.get('_id')}
-      renderItem={renderPublicLedgerBlock as any}
-      scrollEventThrottle={16}
-      onScroll={props.scrollPositionHandler}
-      contentContainerStyle={{ paddingTop: HEADER_MAX_HEIGHT_WITHOUT_DESCRIPTION_COMPONENT }}
-    />
+    <>
+      <AnimatedFlatList
+        data={storedPublicLedgerBlocks?.toArray() || []}
+        extraData={storedPublicLedgerBlocks?.toArray() || []}
+        keyExtractor={(item: Map<TPublicLedger, any> | any) => item?.get('_id')}
+        renderItem={renderPublicLedgerBlock as any}
+        scrollEventThrottle={16}
+        onScroll={props.scrollPositionHandler}
+        contentContainerStyle={{ paddingTop: HEADER_MAX_HEIGHT_WITHOUT_DESCRIPTION_COMPONENT }}
+      />
+      { !!toCheckBlockModalId
+        && (
+        <DecryptBlockInfoModal
+          isOpen={!!toCheckBlockModalId}
+          toCheckBlockModalId={toCheckBlockModalId}
+          onClose={onDecryptBlockInfoModalClose}
+        />
+        )}
+    </>
   );
 }

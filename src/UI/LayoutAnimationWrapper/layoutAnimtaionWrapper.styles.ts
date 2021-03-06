@@ -36,4 +36,5 @@ export default StyleSheet.create({
     marginTop: 20,
     paddingHorizontal: 5,
   },
+  allCenter: { justifyContent: 'center', alignItems: 'center' },
 });

@@ -1,30 +1,20 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import {
-  TextInput, TextInputProps, View, ViewStyle,
-} from 'react-native';
-import theme from 'theme';
 // eslint-disable-next-line import/no-unresolved
-import { IconProps } from 'react-native-vector-icons/Icon';
 import { useField } from 'formik';
-import FormikErrorUI from 'UI/FormikErrorUI';
-import Icon from '../Icon';
-import styles from './input.style';
 
-interface Props extends TextInputProps {
+import styles from 'UI/Input/input.style';
+import FormikErrorUI from 'UI/FormikErrorUI';
+import TextInput, { Props } from './TextInput/TextInput';
+
+interface InputProps extends Omit<Props, 'isError'> {
   fieldName: string;
-  iconProps?: IconProps;
-  stateType?: string;
-  inputContainer?: ViewStyle
 }
 
 export default function Input({
   autoFocus,
   fieldName,
-  iconProps,
-  style = {},
-  inputContainer = {},
   ...rest
-}: Props) {
+}: InputProps) {
   const [field, meta] = useField(fieldName);
   const [isFocused, setIsFocused] = useState<boolean>(false);
   const error = useMemo(() => ((meta.touched && meta.error) ? meta.error : ''),
@@ -46,26 +36,20 @@ export default function Input({
   }, [autoFocus]);
 
   return (
-    <View style={[styles.inputContainer, inputContainer]}>
-      <View style={[
-        styles.row,
-        styles.inputFieldContainer,
-        (isFocused && styles.inputFieldContainerActive),
-        (!!error && styles.inputFieldContainerError),
-      ]}
-      >
-        {iconProps?.name && <Icon {...{ ...iconProps, isError: !!error }} />}
-        <TextInput
-          style={[styles.textInputStyle, style]}
-          placeholderTextColor={theme.GREY}
-          onBlur={handleBlur}
-          onFocus={handleFocus}
-          onChangeText={field.onChange(fieldName)}
-          value={field.value || ''}
-          {...rest}
-        />
-      </View>
-      <FormikErrorUI error={error} />
-    </View>
+    <TextInput
+      onBlur={handleBlur}
+      onFocus={handleFocus}
+      customContainerStyle={
+                [
+                  (isFocused ? styles.inputFieldContainerActive : {}),
+                  (error ? styles.inputFieldContainerError : {}),
+                ]
+            }
+      onChangeText={field.onChange(fieldName)}
+      value={field.value || ''}
+      FormikError={<FormikErrorUI error={error} />}
+      isError={!!error}
+      {...rest}
+    />
   );
 }

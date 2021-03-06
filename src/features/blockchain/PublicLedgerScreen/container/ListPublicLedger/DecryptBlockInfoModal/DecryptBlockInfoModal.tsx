@@ -1,0 +1,75 @@
+import React, { useEffect, useState } from 'react';
+import OverlayWithCard from 'UI/Overlay/OverlayWithCard';
+import Header from 'UI/Header';
+import { Alert, View } from 'react-native';
+import CipherKeyFormikInput
+  from 'features/blockchain/MedicalHistoryFormScreen/container/MedicalHistoryFormFields/CipherKeyFormikInput';
+import AnimatedButton from 'UI/Buttons/AnimatedButton';
+import { MyBlock, useMyBlockLazyQuery } from 'generated/graphql';
+import styles from './decryptBlockInfoModal.styles';
+
+type Props = {
+  isOpen: boolean;
+  onClose: () => void;
+  toCheckBlockModalId: string;
+  onSuccessHandler: (_block: MyBlock) => void
+};
+export default function DecryptBlockInfoModal({
+  toCheckBlockModalId: blockId,
+  onSuccessHandler,
+  ...rest
+}: Props) {
+  const [cipherKey, setCipherKey] = useState<string>('');
+  const [myBlockMutation, myBlockResponse] = useMyBlockLazyQuery();
+
+  function onChangeCipherKeyHandler(text: string) {
+    setCipherKey(text);
+  }
+
+  function onSubmitHandler() {
+    myBlockMutation({
+      variables: {
+        blockId,
+        cipherKey,
+      },
+    });
+  }
+
+  useEffect(() => {
+    if (myBlockResponse.called && (!!myBlockResponse.error || !myBlockResponse.data)) {
+      Alert.alert('Error', myBlockResponse.error?.message || 'Invalid Signature');
+    } else if (myBlockResponse?.data?.myBlock?.createdAt) {
+      onSuccessHandler(myBlockResponse?.data?.myBlock as MyBlock);
+    }
+  }, [myBlockResponse.error, myBlockResponse.data]);
+
+  return (
+    <OverlayWithCard
+      removePadding
+      {...rest}
+    >
+      <Header
+        title="Decrypt Block Information"
+        noBackButton
+        isRightIcon
+        onRightIconPress={rest.onClose}
+      />
+      <View style={styles.container}>
+        <CipherKeyFormikInput
+          isError={false}
+          isNotFormik
+          value={cipherKey}
+          onChangeText={onChangeCipherKeyHandler}
+        />
+        <AnimatedButton
+          title="Submit"
+          disabled={!cipherKey.trim().length}
+          onPress={onSubmitHandler}
+          isLoading={myBlockResponse.loading}
+          isSuccess={!!myBlockResponse.data?.myBlock.createdAt}
+          isFailed={myBlockResponse.called && (!!myBlockResponse.error || !myBlockResponse.data)}
+        />
+      </View>
+    </OverlayWithCard>
+  );
+}

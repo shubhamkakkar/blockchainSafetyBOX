@@ -1,5 +1,6 @@
 import { StyleSheet } from 'react-native';
 import theme from 'theme';
+// @ts-ignore
 import { DEFAULT_VERTICAL_MARGIN } from 'constants';
 
 export default StyleSheet.create({
@@ -10,7 +11,7 @@ export default StyleSheet.create({
     padding: DEFAULT_VERTICAL_MARGIN / 2,
   },
   cardDescription: {
-    padding: DEFAULT_VERTICAL_MARGIN / 2,
+    paddingTop: DEFAULT_VERTICAL_MARGIN / 2,
     borderBottomWidth: 0.5,
     borderBottomColor: theme.GREY,
     marginLeft: DEFAULT_VERTICAL_MARGIN / 2,
@@ -24,5 +25,8 @@ export default StyleSheet.create({
   },
   hMargin5: {
     marginHorizontal: 5,
+  },
+  tMargin5: {
+    marginTop: 5,
   },
 });

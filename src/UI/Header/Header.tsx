@@ -14,7 +14,9 @@ type Props = {
   noBackButton? : boolean;
   containerStyles?: ViewStyle;
   subTitleContainerStyle?: ViewStyle;
-  headerStyle?: TextStyle
+  headerStyle?: TextStyle;
+  isRightIcon?: boolean;
+  onRightIconPress?: () => void
 };
 
 const Header: FC<Props> = (props: Props) => {
@@ -24,12 +26,20 @@ const Header: FC<Props> = (props: Props) => {
     title,
     subTitle,
     noBackButton,
+    isRightIcon,
+    onRightIconPress = () => {},
     containerStyles = {},
     headerStyle = {},
     subTitleContainerStyle = {},
   } = props;
   return (
-    <View style={[styles.headerContainer, containerStyles]}>
+    <View
+      style={[
+        styles.headerContainer,
+        isRightIcon && { justifyContent: 'space-between' },
+        containerStyles,
+      ]}
+    >
       {!noBackButton && (
       <TouchableOpacity onPress={goBack}>
         <Icon
@@ -43,6 +53,14 @@ const Header: FC<Props> = (props: Props) => {
         <TextUI fontWeight="Bold" style={[styles.headerTitle, headerStyle]}>{title}</TextUI>
         {!!subTitle && <TextUI style={styles.headerSubTitle}>{subTitle}</TextUI>}
       </View>
+      {isRightIcon && (
+      <TouchableOpacity onPress={onRightIconPress}>
+        <Icon
+          name="close-circle"
+          size={30}
+        />
+      </TouchableOpacity>
+      )}
     </View>
   );
 };

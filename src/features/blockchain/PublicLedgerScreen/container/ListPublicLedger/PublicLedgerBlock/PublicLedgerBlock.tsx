@@ -4,13 +4,15 @@ import { dateString, determineIsSameDay, twelveHourClockTime } from 'utils/dateH
 import TextUI from 'UI/TextUI';
 import Icon from 'UI/Icon';
 import theme from 'theme';
+import LayoutAnimationWrapper from 'UI/LayoutAnimationWrapper';
 import styles from './publicLedgerBlock.styles';
 
 type Props = {
   item: any;
   userId: string;
   prevDate?: string;
-  infoIconTranslateY: Animated.AnimatedInterpolation
+  infoIconTranslateY: Animated.AnimatedInterpolation;
+  onInfoIconPressHandler: (_blockId: string) => void
 };
 
 export default function PublicLedgerBlock({
@@ -18,11 +20,12 @@ export default function PublicLedgerBlock({
   prevDate,
   userId,
   infoIconTranslateY,
+  onInfoIconPressHandler,
 }: Props) {
   const isSameDayBool = determineIsSameDay(item.get('createdAt'), prevDate);
 
   function onInfoIconPress() {
-
+    onInfoIconPressHandler(item.get('_id'));
   }
 
   return (
@@ -62,6 +65,17 @@ export default function PublicLedgerBlock({
             </Animated.View>
             )}
           </View>
+          <LayoutAnimationWrapper
+            title="Hash"
+            isAllCenter
+            buttonContainer={styles.tMargin5}
+          >
+            <TextUI
+              center
+            >
+              {item.get('hash')}
+            </TextUI>
+          </LayoutAnimationWrapper>
         </View>
       )}
     </View>

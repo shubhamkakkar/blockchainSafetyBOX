@@ -6,7 +6,7 @@ const REQUEST_DANDLING_BLOCK = gql`
         InsuranceInformation,
         MedicalReports
     }
-    mutation RequestDanglingBlock(
+    mutation RequestDanglingBlock (
         $message: String!
         $cipherKeyForTheMessage: String!
         $messageType: RequestedBlockMessage!
@@ -25,7 +25,7 @@ const REQUEST_DANDLING_BLOCK = gql`
     }
     `;
 const REQUESTED_DANGLING_BLOCKS = gql`
-    query RequestedDanglingBlocks(
+    query RequestedDanglingBlocks (
         $isUserOnly: Boolean
     ) {
         requestedBlocks(
@@ -46,7 +46,7 @@ const REQUESTED_DANGLING_BLOCKS = gql`
     }
 `;
 const ACCEPT_DECLINE_DANGLING_BLOCK = gql`
-    mutation AcceptDeclineDanglingBlock(
+    mutation AcceptDeclineDanglingBlock (
         $blockId: ID!
         $isAccept: Boolean
     ) {
@@ -61,7 +61,7 @@ const ACCEPT_DECLINE_DANGLING_BLOCK = gql`
 `;
 
 const IS_ALREADY_VOTED = gql`
-    query IsAlreadyVoted(
+    query IsAlreadyVoted (
         $blockId: ID!
     ) {
         isAlreadyVoted(blockId: $blockId)
@@ -85,6 +85,30 @@ const PUBLIC_LEDGER = gql`
             data,
             createdAt,
             hash
+        }
+    }
+`;
+
+const MY_BLOCK = gql`
+    query MyBlock (
+        $blockId: ID!
+        $cipherKey: String!
+    ) {
+        myBlock (myBlockArgs : {
+            blockId: $blockId,
+            cipherTextOfBlock: $cipherKey
+        }) {
+            data,
+            createdAt
+            shared {
+                sharedAt,
+                sharedAt,
+                recipientUser {
+                    firstName
+                    lastName
+                    middleName
+                }
+            }
         }
     }
 `;

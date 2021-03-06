@@ -29,7 +29,6 @@ export default function BottomTabNavigation() {
   });
   return (
     <Tab.Navigator
-      lazy
       tabBarOptions={{
         activeTintColor: theme.PRIMARY,
         inactiveTintColor: theme.LIGHT_BLACK,
@@ -52,7 +51,6 @@ export default function BottomTabNavigation() {
           navigationRouteNames.RequestedBlocksStackNavigation
         ]}
         options={commonTabOptions('plus-network')}
-
       />
       <Tab.Screen
         name={navigationRouteNames.SharedBlocksScreen as any}

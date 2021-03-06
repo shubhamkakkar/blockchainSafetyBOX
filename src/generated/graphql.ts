@@ -695,6 +695,28 @@ export type PublicLedgerQuery = (
   )>> }
 );
 
+export type MyBlockQueryVariables = Exact<{
+  blockId: Scalars['ID'];
+  cipherKey: Scalars['String'];
+}>;
+
+
+export type MyBlockQuery = (
+  { __typename?: 'Query' }
+  & { myBlock: (
+    { __typename?: 'MyBlock' }
+    & Pick<MyBlock, 'data' | 'createdAt'>
+    & { shared: Array<(
+      { __typename?: 'SharedBlock' }
+      & Pick<SharedBlock, 'sharedAt'>
+      & { recipientUser: (
+        { __typename?: 'User' }
+        & Pick<User, 'firstName' | 'lastName' | 'middleName'>
+      ) }
+    )> }
+  ) }
+);
+
 export type UserProfileQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -989,6 +1011,50 @@ export function usePublicLedgerLazyQuery(baseOptions?: Apollo.LazyQueryHookOptio
 export type PublicLedgerQueryHookResult = ReturnType<typeof usePublicLedgerQuery>;
 export type PublicLedgerLazyQueryHookResult = ReturnType<typeof usePublicLedgerLazyQuery>;
 export type PublicLedgerQueryResult = Apollo.QueryResult<PublicLedgerQuery, PublicLedgerQueryVariables>;
+export const MyBlockDocument = gql`
+    query MyBlock($blockId: ID!, $cipherKey: String!) {
+  myBlock(myBlockArgs: {blockId: $blockId, cipherTextOfBlock: $cipherKey}) {
+    data
+    createdAt
+    shared {
+      sharedAt
+      sharedAt
+      recipientUser {
+        firstName
+        lastName
+        middleName
+      }
+    }
+  }
+}
+    `;
+
+/**
+ * __useMyBlockQuery__
+ *
+ * To run a query within a React component, call `useMyBlockQuery` and pass it any options that fit your needs.
+ * When your component renders, `useMyBlockQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useMyBlockQuery({
+ *   variables: {
+ *      blockId: // value for 'blockId'
+ *      cipherKey: // value for 'cipherKey'
+ *   },
+ * });
+ */
+export function useMyBlockQuery(baseOptions: Apollo.QueryHookOptions<MyBlockQuery, MyBlockQueryVariables>) {
+        return Apollo.useQuery<MyBlockQuery, MyBlockQueryVariables>(MyBlockDocument, baseOptions);
+      }
+export function useMyBlockLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<MyBlockQuery, MyBlockQueryVariables>) {
+          return Apollo.useLazyQuery<MyBlockQuery, MyBlockQueryVariables>(MyBlockDocument, baseOptions);
+        }
+export type MyBlockQueryHookResult = ReturnType<typeof useMyBlockQuery>;
+export type MyBlockLazyQueryHookResult = ReturnType<typeof useMyBlockLazyQuery>;
+export type MyBlockQueryResult = Apollo.QueryResult<MyBlockQuery, MyBlockQueryVariables>;
 export const UserProfileDocument = gql`
     query UserProfile {
   user {

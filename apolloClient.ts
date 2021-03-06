@@ -26,6 +26,7 @@ const apolloClient = new ApolloClient({
       errorPolicy: 'all',
     },
     mutate: {
+      fetchPolicy: 'no-cache',
       errorPolicy: 'all',
     },
   },

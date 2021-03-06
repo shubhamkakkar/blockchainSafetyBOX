@@ -11,8 +11,10 @@ import SplashScreen from 'features/authentication/SplashScreen';
 import { ReturnedUser, useUserProfileLazyQuery } from 'generated/graphql';
 import { useDispatch } from 'react-redux';
 import { userProfile } from 'store/actions/user.actions';
+import { enableScreens } from 'react-native-screens';
 import { NavigationStack } from './navigation';
 
+enableScreens(true);
 const Stack = createStackNavigator<NavigationStack>();
 
 export default function NavigationContainer() {
@@ -66,6 +68,7 @@ export default function NavigationContainer() {
   return (
     <NativeNavigationContainer>
       <Stack.Navigator
+        mode="modal"
         screenOptions={{
           headerShown: false,
         }}
@@ -88,18 +91,18 @@ export default function NavigationContainer() {
               }
         />
         <Stack.Screen
-          name={navigationRouteNames.PublicLedgerScreen}
-          component={
-              navigationRouteComponentMap[
-                navigationRouteNames.BottomTabNavigation
-              ]
-            }
-        />
-        <Stack.Screen
           name={navigationRouteNames.UserProfileScreen}
           component={
               navigationRouteComponentMap[
                 navigationRouteNames.UserProfileScreen
+              ]
+            }
+        />
+        <Stack.Screen
+          name={navigationRouteNames.PublicLedgerScreen}
+          component={
+              navigationRouteComponentMap[
+                navigationRouteNames.BottomTabNavigation
               ]
             }
         />
