@@ -21,18 +21,22 @@ export default function danglingBlocksReducer(
   switch (action.type) {
     case ADD_REQUEST_DANGLING_BLOCK: {
       const existingRequestedBlocks = state?.get('requestedBlocks');
-      return state?.set('requestedBlocks', fromJS(
-        [...(existingRequestedBlocks || []), action.payload],
-      ));
+      if (existingRequestedBlocks) {
+        const value = existingRequestedBlocks.merge(fromJS([action.payload]));
+        return state?.set('requestedBlocks', value);
+      }
+      return state?.set('requestedBlocks', fromJS([action.payload]));
     }
     case ADD_REQUESTED_DANGLING_BLOCKS: {
       return state?.set('requestedBlocks', fromJS(action.payload));
     }
     case ADD_MY_REQUEST_DANGLING_BLOCK: {
       const existingMyRequestedBlocks = state?.get('myRequestedBlocks');
-      return state?.set('myRequestedBlocks', fromJS(
-        [...(existingMyRequestedBlocks || []), action.payload],
-      ));
+      if (existingMyRequestedBlocks) {
+        const value = existingMyRequestedBlocks.merge(fromJS([action.payload]));
+        return state?.set('myRequestedBlocks', value);
+      }
+      return state?.set('myRequestedBlocks', fromJS([action.payload]));
     }
     case ADD_MY_REQUESTED_DANGLING_BLOCKS: {
       return state?.set('myRequestedBlocks', fromJS(action.payload));
