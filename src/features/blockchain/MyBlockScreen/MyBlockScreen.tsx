@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Animated, TouchableOpacity, View } from 'react-native';
 import MainContainer from 'UI/MainContainer';
 import AnimatedTextHeader from 'UI/AnimatedTextHeader';
@@ -58,6 +58,22 @@ export default function MyBlockScreen(props: MyBLockScreenNavigationProps) {
     }
   }
 
+  const onAnimationCompleteTitle = useMemo(() => {
+    switch (props.route.params.block?.messageType) {
+      case RequestedBlockMessage.InsuranceInformation: {
+        return 'INSURANCE INFORMATION';
+      }
+      case RequestedBlockMessage.MedicalReports: {
+        return 'MEDICAL REPORTS';
+      }
+      case RequestedBlockMessage.PersonalMedicalInformation: {
+        return 'MEDICAL INFORMATION';
+      }
+      default: {
+        return '';
+      }
+    }
+  }, [props.route.params.block]);
 
   return (
     <MainContainer>
@@ -93,8 +109,7 @@ export default function MyBlockScreen(props: MyBLockScreenNavigationProps) {
       </Animated.ScrollView>
       <AnimatedTextHeader
         initialTitle="My Block"
-        onAnimationCompleteTitle={props.route.params.block?.messageType
-          ?.split('_').join(' ') || ''}
+        onAnimationCompleteTitle={onAnimationCompleteTitle}
         scrollY={scrollY}
         onBackClick={onBackClick}
         RightContainer={(
@@ -103,7 +118,7 @@ export default function MyBlockScreen(props: MyBLockScreenNavigationProps) {
           >
             <Icon name="account-settings" size={25} color={theme.DARK_PRIMARY} />
           </TouchableOpacity>
-        )}
+                )}
       />
 
     </MainContainer>

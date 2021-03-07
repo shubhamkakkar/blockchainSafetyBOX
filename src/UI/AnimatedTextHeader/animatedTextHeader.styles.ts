@@ -1,7 +1,7 @@
 import { StyleSheet } from 'react-native';
 import theme from 'theme';
 // @ts-ignore
-import { FONT_SIZES } from 'constants';
+import { DEFAULT_HORIZONTAL_PADDING, FONT_SIZES } from 'constants';
 
 const styles = StyleSheet.create({
   headerContainer: {
