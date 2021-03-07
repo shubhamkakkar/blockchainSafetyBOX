@@ -1,12 +1,12 @@
 import * as Yup from 'yup';
-import { ImagePickerResponseWithId } from 'types';
+import { ImagePickerResponse } from 'react-native-image-picker';
 
 export type InitialInsuranceDetailsState = {
   policyNumber: string;
   cipherKey: string;
   validFrom: Date | string;
   validTo: Date | string;
-  images: ImagePickerResponseWithId[]
+  urls: ImagePickerResponse[]
 };
 
 export const initialInsuranceDetailsState: InitialInsuranceDetailsState = {
@@ -14,7 +14,7 @@ export const initialInsuranceDetailsState: InitialInsuranceDetailsState = {
   validFrom: '',
   validTo: '',
   cipherKey: '',
-  images: [],
+  urls: [],
 };
 
 export const insuranceDetailsSchema = Yup.object()
@@ -27,6 +27,6 @@ export const insuranceDetailsSchema = Yup.object()
       .required('REQUIRED'),
     validTo: Yup.date()
       .required('REQUIRED'),
-    images: Yup.array()
+    urls: Yup.array()
       .required('REQUIRED'),
   });

@@ -15,7 +15,7 @@ export interface Props extends TextInputProps {
   isNotFormik?: boolean;
   customContainerStyle?: ViewStyle[];
   FormikError?: React.ReactElement;
-  isError: boolean
+  isError?: boolean
 }
 
 export default function TextInput({

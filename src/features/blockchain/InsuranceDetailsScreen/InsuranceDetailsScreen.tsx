@@ -20,7 +20,9 @@ import {
   insuranceDetailsSchema,
 } from './insuranceDetailsScreen.formik';
 
-export default function InsuranceDetailsScreen({ navigation }: InsuranceDetailsScreenNavigationProps) {
+export default function InsuranceDetailsScreen(
+  { navigation }: InsuranceDetailsScreenNavigationProps,
+) {
   const userProfile = useSelector(selectUserProfile);
   const dispatch = useDispatch();
   const [requestDanglingBlock, requestDanglingBlockResponse] = useRequestDanglingBlockMutation();
@@ -36,10 +38,10 @@ export default function InsuranceDetailsScreen({ navigation }: InsuranceDetailsS
     value: InitialInsuranceDetailsState,
     helpers: FormikHelpers<InitialInsuranceDetailsState>,
   ) {
-    const { cipherKey, images, ...rest } = value;
+    const { cipherKey, urls, ...rest } = value;
     try {
       // @ts-ignore
-      rest.urls = await cloudinaryImageUpload(images);
+      rest.urls = await cloudinaryImageUpload(urls);
       await requestDanglingBlock({
         variables: {
           message: JSON.stringify(rest),
@@ -75,8 +77,9 @@ export default function InsuranceDetailsScreen({ navigation }: InsuranceDetailsS
             <>
               <KeyboardAvoidingViewUI>
                 <InsuranceFormFields
-                  images={values.images}
+                  images={values.urls}
                   setFieldValue={setFieldValue}
+                  fieldName="urls"
                 />
               </KeyboardAvoidingViewUI>
               <AnimatedButton

@@ -7,7 +7,7 @@ import styles from './listSelectedImages.styles';
 
 type Props = {
   images: ImagePickerResponse[];
-  removeImage: (_index: number) => void;
+  removeImage?: (_index: number) => void;
   isHorizontal?: boolean;
   numColumns?: number
 };
@@ -15,20 +15,21 @@ type Props = {
 export default function ListSelectedImages(props: Props) {
   function renderImages(image: ImagePickerResponse, index: number) {
     function onRemoveImagePressHandler() {
-      props.removeImage(index);
+      if (props.removeImage) props.removeImage(index);
     }
-
     return (
       <ImageBackground
-        source={{ uri: image.uri }}
+        source={{uri: image.uri}}
         style={styles.image}
       >
+        {props.removeImage && (
         <TouchableOpacity
           onPress={onRemoveImagePressHandler}
           style={styles.deleteIconButton}
         >
           <Icon name="delete" style={styles.deleteIcon} />
         </TouchableOpacity>
+        )}
       </ImageBackground>
     );
   }
@@ -41,7 +42,7 @@ export default function ListSelectedImages(props: Props) {
         item,
         index,
       }) => renderImages(item, index) as any}
-      keyExtractor={(image) => image?.uri?.toString() || ''}
+      keyExtractor={(image) => image.uri?.toString() || ''}
       contentContainerStyle={styles.contentContainerStyle}
       horizontal={!!props.isHorizontal}
       numColumns={props.numColumns || 1}

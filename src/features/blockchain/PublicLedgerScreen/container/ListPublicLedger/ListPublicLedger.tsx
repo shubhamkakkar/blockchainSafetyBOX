@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { selectUserProfile } from 'store/selectors/user.selectors';
 // @ts-ignore
 import { HEADER_MAX_HEIGHT_WITHOUT_DESCRIPTION_COMPONENT, USER_ROLE_TYPE } from 'constants';
-import { MyBlock, TPublicLedger, usePublicLedgerQuery } from 'generated/graphql';
+import { TPublicLedger, usePublicLedgerQuery } from 'generated/graphql';
 import { addBlocksToPublicLedger } from 'store/actions/publicLedger.actions';
 import { publicLedgerBlocks } from 'store/selectors/publicLedger.selector';
 import DecryptBlockInfoModal
@@ -72,6 +72,12 @@ export default function ListPublicLedger(props: Props) {
     props.navigation.navigate(navigationRouteNames.MyBlockScreen, { block });
   }
 
+  function refetchHandler() {
+    if (publicLedgerResponse && publicLedgerResponse.refetch) {
+      publicLedgerResponse.refetch();
+    }
+  }
+
   function renderPublicLedgerBlock({ item, index }: any) {
     return (
       <PublicLedgerBlock
@@ -96,6 +102,8 @@ export default function ListPublicLedger(props: Props) {
       scrollEventThrottle={16}
       onScroll={props.scrollPositionHandler}
       contentContainerStyle={{ paddingTop: HEADER_MAX_HEIGHT_WITHOUT_DESCRIPTION_COMPONENT }}
+      onRefresh={refetchHandler}
+      refreshing={publicLedgerResponse.loading}
     />
   ), [storedPublicLedgerBlocks]);
 

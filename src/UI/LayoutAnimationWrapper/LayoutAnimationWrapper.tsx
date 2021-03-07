@@ -19,6 +19,7 @@ type Props = {
   isAllCenter?: boolean;
   expanded?: boolean;
   buttonTitleStyle?: TextStyle;
+  marginTop?: number
 };
 
 export default function LayoutAnimationWrapper(props: Props) {
@@ -36,7 +37,7 @@ export default function LayoutAnimationWrapper(props: Props) {
   }
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { marginTop: props.marginTop || 10 }]}>
       <View
         style={[styles.buttonContainer,
           props.buttonContainer || {},

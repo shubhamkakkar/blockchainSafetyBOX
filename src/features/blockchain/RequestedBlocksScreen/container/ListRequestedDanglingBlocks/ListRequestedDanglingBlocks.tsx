@@ -9,10 +9,9 @@ import { selectUserProfile } from 'store/selectors/user.selectors';
 import { addDanglingBlocks, addMyDanglingBlocks } from 'store/actions/danglingBlocks.actions';
 import { danglingBlocks, myDanglingBlocks } from 'store/selectors/danglingBlocks.selectors';
 import { RecordOf } from 'immutable';
-// @ts-ignore
 import {
+// @ts-ignore
   HEADER_MAX_HEIGHT_WITHOUT_DESCRIPTION_COMPONENT,
-  HEADER_MIN_HEIGHT_WITHOUT_DESCRIPTION_COMPONENT,
 } from 'constants';
 import ListRequestedDanglingBlock from './ListRequestedDanglingBlock';
 

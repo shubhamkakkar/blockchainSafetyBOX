@@ -1,12 +1,13 @@
 import React from 'react';
 import { Animated, TouchableOpacity, View } from 'react-native';
-import { dateString, determineIsSameDay, twelveHourClockTime } from 'utils/dateHelpers';
+import { dateString, determineIsSameDay } from 'utils/dateHelpers';
 import TextUI from 'UI/TextUI';
 import Icon from 'UI/Icon';
-import theme from 'theme';
 import LayoutAnimationWrapper from 'UI/LayoutAnimationWrapper';
-import { FONT_SIZES } from 'constants';
 import { DecryptBlock } from 'types';
+import CreatedBy
+  from 'features/blockchain/PublicLedgerScreen/container/ListPublicLedger/PublicLedgerBlock/CreatedBy';
+import CreatedAt from './CreatedAt';
 import styles from './publicLedgerBlock.styles';
 
 type Props = {
@@ -42,15 +43,9 @@ export default function PublicLedgerBlock({
       )}
       <View style={styles.cardDescription}>
         <View style={[styles.row, styles.spaceBetween]}>
-          <View style={styles.row}>
-            <Icon
-              name="calendar-clock"
-              color={theme.DARK_PRIMARY}
-            />
-            <TextUI>
-              {twelveHourClockTime(item.get('createdAt'))}
-            </TextUI>
-          </View>
+          <CreatedAt
+            createdAt={item.get('createdAt')}
+          />
           {item.get('ownerId') === userId && (
             <Animated.View
               style={[
@@ -70,11 +65,10 @@ export default function PublicLedgerBlock({
           )}
         </View>
         {isAdmin && item.get('ownerId') !== userId && (
-        <TextUI color={theme.GREY} fontSize={FONT_SIZES.SMALL_TEXT}>
-          {`By ${item.get('ownerProfile')
-            ?.get('firstName')} ${item.get('ownerProfile')
-            ?.get('lastName')}`}
-        </TextUI>
+        <CreatedBy
+          item={item}
+          itemKey="ownerProfile"
+        />
         )}
         <LayoutAnimationWrapper
           title="Hash"

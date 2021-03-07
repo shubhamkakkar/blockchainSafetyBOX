@@ -5,26 +5,34 @@ import LayoutAnimationWrapper from 'UI/LayoutAnimationWrapper';
 import { ScrollView } from 'react-native';
 import KeyValuePairRow from 'UI/KeyValuePairRow';
 import ComplimentaryButtons from 'UI/Buttons/ComplimentaryButtons';
+import CipherKeyPreview
+  from 'features/blockchain/MedicalHistoryFormScreen/container/PreviewMedicalHistoryModal/CipherKeyPreview';
 import { MedicalHistoryFormInitialState } from '../../medicalHistoryForm.formik';
 import styles from './previewMedicalHistoryModal.styles';
 
 type Props = {
   isModalOpen: boolean,
-  toggleModalOpen: () => void;
+  toggleModalOpen?: () => void;
   previewFormState: MedicalHistoryFormInitialState;
-  onPreviewSaveConfirmation: () => void
+  onPreviewSaveConfirmation?: () => void;
+  isBlockPreview?: boolean
 };
 export default function PreviewMedicalHistoryModal(props: Props) {
+  const fakeFunction = () => {};
   return (
     <ModalUI
       visible={props.isModalOpen}
-      onRequestClose={props.toggleModalOpen}
+      onRequestClose={props.toggleModalOpen || fakeFunction}
     >
-      <Header title="Preview" onBackClick={props.toggleModalOpen} />
+      {props.isBlockPreview
+        ? (
+          <Header
+            title="Preview"
+            onBackClick={props.toggleModalOpen || fakeFunction}
+          />
+        ) : <></>}
       <ScrollView style={styles.container}>
-        <LayoutAnimationWrapper title="Security" expanded>
-          <KeyValuePairRow label="Cipher Key" value={props.previewFormState.cipherKey} />
-        </LayoutAnimationWrapper>
+        {!props.isBlockPreview && <CipherKeyPreview cipherKey={props.previewFormState.cipherKey} />}
         <LayoutAnimationWrapper title="Name" expanded>
           <KeyValuePairRow label="First Name" value={props.previewFormState.firstName} />
           <KeyValuePairRow label="Middle Name" value={props.previewFormState.middleName} />
@@ -67,14 +75,16 @@ export default function PreviewMedicalHistoryModal(props: Props) {
 
         </LayoutAnimationWrapper>
       </ScrollView>
-      <ComplimentaryButtons
-        complimentaryButtonTitle="Edit"
-        primaryButtonTitle="Submit"
-        primaryButtonIcon="checkbox-marked-circle-outline"
-        complimentaryButtonIcon="circle-edit-outline"
-        onComplimentaryButtonPresHandler={props.toggleModalOpen}
-        onPrimaryButtonPressHandler={props.onPreviewSaveConfirmation}
-      />
+      {props.isBlockPreview ? <></> : (
+        <ComplimentaryButtons
+          complimentaryButtonTitle="Edit"
+          primaryButtonTitle="Submit"
+          primaryButtonIcon="checkbox-marked-circle-outline"
+          complimentaryButtonIcon="circle-edit-outline"
+          onComplimentaryButtonPresHandler={props.toggleModalOpen || fakeFunction}
+          onPrimaryButtonPressHandler={props.onPreviewSaveConfirmation || fakeFunction}
+        />
+      ) }
     </ModalUI>
   );
 }

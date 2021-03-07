@@ -11,14 +11,19 @@ import CipherKeyFormikInput
 type Props = {
   images: ImagePickerResponse[];
   setFieldValue: (_field: string, _value: any, _shouldValidate?: boolean) => void;
+  fieldName: string
 };
 
 export default function InsuranceFormFields(props: Props) {
   function onImagePickerPressHandler(image: ImagePickerResponse) {
     if (!image.errorCode) {
-      props.setFieldValue('images', [...props.images, {
-        uri: image.uri, type: image.type, name: image.fileName,
-      }]);
+      props.images.push({
+        uri: image.uri,
+        type: image.type,
+        // @ts-ignore
+        name: image.fileName,
+      });
+      props.setFieldValue(props.fieldName, props.images);
     }
   }
 
@@ -26,8 +31,10 @@ export default function InsuranceFormFields(props: Props) {
     const images = props.images.filter(
       (_image, imageIndex) => imageIndex !== index,
     );
-    props.setFieldValue('images', images);
+    props.setFieldValue(props.fieldName, images);
   }
+
+  console.log('props', props);
 
   return (
     <>

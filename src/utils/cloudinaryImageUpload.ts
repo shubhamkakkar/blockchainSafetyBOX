@@ -3,7 +3,7 @@ import { ImagePickerResponse } from 'react-native-image-picker';
 import { CLOUDINARY } from 'constants';
 
 async function cloudinaryImageUpload(images: ImagePickerResponse[]) {
-  const URLs = [];
+  const URLs:ImagePickerResponse[] = [];
   let index = images.length;
   while (index) {
     index -= 1;
@@ -22,7 +22,7 @@ async function cloudinaryImageUpload(images: ImagePickerResponse[]) {
       );
       // eslint-disable-next-line no-await-in-loop
       const JSONResponse = await response.json();
-      if (JSONResponse.secure_url) URLs.push(JSONResponse.secure_url);
+      if (JSONResponse.secure_url) URLs.push({ uri: JSONResponse.secure_url });
     } catch (e) {
       console.log('cloudinaryImageUpload e', e);
     }
