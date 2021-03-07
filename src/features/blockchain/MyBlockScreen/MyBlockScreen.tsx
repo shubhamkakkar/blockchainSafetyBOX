@@ -14,6 +14,8 @@ import PreviewMedicalHistoryModal
   from 'features/blockchain/MedicalHistoryFormScreen/container/PreviewMedicalHistoryModal';
 import PreviewInsuranceInformation
   from 'features/blockchain/InsuranceDetailsScreen/container/PreviewInsuranceInformation';
+import ListSelectedImages
+  from 'features/blockchain/InsuranceDetailsScreen/container/ListSelectedImages';
 import styles from './myBlockScreen.styles';
 
 export default function MyBlockScreen(props: MyBLockScreenNavigationProps) {
@@ -26,6 +28,8 @@ export default function MyBlockScreen(props: MyBLockScreenNavigationProps) {
   function onUserProfileIconPress() {
     props.navigation.navigate(navigationRouteNames.UserProfileScreen);
   }
+
+  console.log(props.route.params.block);
 
   function previewDataRendered() {
     switch (props.route.params.block?.messageType) {
@@ -49,7 +53,10 @@ export default function MyBlockScreen(props: MyBLockScreenNavigationProps) {
       }
       case RequestedBlockMessage.MedicalReports: {
         return (
-          <View />
+          <ListSelectedImages
+            images={JSON.parse(props.route.params.block?.data)}
+            numColumns={3}
+          />
         );
       }
       default: {

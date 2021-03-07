@@ -7,10 +7,9 @@ async function cloudinaryImageUpload(images: ImagePickerResponse[]) {
   let index = images.length;
   while (index) {
     index -= 1;
-    const image = images[URLs.length];
     try {
       const data = new FormData();
-      data.append('file', image as any);
+      data.append('file', images[URLs.length] as any);
       data.append('upload_preset', CLOUDINARY.UPLOAD_PRESET);
       data.append('cloud_name', CLOUDINARY.CLOUD_NAME);
       // eslint-disable-next-line no-await-in-loop
@@ -22,6 +21,7 @@ async function cloudinaryImageUpload(images: ImagePickerResponse[]) {
       );
       // eslint-disable-next-line no-await-in-loop
       const JSONResponse = await response.json();
+      console.log({ JSONResponse });
       if (JSONResponse.secure_url) URLs.push({ uri: JSONResponse.secure_url });
     } catch (e) {
       console.log('cloudinaryImageUpload e', e);

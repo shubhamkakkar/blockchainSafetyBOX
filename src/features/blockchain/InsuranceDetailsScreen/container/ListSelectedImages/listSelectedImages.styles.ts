@@ -8,6 +8,7 @@ export default StyleSheet.create({
     height: 130,
     width: 100,
     marginRight: 10,
+    marginBottom: 10,
     alignItems: 'flex-end',
   },
   contentContainerStyle: {

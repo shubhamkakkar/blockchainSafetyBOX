@@ -23,7 +23,7 @@ export default function ListRequestedDanglingBlock(
   { item, userProfile }: Props,
 ) {
   const isOwner = useMemo(() => item.get('user').get('_id')
-      === userProfile?.get('_id'), []);
+      === userProfile?.get('_id'), [item]);
   const showAcceptDeclineButtons = useMemo(() => userProfile?.get('role')
       === USER_ROLE_TYPE.ADMIN && !isOwner, []);
   const blockId = useMemo(() => item.get('_id'), []);

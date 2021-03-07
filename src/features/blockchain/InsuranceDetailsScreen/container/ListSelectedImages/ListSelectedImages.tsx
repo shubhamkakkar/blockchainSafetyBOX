@@ -19,7 +19,7 @@ export default function ListSelectedImages(props: Props) {
     }
     return (
       <ImageBackground
-        source={{uri: image.uri}}
+        source={{ uri: image.uri }}
         style={styles.image}
       >
         {props.removeImage && (

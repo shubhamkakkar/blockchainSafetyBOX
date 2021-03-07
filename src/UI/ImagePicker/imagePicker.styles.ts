@@ -12,6 +12,7 @@ export default StyleSheet.create({
     borderColor: theme.DARK_PRIMARY,
     paddingVertical: 10,
     borderRadius: 20,
+    marginVertical: DEFAULT_HORIZONTAL_PADDING,
   },
   fileUploadButtonText: {
     color: theme.DARK_PRIMARY,
