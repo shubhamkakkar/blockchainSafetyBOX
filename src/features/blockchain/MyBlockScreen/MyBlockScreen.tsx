@@ -29,7 +29,6 @@ export default function MyBlockScreen(props: MyBLockScreenNavigationProps) {
     props.navigation.navigate(navigationRouteNames.UserProfileScreen);
   }
 
-  console.log(props.route.params.block);
 
   function previewDataRendered() {
     switch (props.route.params.block?.messageType) {

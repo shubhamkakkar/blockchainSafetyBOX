@@ -21,7 +21,6 @@ async function cloudinaryImageUpload(images: ImagePickerResponse[]) {
       );
       // eslint-disable-next-line no-await-in-loop
       const JSONResponse = await response.json();
-      console.log({ JSONResponse });
       if (JSONResponse.secure_url) URLs.push({ uri: JSONResponse.secure_url });
     } catch (e) {
       console.log('cloudinaryImageUpload e', e);

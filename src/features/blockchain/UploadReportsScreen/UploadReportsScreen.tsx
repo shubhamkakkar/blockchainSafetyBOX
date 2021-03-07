@@ -70,7 +70,6 @@ export default function UploadReportsScreen({ navigation } : UploadReportsScreen
           messageType: RequestedBlockMessage.MedicalReports,
         },
       });
-      console.log({ urls });
     } catch (e) {
       console.log('UploadReportsScreen onSubmitPress e()', e);
       alert('Failed to upload');
