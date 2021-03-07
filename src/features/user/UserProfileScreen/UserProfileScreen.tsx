@@ -24,7 +24,6 @@ import styles from './userProfileScreen.styles';
 export default function UserProfileScreen({ navigation }: Navigation) {
   const scrollY = new Animated.Value(0);
   const userProfile = useSelector(selectUserProfile);
-  console.log('userProfile', userProfile);
   const dispatch = useDispatch();
 
   async function onLogoutPress() {

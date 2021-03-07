@@ -34,8 +34,6 @@ export default function InsuranceFormFields(props: Props) {
     props.setFieldValue(props.fieldName, images);
   }
 
-  console.log('props', props);
-
   return (
     <>
       <Input

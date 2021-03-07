@@ -58,7 +58,6 @@ export default function MyBlockScreen(props: MyBLockScreenNavigationProps) {
     }
   }
 
-  console.log('props.route.params.block', props.route.params.block);
 
   return (
     <MainContainer>

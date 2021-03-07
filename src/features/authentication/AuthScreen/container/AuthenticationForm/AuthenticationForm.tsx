@@ -54,7 +54,7 @@ export default function AuthenticationForm({ isLogin, goTo }: Props) {
         await signUpMutation({ variables });
       }
     } catch (e:any) {
-      console.log('AuthenticationForm -> formSubmitHandler e()', e);
+      console.log('formSubmitHandler e()', e);
     } finally {
       helpers.setSubmitting(false);
     }
