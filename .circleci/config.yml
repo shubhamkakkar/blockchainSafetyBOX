@@ -43,8 +43,8 @@ jobs:
       - run: yarn install
       - *save_yarn_cache
   run_linting:
-    requires: install_dependencies
     <<: *defaults
+    requires: install_dependencies
     steps:
       - checkout
       - *restore_yarn_cache
