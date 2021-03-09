@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { Animated, TouchableOpacity, View } from 'react-native';
+import { Animated, TouchableOpacity } from 'react-native';
 import MainContainer from 'UI/MainContainer';
 import AnimatedTextHeader from 'UI/AnimatedTextHeader';
 import navigationRouteNames from 'navigationContainer/navigationRouteNames';
