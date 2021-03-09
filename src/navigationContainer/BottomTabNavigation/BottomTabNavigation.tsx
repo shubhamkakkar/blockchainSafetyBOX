@@ -3,8 +3,8 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Icon from 'UI/Icon';
 import theme from 'theme';
 import { View, ViewStyle } from 'react-native';
-import navigationRouteComponentMap from '../navigationRouteComponentMap';
-import navigationRouteNames from '../navigationRouteNames';
+import navigationRouteComponentMap from 'navigationContainer/navigationRouteComponentMap';
+import navigationRouteNames from 'navigationContainer/navigationRouteNames';
 import styles from './bottomNavigation.styles';
 
 type TabBarIcon = {

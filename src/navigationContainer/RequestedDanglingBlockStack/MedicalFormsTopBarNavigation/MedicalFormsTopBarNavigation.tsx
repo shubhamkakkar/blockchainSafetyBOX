@@ -1,8 +1,8 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
-import navigationRouteNames from '../../navigationRouteNames';
-import navigationRouteComponentMap from '../../navigationRouteComponentMap';
-import { MedicalFormsTopBarNavigationStack } from '../../navigation';
+import navigationRouteNames from 'navigationContainer/navigationRouteNames';
+import navigationRouteComponentMap from 'navigationContainer/navigationRouteComponentMap';
+import { MedicalFormsTopBarNavigationStack } from 'navigationContainer/navigation';
 
 const Stack = createStackNavigator<MedicalFormsTopBarNavigationStack>();
 
