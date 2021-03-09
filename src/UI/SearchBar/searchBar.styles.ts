@@ -19,4 +19,7 @@ export default StyleSheet.create({
     height: 20,
     marginHorizontal: 10,
   },
+  flex: {
+    flex: 1,
+  }
 });

@@ -12,6 +12,8 @@ import { humanReadableDate } from 'utils/dateHelpers';
 import { FONT_SIZES, USER_ROLE_TYPE } from 'constants';
 import { RecordOf } from 'immutable';
 import Icon from 'UI/Icon';
+import CreatedBy
+  from "features/blockchain/PublicLedgerScreen/container/ListPublicLedger/PublicLedgerBlock/CreatedBy";
 import CountAndCountButton from './CountAndCountButton';
 import styles from './listRequestedDanglingBlock.styles';
 
@@ -83,9 +85,10 @@ export default function ListRequestedDanglingBlock(
           {isOwner && <Icon name="human-greeting" style={styles.isOwnerIcon} isError />}
         </View>
         <View style={styles.requestedAtContainer}>
-          <TextUI color={theme.GREY} fontSize={FONT_SIZES.SMALL_TEXT}>
-            {`By ${item.get('user').get('firstName')} ${item.get('user').get('lastName')}`}
-          </TextUI>
+          <CreatedBy
+              item={item}
+              itemKey="user"
+          />
           <TextUI color={theme.GREY} fontSize={FONT_SIZES.SMALL_TEXT}>
             {humanReadableDate(item.get('requestAt'))}
           </TextUI>

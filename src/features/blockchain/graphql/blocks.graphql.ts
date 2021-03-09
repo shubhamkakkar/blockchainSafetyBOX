@@ -109,3 +109,19 @@ const MY_BLOCK = gql`
         }
     }
 `;
+
+const SEARCH_USER = gql`
+    query SearchUser (
+        $filter: String!
+    ) {
+        searchUser (
+            filter: $filter
+       ) {
+        firstName,
+        lastName,
+        middleName,
+        publicKey,
+        email,
+     }
+    }
+`

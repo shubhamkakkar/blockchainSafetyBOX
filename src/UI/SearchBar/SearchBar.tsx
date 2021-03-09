@@ -14,7 +14,10 @@ export default function SearchBar({ textInputProps }: Props) {
     <ScrollView>
       <View style={styles.viewContainer}>
         <Icon name="account-search" />
-        <TextInput {...textInputProps} />
+        <View style={styles.flex}>
+            <TextInput {...textInputProps} />
+        </View>
+        <Icon name="close-circle" />
       </View>
     </ScrollView>
   );
