@@ -13,12 +13,14 @@ export type NavigationStack = {
   [navigationRouteNames.UserProfileScreen]: undefined;
 };
 
-type AuthScreenNavigationProp = StackNavigationProp<NavigationStack, navigationRouteNames.AuthScreen>;
+type AuthScreenNavigationProp = StackNavigationProp<
+NavigationStack, navigationRouteNames.AuthScreen>;
 type AuthScreenRouteProp = RouteProp<NavigationStack, navigationRouteNames.AuthScreen>;
 
 type PrivateKeyDownloadScreenNavigationProps = StackNavigationProp<NavigationStack,
 navigationRouteNames.PrivateKeyDownloadScreen>;
-type PrivateKeyDownloadScreenRouteProps = RouteProp<NavigationStack, navigationRouteNames.PrivateKeyDownloadScreen>;
+type PrivateKeyDownloadScreenRouteProps = RouteProp<
+NavigationStack, navigationRouteNames.PrivateKeyDownloadScreen>;
 
 export type AuthScreenNavigation = {
   navigation: AuthScreenNavigationProp;

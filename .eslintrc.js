@@ -26,10 +26,10 @@ module.exports = {
   },
   plugins: ['react', '@typescript-eslint', 'prettier'],
   rules: {
-    'no-unused-vars': [
-      'error',
-      { argsIgnorePattern: '^_', varsIgnorePattern: '^_', args: 'after-used' },
-    ],
+    // 'no-unused-vars': [
+    //   'error',
+    //   { argsIgnorePattern: '^_', varsIgnorePattern: '^_', args: 'after-used' },
+    // ],
     '@typescript-eslint/camelcase': 'off',
     'react/jsx-props-no-spreading': 'off',
     'react/require-default-props': 'off',
@@ -41,5 +41,8 @@ module.exports = {
       { extensions: ['.js', '.jsx', '.tsx'] },
     ],
     'import/prefer-default-export': 'off',
+    '@typescript-eslint/no-unused-vars': 'off',
+    'no-unused-vars': 'off',
+    'no-shadow': 'off',
   },
 };
