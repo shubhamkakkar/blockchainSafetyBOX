@@ -1,4 +1,5 @@
 import NavigationRouteNames from 'navigationContainer/navigationRouteNames';
+import BottomTabNavigation from 'navigationContainer/BottomTabNavigation';
 import SplashScreen from 'features/authentication/SplashScreen';
 import AuthScreen from 'features/authentication/AuthScreen';
 import PrivateKeyDownloadScreen from 'features/authentication/PrivateKeyDownloadScreen';
@@ -14,7 +15,6 @@ import RequestedDanglingBlockStack from 'navigationContainer/RequestedDanglingBl
 import UserProfileScreen from 'features/user/UserProfileScreen';
 import MyBlockScreen from 'features/blockchain/MyBlockScreen';
 import MedicalFormsTopBarNavigation from './RequestedDanglingBlockStack/MedicalFormsTopBarNavigation';
-import BottomTabNavigation from './BottomTabNavigation';
 
 const navigationRouteComponentMap = {
   [NavigationRouteNames.SplashScreen]: SplashScreen,

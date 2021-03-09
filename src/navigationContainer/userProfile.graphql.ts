@@ -1,4 +1,4 @@
-import {gql} from '@apollo/client';
+import { gql } from '@apollo/client';
 
 const USER_PROFILE = gql`
   query UserProfile {
@@ -14,4 +14,4 @@ const USER_PROFILE = gql`
   }
 `;
 
-export {USER_PROFILE};
+export { USER_PROFILE };

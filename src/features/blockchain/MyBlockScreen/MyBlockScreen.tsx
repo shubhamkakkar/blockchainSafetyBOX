@@ -33,7 +33,7 @@ export default function MyBlockScreen(props: MyBLockScreenNavigationProps) {
   }
 
   function onToggleShareFormOpen() {
-    setIsShareOpen((prevState) => !prevState);
+    setIsShareOpen((prevState: boolean) => !prevState);
   }
 
   function previewDataRendered() {

@@ -43,19 +43,22 @@ export default function NavigationContainer() {
 
   useEffect(() => {
     if (
-      userProfileResponse.called
-      && !userProfileResponse.loading
-      && !userProfileResponse.error
-      && userProfileResponse.data?.user?.email) {
-      dispatch(userProfile({
-        token: request.token,
-        ...userProfileResponse.data.user,
-      } as ReturnedUser));
+      userProfileResponse.called &&
+      !userProfileResponse.loading &&
+      !userProfileResponse.error &&
+      userProfileResponse.data?.user?.email
+    ) {
+      dispatch(
+        userProfile({
+          token: request.token,
+          ...userProfileResponse.data.user,
+        } as ReturnedUser),
+      );
       setInitialRoute(navigationRouteNames.PublicLedgerScreen);
       setIsLoading(false);
     } else if (
       userProfileResponse.error
-    // || (userProfileResponse.called && !userProfileResponse.data)
+      // || (userProfileResponse.called && !userProfileResponse.data)
     ) {
       setIsLoading(false);
       setInitialRoute(navigationRouteNames.AuthScreen);
@@ -76,47 +79,40 @@ export default function NavigationContainer() {
         screenOptions={{
           headerShown: false,
         }}
-        initialRouteName={initialRoute as any}
-      >
+        initialRouteName={initialRoute as any}>
         <Stack.Screen
           name={navigationRouteNames.AuthScreen}
           component={
-                navigationRouteComponentMap[
-                  navigationRouteNames.AuthScreen
-                ]
-              }
+            navigationRouteComponentMap[navigationRouteNames.AuthScreen]
+          }
         />
         <Stack.Screen
           name={navigationRouteNames.PrivateKeyDownloadScreen}
           component={
-                navigationRouteComponentMap[
-                  navigationRouteNames.PrivateKeyDownloadScreen
-                ]
-              }
+            navigationRouteComponentMap[
+              navigationRouteNames.PrivateKeyDownloadScreen
+            ]
+          }
         />
         <Stack.Screen
           name={navigationRouteNames.UserProfileScreen}
           component={
-              navigationRouteComponentMap[
-                navigationRouteNames.UserProfileScreen
-              ]
-            }
+            navigationRouteComponentMap[navigationRouteNames.UserProfileScreen]
+          }
         />
         <Stack.Screen
           name={navigationRouteNames.PublicLedgerScreen}
           component={
-              navigationRouteComponentMap[
-                navigationRouteNames.BottomTabNavigation
-              ]
-            }
+            navigationRouteComponentMap[
+              navigationRouteNames.BottomTabNavigation
+            ]
+          }
         />
         <Stack.Screen
           name={navigationRouteNames.MyBlockScreen}
           component={
-              navigationRouteComponentMap[
-                navigationRouteNames.MyBlockScreen
-              ]
-            }
+            navigationRouteComponentMap[navigationRouteNames.MyBlockScreen]
+          }
           initialParams={{ block: undefined }}
         />
       </Stack.Navigator>
