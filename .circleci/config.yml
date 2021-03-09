@@ -3,10 +3,10 @@ version: 2.1
 aliases:
   - &restore-npm-cache
     name: Restore cached root node_modules
-    key: npm-cache-{{ checksum "package-lock.json" }}-{{ arch }}
+    key: npm-cache-{{ checksum "yarn.lock" }}-{{ arch }}
   - &save-npm-cache
     name: Save node_modules to cache
-    key: npm-cache-{{ checksum "package-lock.json" }}-{{ arch }}
+    key: npm-cache-{{ checksum "yarn.lock" }}-{{ arch }}
     paths:
       - node_modules
 
@@ -26,11 +26,11 @@ jobs:
     steps:
       - checkout
       - *restore_npm_cache
-      - run: npm install
+      - run: yarn install
       - *save_npm_cache
       - run:
           name: eslint
-          command: npm run lintFormat
+          command: yarn lintFormat
 
 workflows:
   build_and_test_flow:
