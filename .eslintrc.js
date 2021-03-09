@@ -26,10 +26,6 @@ module.exports = {
   },
   plugins: ['react', '@typescript-eslint', 'prettier'],
   rules: {
-    // 'no-unused-vars': [
-    //   'error',
-    //   { argsIgnorePattern: '^_', varsIgnorePattern: '^_', args: 'after-used' },
-    // ],
     '@typescript-eslint/camelcase': 'off',
     'react/jsx-props-no-spreading': 'off',
     'react/require-default-props': 'off',

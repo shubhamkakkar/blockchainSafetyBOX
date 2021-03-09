@@ -13,12 +13,17 @@ export function humanReadableDate(dateProp: any) {
 
 export function twelveHourClockTime(date?: Date) {
   const today = date ? new Date(date) : new Date();
-  return today.toLocaleString(
-    'en-US', { hour12: true, hour: 'numeric', minute: 'numeric' },
-  );
+  return today.toLocaleString('en-US', {
+    hour12: true,
+    hour: 'numeric',
+    minute: 'numeric',
+  });
 }
 
-export function determineIsSameDay(createdAt: string, prevDate?: string): boolean {
+export function determineIsSameDay(
+  createdAt: string,
+  prevDate?: string,
+): boolean {
   const date = new Date(createdAt);
   let sameDay = false;
   if (prevDate) {

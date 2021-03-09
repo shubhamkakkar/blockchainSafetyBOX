@@ -3,7 +3,7 @@ import { ImagePickerResponse } from 'react-native-image-picker';
 import { CLOUDINARY } from 'constants';
 
 async function cloudinaryImageUpload(images: ImagePickerResponse[]) {
-  const URLs:ImagePickerResponse[] = [];
+  const URLs: ImagePickerResponse[] = [];
   let index = images.length;
   while (index) {
     index -= 1;
@@ -14,7 +14,8 @@ async function cloudinaryImageUpload(images: ImagePickerResponse[]) {
       data.append('cloud_name', CLOUDINARY.CLOUD_NAME);
       // eslint-disable-next-line no-await-in-loop
       const response = await fetch(
-        `https://api.cloudinary.com/v1_1/${CLOUDINARY.CLOUD_NAME}/image/upload`, {
+        `https://api.cloudinary.com/v1_1/${CLOUDINARY.CLOUD_NAME}/image/upload`,
+        {
           method: 'post',
           body: data,
         },

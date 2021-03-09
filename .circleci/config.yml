@@ -16,7 +16,7 @@ aliases:
     name: Save node_modules to cache
     key: npm-cache-{{ checksum "package-lock.json" }}-{{ arch }}
     paths:
-      - node_modules    
+      - node_modules
 
 defaults: &defaults
   docker:
@@ -42,17 +42,26 @@ jobs:
       - *restore_yarn_cache
       - run: yarn install
       - *save_yarn_cache
-  run_linting:
+  run_eslintFormat:
     <<: *defaults
     steps:
       - checkout
       - *restore_yarn_cache
-      - run: yarn lintFormat
+      - run: yarn eslintFormat
+  run_prettierFormat:
+    <<: *defaults
+    steps:
+      - checkout
+      - *restore_yarn_cache
+      - run: yarn prettierFormat      
 
 workflows:
   build_and_test_flow:
     jobs:
       - install_dependencies
-      - run_linting:
-         requires: 
-         - install_dependencies
+      - run_eslintFormat:
+          requires:
+            - install_dependencies
+      - run_prettierFormat:
+          requires:
+            - run_eslintFormat      

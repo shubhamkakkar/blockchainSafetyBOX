@@ -1,6 +1,8 @@
 import { RequestedBlockMessage } from 'generated/graphql';
 
-export default function messageTypeEnumToStringConverter(messageType: RequestedBlockMessage) {
+export default function messageTypeEnumToStringConverter(
+  messageType: RequestedBlockMessage,
+) {
   switch (messageType) {
     case RequestedBlockMessage.PersonalMedicalInformation: {
       return 'Personal Medical Information';
