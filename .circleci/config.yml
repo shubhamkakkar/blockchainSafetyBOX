@@ -1,12 +1,12 @@
 version: 2.1
 
 aliases:
-  - &restore-npm-cache
+  - &restore-yarn-cache
     name: Restore cached root node_modules
-    key: npm-cache-{{ checksum "yarn.lock" }}-{{ arch }}
-  - &save-npm-cache
+    key: yarn-cache-{{ checksum "yarn.lock" }}-{{ arch }}
+  - &save-yarn-cache
     name: Save node_modules to cache
-    key: npm-cache-{{ checksum "yarn.lock" }}-{{ arch }}
+    key: yarn-cache-{{ checksum "yarn.lock" }}-{{ arch }}
     paths:
       - node_modules
 
@@ -14,20 +14,20 @@ defaults: &defaults
   docker:
     - image: node:10
 
-restore_npm_cache: &restore_npm_cache
-  restore_cache: *restore-npm-cache
+restore_yarn_cache: &restore_yarn_cache
+  restore_cache: *restore-yarn-cache
 
-save_npm_cache: &save_npm_cache
-  save_cache: *save-npm-cache
+save_yarn_cache: &save_yarn_cache
+  save_cache: *save-yarn-cache
 
 jobs:
   install_dependencies_and_lint:
     <<: *defaults
     steps:
       - checkout
-      - *restore_npm_cache
+      - *restore_yarn_cache
       - run: yarn install
-      - *save_npm_cache
+      - *save_yarn_cache
       - run:
           name: eslint
           command: yarn lintFormat
