@@ -42,28 +42,28 @@ export default function NavigationContainer() {
   };
 
   useEffect(() => {
-    if (
-      userProfileResponse.called &&
-      !userProfileResponse.loading &&
-      !userProfileResponse.error &&
-      userProfileResponse.data?.user?.email
-    ) {
-      dispatch(
-        userProfile({
-          token: request.token,
-          ...userProfileResponse.data.user,
-        } as ReturnedUser),
-      );
-      setInitialRoute(navigationRouteNames.PublicLedgerScreen);
-      setIsLoading(false);
-    } else if (
-      userProfileResponse.error
-      // || (userProfileResponse.called && !userProfileResponse.data)
-    ) {
-      setIsLoading(false);
-      setInitialRoute(navigationRouteNames.AuthScreen);
+    if(!isLoading)  setIsLoading(true)
+    if(userProfileResponse.called && !userProfileResponse.loading) {
+      if (
+          userProfileResponse.data?.user?.email
+      ) {
+        dispatch(
+            userProfile({
+              token: request.token,
+              ...userProfileResponse.data.user,
+            } as ReturnedUser),
+        );
+        setInitialRoute(navigationRouteNames.PublicLedgerScreen);
+      } else if
+      (
+          userProfileResponse.error
+          || (userProfileResponse.called && !userProfileResponse.data)
+      ) {
+        setInitialRoute(navigationRouteNames.AuthScreen);
+      }
+      setIsLoading(false)
     }
-  }, [userProfileResponse]);
+  }, [userProfileResponse.loading]);
 
   useEffect(() => {
     getAuthToken();

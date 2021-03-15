@@ -134,6 +134,10 @@ export default function MyBlockScreen(props: MyBLockScreenNavigationProps) {
       <ShareBlockForm
         isOpen={isShareFormOpen}
         onClose={onToggleShareFormOpen}
+        blockId={
+          // eslint-disable-next-line no-underscore-dangle
+          props.route.params.block?._id || ''
+        }
       />
       )}
       <AnimatedTextHeader

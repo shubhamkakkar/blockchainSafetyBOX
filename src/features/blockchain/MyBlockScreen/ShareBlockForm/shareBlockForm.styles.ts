@@ -14,5 +14,21 @@ export default StyleSheet.create({
   },
   marginBottom10:{
     marginBottom: 10,
+  },
+  textArea: {
+    height:200,
+    textAlignVertical: 'top',
+  },
+  textAreaContainer: {
+    marginHorizontal: 5,
+  },
+  baseButton: {
+    position:'absolute',
+    bottom: 0,
+    width: '100%',
+    left: 10
+  },
+  flex: {
+    flex: 1,
   }
 });

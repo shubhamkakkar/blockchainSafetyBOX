@@ -241,9 +241,14 @@ export type TSharedBlockResponse = {
   errorMessage?: Maybe<Scalars['String']>;
 };
 
+export type RecipientUser = {
+  userId: Scalars['ID'];
+  publicKey: Scalars['String'];
+};
+
 export type TShareBlockArgs = {
   blockId: Scalars['ID'];
-  recipientUserId: Scalars['ID'];
+  recipientUser: RecipientUser;
   cipherTextOfBlock: Scalars['String'];
   privateKey: Scalars['String'];
 };
@@ -366,6 +371,7 @@ export type ResolversTypes = {
   TPublicLedger: ResolverTypeWrapper<any>;
   MyBlock: ResolverTypeWrapper<any>;
   TSharedBlockResponse: ResolverTypeWrapper<any>;
+  RecipientUser: ResolverTypeWrapper<any>;
   TShareBlockArgs: ResolverTypeWrapper<any>;
   ReceivedBlockArgs: ResolverTypeWrapper<any>;
   MyBlockArgs: ResolverTypeWrapper<any>;
@@ -398,6 +404,7 @@ export type ResolversParentTypes = {
   TPublicLedger: any;
   MyBlock: any;
   TSharedBlockResponse: any;
+  RecipientUser: any;
   TShareBlockArgs: any;
   ReceivedBlockArgs: any;
   MyBlockArgs: any;
@@ -730,6 +737,23 @@ export type SearchUserQuery = (
     { __typename?: 'User' }
     & Pick<User, 'firstName' | 'lastName' | 'middleName' | 'publicKey' | 'email'>
   )>> }
+);
+
+export type ShareBlockMutationVariables = Exact<{
+  blockId: Scalars['ID'];
+  userId: Scalars['ID'];
+  publicKey: Scalars['String'];
+  privateKey: Scalars['String'];
+  cipherTextOfBlock: Scalars['String'];
+}>;
+
+
+export type ShareBlockMutation = (
+  { __typename?: 'Mutation' }
+  & { shareBlock: (
+    { __typename?: 'TSharedBlockResponse' }
+    & Pick<TSharedBlockResponse, 'errorMessage' | 'isSuccess'>
+  ) }
 );
 
 export type UserProfileQueryVariables = Exact<{ [key: string]: never; }>;
@@ -1104,6 +1128,45 @@ export function useSearchUserLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions
 export type SearchUserQueryHookResult = ReturnType<typeof useSearchUserQuery>;
 export type SearchUserLazyQueryHookResult = ReturnType<typeof useSearchUserLazyQuery>;
 export type SearchUserQueryResult = Apollo.QueryResult<SearchUserQuery, SearchUserQueryVariables>;
+export const ShareBlockDocument = gql`
+    mutation ShareBlock($blockId: ID!, $userId: ID!, $publicKey: String!, $privateKey: String!, $cipherTextOfBlock: String!) {
+  shareBlock(
+    shareBlockArgs: {blockId: $blockId, cipherTextOfBlock: $cipherTextOfBlock, privateKey: $privateKey, recipientUser: {userId: $userId, publicKey: $publicKey}}
+  ) {
+    errorMessage
+    isSuccess
+  }
+}
+    `;
+export type ShareBlockMutationFn = Apollo.MutationFunction<ShareBlockMutation, ShareBlockMutationVariables>;
+
+/**
+ * __useShareBlockMutation__
+ *
+ * To run a mutation, you first call `useShareBlockMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useShareBlockMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [shareBlockMutation, { data, loading, error }] = useShareBlockMutation({
+ *   variables: {
+ *      blockId: // value for 'blockId'
+ *      userId: // value for 'userId'
+ *      publicKey: // value for 'publicKey'
+ *      privateKey: // value for 'privateKey'
+ *      cipherTextOfBlock: // value for 'cipherTextOfBlock'
+ *   },
+ * });
+ */
+export function useShareBlockMutation(baseOptions?: Apollo.MutationHookOptions<ShareBlockMutation, ShareBlockMutationVariables>) {
+        return Apollo.useMutation<ShareBlockMutation, ShareBlockMutationVariables>(ShareBlockDocument, baseOptions);
+      }
+export type ShareBlockMutationHookResult = ReturnType<typeof useShareBlockMutation>;
+export type ShareBlockMutationResult = Apollo.MutationResult<ShareBlockMutation>;
+export type ShareBlockMutationOptions = Apollo.BaseMutationOptions<ShareBlockMutation, ShareBlockMutationVariables>;
 export const UserProfileDocument = gql`
     query UserProfile {
   user {

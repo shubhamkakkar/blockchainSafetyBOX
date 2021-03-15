@@ -125,3 +125,24 @@ const SEARCH_USER = gql`
      }
     }
 `
+const SHARE_BLOCK = gql`
+ mutation ShareBlock (
+    $blockId: ID!
+    $userId: ID!
+    $publicKey: String!
+    $privateKey: String!
+    $cipherTextOfBlock: String!
+ ) {
+     shareBlock (shareBlockArgs: {
+         blockId: $blockId
+         cipherTextOfBlock: $cipherTextOfBlock
+         privateKey: $privateKey
+         recipientUser: {
+             userId: $userId
+             publicKey: $publicKey
+         }}) {
+            errorMessage
+            isSuccess
+         }
+     }
+`
