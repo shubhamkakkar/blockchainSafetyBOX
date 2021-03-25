@@ -41,6 +41,7 @@ export default function NavigationContainer() {
     }
   };
 
+
   useEffect(() => {
     if(!isLoading)  setIsLoading(true)
     if(userProfileResponse.called && !userProfileResponse.loading) {

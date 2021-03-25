@@ -117,11 +117,12 @@ const SEARCH_USER = gql`
         searchUser (
             filter: $filter
        ) {
-        firstName,
-        lastName,
-        middleName,
-        publicKey,
-        email,
+            _id,
+            firstName,
+            lastName,
+            middleName,
+            publicKey,
+            email,
      }
     }
 `

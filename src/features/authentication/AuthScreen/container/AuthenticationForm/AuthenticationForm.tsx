@@ -30,7 +30,9 @@ type Props = {
 };
 
 type AuthenticationResponse = {
-  token?: string; privateKey?: string, error:boolean
+  token?: string; 
+  privateKey?: string;
+  error: any
 };
 
 export default function AuthenticationForm({ isLogin, goTo }: Props) {
@@ -40,7 +42,6 @@ export default function AuthenticationForm({ isLogin, goTo }: Props) {
   const [signUpMutation, signUpMutationResponse] = useSignUpMutation();
 
   const dispatch = useDispatch();
-
   async function formSubmitHandler(
     value: AuthenticationInitialState,
     helpers: FormikHelpers<AuthenticationInitialState>,
@@ -70,7 +71,7 @@ export default function AuthenticationForm({ isLogin, goTo }: Props) {
           { email, ...loginQueryResponse.data.login } as ReturnedUser,
         ));
       } else {
-        authenticationResponse.error = !!loginQueryResponse.error;
+        authenticationResponse.error = loginQueryResponse.error;
       }
     } else if (signUpMutationResponse.data?.signUp) {
       authenticationResponse.token = signUpMutationResponse.data.signUp.token;
@@ -82,24 +83,44 @@ export default function AuthenticationForm({ isLogin, goTo }: Props) {
       } as ReturnedUserSignup;
       dispatch(userProfile(user as ReturnedUser));
     } else {
-      authenticationResponse.error = !!signUpMutationResponse.error;
+      authenticationResponse.error = signUpMutationResponse.error;
     }
     return authenticationResponse;
   }, [
-    loginQueryResponse.data?.login, loginQueryResponse.error,
-    signUpMutationResponse.data?.signUp, signUpMutationResponse.error,
+    loginQueryResponse.called, loginQueryResponse.data?.login, loginQueryResponse.error,
+    signUpMutationResponse.called, signUpMutationResponse.data?.signUp, signUpMutationResponse.error,
     isLogin,
   ]);
+
+  console.log({ authenticatedResponse })
+
+  const translateYLoginFields = singUpFormFieldsOpacity.interpolate({
+    inputRange: [0, 1],
+    outputRange: [-20, 0],
+  });
+
+  const logoOpacity = singUpFormFieldsOpacity.interpolate({
+    inputRange: [0, 1],
+    outputRange: [1, 0],
+  });
+
+  function errorAlert(error?: ApolloError | boolean,  message?: string) {
+    if(error){
+      Alert.alert('Error', message || 'User credentials are invalid');
+    }
+  }
 
   useEffect(() => {
     if (authenticatedResponse.token) {
       const screen = isLogin
-        ? navigationRouteNames.PublicLedgerScreen : navigationRouteNames.PrivateKeyDownloadScreen;
+          ? navigationRouteNames.PublicLedgerScreen : navigationRouteNames.PrivateKeyDownloadScreen;
       const payload = isLogin ? {} : {
         privateKey: authenticatedResponse.privateKey,
         email,
       };
       goTo(screen, payload);
+    } else  {
+      Alert.alert('Error', authenticatedResponse.error || 'User not found');
     }
   }, [isLogin, authenticatedResponse]);
 
@@ -116,26 +137,6 @@ export default function AuthenticationForm({ isLogin, goTo }: Props) {
       animate(0);
     }
   }, [isLogin]);
-
-  const translateYLoginFields = singUpFormFieldsOpacity.interpolate({
-    inputRange: [0, 1],
-    outputRange: [-20, 0],
-  });
-
-  const logoOpacity = singUpFormFieldsOpacity.interpolate({
-    inputRange: [0, 1],
-    outputRange: [1, 0],
-  });
-
-  function errorAlert(error?: ApolloError) {
-    if (error) {
-      Alert.alert('Error', 'User credentials are invalid');
-    }
-  }
-
-  useEffect(() => errorAlert(loginQueryResponse.error), [loginQueryResponse.error]);
-  useEffect(() => errorAlert(signUpMutationResponse.error),
-    [signUpMutationResponse.error]);
 
   return (
     <View style={styles.container}>

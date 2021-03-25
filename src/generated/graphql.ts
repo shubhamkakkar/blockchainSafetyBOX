@@ -735,7 +735,7 @@ export type SearchUserQuery = (
   { __typename?: 'Query' }
   & { searchUser: Array<Maybe<(
     { __typename?: 'User' }
-    & Pick<User, 'firstName' | 'lastName' | 'middleName' | 'publicKey' | 'email'>
+    & Pick<User, '_id' | 'firstName' | 'lastName' | 'middleName' | 'publicKey' | 'email'>
   )>> }
 );
 
@@ -1094,6 +1094,7 @@ export type MyBlockQueryResult = Apollo.QueryResult<MyBlockQuery, MyBlockQueryVa
 export const SearchUserDocument = gql`
     query SearchUser($filter: String!) {
   searchUser(filter: $filter) {
+    _id
     firstName
     lastName
     middleName

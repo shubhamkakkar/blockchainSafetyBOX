@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import OverlayWithCard from 'UI/Overlay/OverlayWithCard';
 import Header from 'UI/Header';
 import CipherKeyFormikInput
@@ -22,6 +22,8 @@ type Props = {
   blockId: string;
 };
 export default function ShareBlockForm(props: Props) {
+  const defaultTitle = useMemo(() => "Error", []) as "Error" | "Success";
+  const defaultMessage = useMemo(() =>  "Unable to share block", []) as string
   const [toShareWith, setToShareWith] = useState<Partial<User> | undefined>();
   const [searchString, setSearchString] = useState<string>('');
   const [privateKey, setPrivateKey] = useState<string>('');
@@ -30,6 +32,8 @@ export default function ShareBlockForm(props: Props) {
   const [shareBlock, shareBlockResponse] = useShareBlockMutation();
 
   const disabled = shareBlockResponse.loading || !privateKey || !cipherTextOfBlock
+
+  console.log({shareBlockResponse: shareBlockResponse.data, e: shareBlockResponse.error})
 
   function onChangeSearchTextHandler(text: string) {
     setSearchString(text)
@@ -75,9 +79,9 @@ export default function ShareBlockForm(props: Props) {
   }, [searchString])
 
   useEffect(() => {
-    if(shareBlockResponse.called){
-      let title: "Error" | "Success" = "Error";
-      let message: string = "Unable to share block"
+    let title = defaultTitle;
+    let message = defaultMessage
+    if(shareBlockResponse.called && !shareBlockResponse.loading){
       if(shareBlockResponse.data?.shareBlock.isSuccess){
         title = 'Success';
         message =  "Block shared"
@@ -86,9 +90,9 @@ export default function ShareBlockForm(props: Props) {
       } else if(shareBlockResponse.error?.message){
         message = shareBlockResponse.error?.message
       }
-      Alert.alert(title, message)
+      Alert.alert(title || defaultTitle, message || defaultMessage)
     }
-  }, [shareBlockResponse.called])
+  }, [shareBlockResponse.loading])
 
   return (
     <OverlayWithCard
