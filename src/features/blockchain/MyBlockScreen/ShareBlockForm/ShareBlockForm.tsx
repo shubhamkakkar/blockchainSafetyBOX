@@ -26,15 +26,11 @@ export default function ShareBlockForm(props: Props) {
   const defaultMessage = useMemo(() =>  "Unable to share block", []) as string
   const [toShareWith, setToShareWith] = useState<Partial<User> | undefined>();
   const [searchString, setSearchString] = useState<string>('');
-  const [privateKey, setPrivateKey] = useState<string>('');
   const [cipherTextOfBlock, setCipherTextOfBlock] = useState<string>('');
   const [searchUserQuery, searchUserQueryResponse] = useSearchUserLazyQuery()
   const [shareBlock, shareBlockResponse] = useShareBlockMutation();
 
-  const disabled = shareBlockResponse.loading || !privateKey || !cipherTextOfBlock
-
-  console.log({shareBlockResponse: shareBlockResponse.data, e: shareBlockResponse.error})
-
+  const disabled = shareBlockResponse.loading || !cipherTextOfBlock
   function onChangeSearchTextHandler(text: string) {
     setSearchString(text)
   }
@@ -43,15 +39,17 @@ export default function ShareBlockForm(props: Props) {
     setToShareWith(user)
   }
 
-  function onSubmit(){
-    shareBlock({ variables: {
-      blockId:  props.blockId,
-        publicKey: toShareWith?.publicKey || '',
-        // eslint-disable-next-line no-underscore-dangle
-        userId: toShareWith?._id || '',
-        cipherTextOfBlock,
-        privateKey
-      }})
+  async function onSubmit(){
+    try {
+      await shareBlock({ variables: {
+          blockId:  props.blockId,
+          // eslint-disable-next-line no-underscore-dangle
+          userId: toShareWith?._id || '',
+          cipherTextOfBlock,
+        }})
+    } catch (e) {
+      Alert.alert("Error", "Failed to process the request");
+    }
   }
 
   function userRenderer(user: Partial<User> | any) {
@@ -91,6 +89,9 @@ export default function ShareBlockForm(props: Props) {
         message = shareBlockResponse.error?.message
       }
       Alert.alert(title || defaultTitle, message || defaultMessage)
+      if(shareBlockResponse.data?.shareBlock.isSuccess){
+        props.onClose();
+      }
     }
   }, [shareBlockResponse.loading])
 
@@ -117,17 +118,6 @@ export default function ShareBlockForm(props: Props) {
                     value={cipherTextOfBlock}
                     onChangeText={setCipherTextOfBlock}
                 />
-                <View style={styles.textAreaContainer}>
-                  <TextInput
-                      placeholder="Private Key"
-                      value={privateKey}
-                      onChangeText={setPrivateKey}
-                      secureTextEntry
-                      multiline
-                      numberOfLines={2}
-                      style={styles.textArea}
-                  />
-                </View>
               </ScrollView>
               <Button title="Submit" onPress={onSubmit} disabled={disabled} />
             </>

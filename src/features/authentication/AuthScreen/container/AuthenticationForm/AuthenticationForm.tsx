@@ -30,7 +30,7 @@ type Props = {
 };
 
 type AuthenticationResponse = {
-  token?: string; 
+  token?: string;
   privateKey?: string;
   error: any
 };
@@ -119,8 +119,6 @@ export default function AuthenticationForm({ isLogin, goTo }: Props) {
         email,
       };
       goTo(screen, payload);
-    } else  {
-      Alert.alert('Error', authenticatedResponse.error || 'User not found');
     }
   }, [isLogin, authenticatedResponse]);
 

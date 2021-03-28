@@ -71,7 +71,7 @@ export type QueryMyBlockArgs = {
 export type Mutation = {
   __typename?: 'Mutation';
   _?: Maybe<Scalars['Boolean']>;
-  signUp: ReturnedUserSignup;
+  signUp: ReturnedUser;
   makeUserAdmin: Scalars['Boolean'];
   requestDanglingBlock: TRequestedDanglingBlock;
   acceptDeclineBlock?: Maybe<TAcceptDeclineCount>;
@@ -137,6 +137,7 @@ export type ReturnedUser = {
   lastName: Scalars['String'];
   middleName?: Maybe<Scalars['String']>;
   role: Scalars['String'];
+  privateKey: Scalars['String'];
 };
 
 export type User = {
@@ -147,19 +148,6 @@ export type User = {
   lastName: Scalars['String'];
   middleName?: Maybe<Scalars['String']>;
   publicKey: Scalars['String'];
-  role: Scalars['String'];
-};
-
-export type ReturnedUserSignup = {
-  __typename?: 'ReturnedUserSignup';
-  _id: Scalars['ID'];
-  publicKey: Scalars['String'];
-  token: Scalars['String'];
-  email: Scalars['String'];
-  firstName: Scalars['String'];
-  lastName: Scalars['String'];
-  middleName?: Maybe<Scalars['String']>;
-  privateKey: Scalars['String'];
   role: Scalars['String'];
 };
 
@@ -243,14 +231,12 @@ export type TSharedBlockResponse = {
 
 export type RecipientUser = {
   userId: Scalars['ID'];
-  publicKey: Scalars['String'];
 };
 
 export type TShareBlockArgs = {
   blockId: Scalars['ID'];
-  recipientUser: RecipientUser;
+  recipientUserId: Scalars['ID'];
   cipherTextOfBlock: Scalars['String'];
-  privateKey: Scalars['String'];
 };
 
 export type ReceivedBlockArgs = {
@@ -358,7 +344,6 @@ export type ResolversTypes = {
   TLoginArgs: ResolverTypeWrapper<any>;
   ReturnedUser: ResolverTypeWrapper<any>;
   User: ResolverTypeWrapper<any>;
-  ReturnedUserSignup: ResolverTypeWrapper<any>;
   RequestedBlockMessage: ResolverTypeWrapper<any>;
   TRequestedDanglingBlock: ResolverTypeWrapper<any>;
   Int: ResolverTypeWrapper<any>;
@@ -392,7 +377,6 @@ export type ResolversParentTypes = {
   TLoginArgs: any;
   ReturnedUser: any;
   User: any;
-  ReturnedUserSignup: any;
   TRequestedDanglingBlock: any;
   Int: any;
   TAcceptDeclineCount: any;
@@ -439,7 +423,7 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
 
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
   _?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
-  signUp?: Resolver<ResolversTypes['ReturnedUserSignup'], ParentType, ContextType, RequireFields<MutationSignUpArgs, 'email' | 'password' | 'firstName' | 'lastName'>>;
+  signUp?: Resolver<ResolversTypes['ReturnedUser'], ParentType, ContextType, RequireFields<MutationSignUpArgs, 'email' | 'password' | 'firstName' | 'lastName'>>;
   makeUserAdmin?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationMakeUserAdminArgs, 'id'>>;
   requestDanglingBlock?: Resolver<ResolversTypes['TRequestedDanglingBlock'], ParentType, ContextType, RequireFields<MutationRequestDanglingBlockArgs, 'requestBlockData'>>;
   acceptDeclineBlock?: Resolver<Maybe<ResolversTypes['TAcceptDeclineCount']>, ParentType, ContextType, RequireFields<MutationAcceptDeclineBlockArgs, 'acceptDenyParams'>>;
@@ -474,6 +458,7 @@ export type ReturnedUserResolvers<ContextType = any, ParentType extends Resolver
   lastName?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   middleName?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   role?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  privateKey?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -484,19 +469,6 @@ export type UserResolvers<ContextType = any, ParentType extends ResolversParentT
   lastName?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   middleName?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   publicKey?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  role?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
-};
-
-export type ReturnedUserSignupResolvers<ContextType = any, ParentType extends ResolversParentTypes['ReturnedUserSignup'] = ResolversParentTypes['ReturnedUserSignup']> = {
-  _id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
-  publicKey?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  token?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  email?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  firstName?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  lastName?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  middleName?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  privateKey?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   role?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
@@ -575,7 +547,6 @@ export type Resolvers<ContextType = any> = {
   TLoginArgs?: TLoginArgsResolvers<ContextType>;
   ReturnedUser?: ReturnedUserResolvers<ContextType>;
   User?: UserResolvers<ContextType>;
-  ReturnedUserSignup?: ReturnedUserSignupResolvers<ContextType>;
   TRequestedDanglingBlock?: TRequestedDanglingBlockResolvers<ContextType>;
   TAcceptDeclineCount?: TAcceptDeclineCountResolvers<ContextType>;
   ReceivedBlock?: ReceivedBlockResolvers<ContextType>;
@@ -629,8 +600,8 @@ export type SignUpMutationVariables = Exact<{
 export type SignUpMutation = (
   { __typename?: 'Mutation' }
   & { signUp: (
-    { __typename?: 'ReturnedUserSignup' }
-    & Pick<ReturnedUserSignup, '_id' | 'publicKey' | 'token' | 'firstName' | 'lastName' | 'middleName' | 'role' | 'privateKey'>
+    { __typename?: 'ReturnedUser' }
+    & Pick<ReturnedUser, '_id' | 'publicKey' | 'token' | 'firstName' | 'lastName' | 'middleName' | 'role' | 'privateKey'>
   ) }
 );
 
@@ -741,10 +712,8 @@ export type SearchUserQuery = (
 
 export type ShareBlockMutationVariables = Exact<{
   blockId: Scalars['ID'];
-  userId: Scalars['ID'];
-  publicKey: Scalars['String'];
-  privateKey: Scalars['String'];
   cipherTextOfBlock: Scalars['String'];
+  userId: Scalars['ID'];
 }>;
 
 
@@ -1130,9 +1099,9 @@ export type SearchUserQueryHookResult = ReturnType<typeof useSearchUserQuery>;
 export type SearchUserLazyQueryHookResult = ReturnType<typeof useSearchUserLazyQuery>;
 export type SearchUserQueryResult = Apollo.QueryResult<SearchUserQuery, SearchUserQueryVariables>;
 export const ShareBlockDocument = gql`
-    mutation ShareBlock($blockId: ID!, $userId: ID!, $publicKey: String!, $privateKey: String!, $cipherTextOfBlock: String!) {
+    mutation ShareBlock($blockId: ID!, $cipherTextOfBlock: String!, $userId: ID!) {
   shareBlock(
-    shareBlockArgs: {blockId: $blockId, cipherTextOfBlock: $cipherTextOfBlock, privateKey: $privateKey, recipientUser: {userId: $userId, publicKey: $publicKey}}
+    shareBlockArgs: {blockId: $blockId, cipherTextOfBlock: $cipherTextOfBlock, recipientUserId: $userId}
   ) {
     errorMessage
     isSuccess
@@ -1155,10 +1124,8 @@ export type ShareBlockMutationFn = Apollo.MutationFunction<ShareBlockMutation, S
  * const [shareBlockMutation, { data, loading, error }] = useShareBlockMutation({
  *   variables: {
  *      blockId: // value for 'blockId'
- *      userId: // value for 'userId'
- *      publicKey: // value for 'publicKey'
- *      privateKey: // value for 'privateKey'
  *      cipherTextOfBlock: // value for 'cipherTextOfBlock'
+ *      userId: // value for 'userId'
  *   },
  * });
  */
