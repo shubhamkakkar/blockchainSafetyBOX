@@ -3,6 +3,7 @@ import { Action, applyMiddleware, compose, createStore } from 'redux';
 import userReducer from 'store/reducers/user.reducer';
 import danglingBlocksReducer from 'store/reducers/danglingBlocks.reducer';
 import publicLedgerReducer from 'store/reducers/publicLedger.reducer';
+import shareBlocksReducer from 'store/reducers/shareBlocks.reducer';
 import { USER_LOG_OUT } from 'store/actions/user.actions';
 
 let composeEnhancers;
@@ -20,6 +21,7 @@ const appReducer = combineReducers({
   user: userReducer,
   danglingBlocks: danglingBlocksReducer,
   publicLedger: publicLedgerReducer,
+  shareBlocks: shareBlocksReducer,
 });
 
 const rootReducer = <A extends Action>(state: any, action: A) => {
