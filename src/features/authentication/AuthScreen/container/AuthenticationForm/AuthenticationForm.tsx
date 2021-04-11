@@ -9,8 +9,7 @@ import AnimatedButton from 'UI/Buttons/AnimatedButton';
 import ImageLinks from 'ImageLinks';
 import { Formik, FormikHelpers } from 'formik';
 import {
-  ReturnedUser,
-  ReturnedUserSignup, useLoginLazyQuery, useSignUpMutation,
+  ReturnedUser, useLoginLazyQuery, useSignUpMutation,
 } from 'generated/graphql';
 import request from 'utils/request';
 import { ApolloError } from '@apollo/client/errors';
@@ -80,7 +79,7 @@ export default function AuthenticationForm({ isLogin, goTo }: Props) {
       const { privateKey: _, ...user } = {
         email,
         ...signUpMutationResponse.data.signUp,
-      } as ReturnedUserSignup;
+      } as ReturnedUser;
       dispatch(userProfile(user as ReturnedUser));
     } else {
       authenticationResponse.error = signUpMutationResponse.error;
@@ -91,8 +90,6 @@ export default function AuthenticationForm({ isLogin, goTo }: Props) {
     signUpMutationResponse.called, signUpMutationResponse.data?.signUp, signUpMutationResponse.error,
     isLogin,
   ]);
-
-  console.log({ authenticatedResponse })
 
   const translateYLoginFields = singUpFormFieldsOpacity.interpolate({
     inputRange: [0, 1],
