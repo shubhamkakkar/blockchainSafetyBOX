@@ -12,7 +12,8 @@ export default function CipherKeyFormikInput({
       {isNotFormik
         ? (
           <TextInput
-            placeholder="Cipher Key *"
+              secureTextEntry
+              placeholder="Cipher Key *"
             {...rest}
           />
         )
@@ -21,6 +22,7 @@ export default function CipherKeyFormikInput({
             placeholder="Cipher Key *"
             iconProps={{ name: 'shield-plus' }}
             fieldName="cipherKey"
+            secureTextEntry
           />
         )}
     </LayoutAnimationWrapper>

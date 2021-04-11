@@ -1,5 +1,5 @@
-import React, { useMemo } from 'react';
-import { Animated, TouchableOpacity } from 'react-native';
+import React, { useMemo, useState } from 'react';
+import { Animated, TouchableOpacity, View } from 'react-native';
 import MainContainer from 'UI/MainContainer';
 import AnimatedTextHeader from 'UI/AnimatedTextHeader';
 import navigationRouteNames from 'navigationContainer/navigationRouteNames';
@@ -16,10 +16,13 @@ import PreviewInsuranceInformation
   from 'features/blockchain/InsuranceDetailsScreen/container/PreviewInsuranceInformation';
 import ListSelectedImages
   from 'features/blockchain/InsuranceDetailsScreen/container/ListSelectedImages';
+import Button from 'UI/Buttons';
+import ShareBlockForm from 'features/blockchain/MyBlockScreen/ShareBlockForm';
 import styles from './myBlockScreen.styles';
 
 export default function MyBlockScreen(props: MyBLockScreenNavigationProps) {
-  const scrollY = new Animated.Value(0);
+  const scrollY = useMemo(() => new Animated.Value(0), []);
+  const [isShareFormOpen, setIsShareOpen] = useState<boolean>(false);
 
   function onBackClick() {
     props.navigation.navigate(navigationRouteNames.PublicLedgerScreen);
@@ -29,6 +32,9 @@ export default function MyBlockScreen(props: MyBLockScreenNavigationProps) {
     props.navigation.navigate(navigationRouteNames.UserProfileScreen);
   }
 
+  function onToggleShareFormOpen() {
+    setIsShareOpen((prevState: boolean) => !prevState);
+  }
 
   function previewDataRendered() {
     switch (props.route.params.block?.messageType) {
@@ -113,8 +119,29 @@ export default function MyBlockScreen(props: MyBLockScreenNavigationProps) {
           {previewDataRendered()}
         </LayoutAnimationWrapper>
       </Animated.ScrollView>
+      <View style={[styles.allCenter, styles.buttonContainer]}>
+        <Button
+          style={styles.buttonPadding}
+          title="Share"
+          rightIcon={{
+            name: 'share',
+            color: theme.WHITE,
+          }}
+          onPress={onToggleShareFormOpen}
+        />
+      </View>
+      {isShareFormOpen && (
+      <ShareBlockForm
+        isOpen={isShareFormOpen}
+        onClose={onToggleShareFormOpen}
+        blockId={
+          // eslint-disable-next-line no-underscore-dangle
+          props.route.params.block?._id || ''
+        }
+      />
+      )}
       <AnimatedTextHeader
-        initialTitle="My Block"
+        initialTitle="Block"
         onAnimationCompleteTitle={onAnimationCompleteTitle}
         scrollY={scrollY}
         onBackClick={onBackClick}
@@ -124,9 +151,8 @@ export default function MyBlockScreen(props: MyBLockScreenNavigationProps) {
           >
             <Icon name="account-settings" size={25} color={theme.DARK_PRIMARY} />
           </TouchableOpacity>
-                )}
+        )}
       />
-
     </MainContainer>
   );
 }

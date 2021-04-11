@@ -3,7 +3,7 @@ module.exports = {
     browser: true,
     es6: true,
   },
-  extends: ['plugin:react/recommended', 'airbnb-typescript', 'airbnb/hooks'],
+  extends: ['plugin:react/recommended', 'airbnb-typescript', 'airbnb/hooks', 'prettier'],
   settings: {
     'import/resolver': {
       node: {
@@ -41,5 +41,10 @@ module.exports = {
     'no-unused-vars': 'off',
     'no-shadow': 'off',
     'import/no-cycle': 'off',
+    '@typescript-eslint/indent': 'off',
+    'react/no-unused-prop-types': 'off',
+    'no-underscore-dangle': 'off',
+    'no-console': 'off',
+    'no-alert': 'off'
   },
 };

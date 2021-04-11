@@ -3,7 +3,7 @@ import theme from 'theme';
 
 export default StyleSheet.create({
   buttonContainer: {
-    padding: 5,
+    padding: 10,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: theme.PRIMARY,

@@ -105,7 +105,58 @@ const MY_BLOCK = gql`
             cipherTextOfBlock: $cipherKey
         }) {
             data,
-            prevHash
+            prevHash,
+            createdAt,
+            messageType,
+            hash,
         }
     }
 `;
+
+const SEARCH_USER = gql`
+    query SearchUser (
+        $filter: String!
+    ) {
+        searchUser (
+            filter: $filter
+       ) {
+            _id,
+            firstName,
+            lastName,
+            middleName,
+            publicKey,
+            email,
+     }
+    }
+`
+const SHARE_BLOCK = gql`
+ mutation ShareBlock (
+    $blockId: ID!
+    $cipherTextOfBlock: String!
+     $userId: ID!
+ ) {
+     shareBlock (shareBlockArgs: {
+         blockId: $blockId
+         cipherTextOfBlock: $cipherTextOfBlock
+         recipientUserId:  $userId
+     }) {
+            errorMessage
+            isSuccess
+         }
+     }
+`
+
+const SHARED_BLOCKS = gql`
+    query SharedBlocks {
+        sharedBlocks {
+            _id,
+            sharedAt,
+            recipientUser {
+                firstName
+                middleName
+                lastName
+                email
+            }
+        }
+    }
+`
