@@ -44,5 +44,6 @@ module.exports = {
     '@typescript-eslint/indent': 'off',
     'react/no-unused-prop-types': 'off',
     'no-underscore-dangle': 'off',
+    'no-console': 'off'
   },
 };
