@@ -63,6 +63,9 @@ export default function AuthenticationForm({ isLogin, goTo }: Props) {
   const authenticatedResponse : AuthenticationResponse = useMemo(() => {
     const authenticationResponse: AuthenticationResponse = { error: false };
     if (isLogin) {
+      if (loginQueryResponse.called && (!!loginQueryResponse.error || !loginQueryResponse.data)) {
+        authenticationResponse.error.message = loginQueryResponse.error?.message || 'User not found'
+      }
       if (loginQueryResponse.data?.login) {
         authenticationResponse.token = loginQueryResponse.data.login.token;
         request.token = authenticationResponse.token;
@@ -73,6 +76,9 @@ export default function AuthenticationForm({ isLogin, goTo }: Props) {
         authenticationResponse.error = loginQueryResponse.error;
       }
     } else if (signUpMutationResponse.data?.signUp) {
+      if (signUpMutationResponse.called && (!!signUpMutationResponse.error || !signUpMutationResponse.data)) {
+        authenticationResponse.error.message = signUpMutationResponse.error?.message || 'User not found'
+      }
       authenticationResponse.token = signUpMutationResponse.data.signUp.token;
       authenticationResponse.privateKey = signUpMutationResponse.data.signUp.privateKey;
       request.token = authenticationResponse.token;
@@ -101,13 +107,10 @@ export default function AuthenticationForm({ isLogin, goTo }: Props) {
     outputRange: [1, 0],
   });
 
-  function errorAlert(error?: ApolloError | boolean,  message?: string) {
-    if(error){
-      Alert.alert('Error', message || 'User credentials are invalid');
-    }
-  }
-
   useEffect(() => {
+    if (authenticatedResponse.error) {
+      Alert.alert('Error', authenticatedResponse.error?.message || 'Invalid Signature');
+    }
     if (authenticatedResponse.token) {
       const screen = isLogin
           ? navigationRouteNames.PublicLedgerScreen : navigationRouteNames.PrivateKeyDownloadScreen;
