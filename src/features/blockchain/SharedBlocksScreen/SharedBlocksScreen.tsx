@@ -1,15 +1,26 @@
 import React from 'react';
-import { View } from 'react-native';
 import MainContainer from 'UI/MainContainer';
-import Header from 'UI/Header/Header';
+import AnimatedHeader from "UI/AnimatedHeader";
+import { Animated } from "react-native";
+import { Navigation } from "types";
+import ListSharedBlocks from "./container/ListShareBlocks";
 
-type Props = {
-
-};
-export default function SharedBlocksScreen(props: Props) {
-  return (
+export default function SharedBlocksScreen(props: Navigation) {
+    const scrollY = new Animated.Value(0);
+    return (
     <MainContainer>
-      <Header title="Shared Blocks" />
+        <ListSharedBlocks
+            scrollPositionHandler={Animated.event(
+                [{ nativeEvent: { contentOffset: { y: scrollY } } }],
+                { useNativeDriver: true },
+            )}
+            navigation={props.navigation}
+        />
+        <AnimatedHeader
+            title="Shared Blocks"
+            scrollY={scrollY}
+            navigation={props.navigation}
+        />
     </MainContainer>
   );
 }

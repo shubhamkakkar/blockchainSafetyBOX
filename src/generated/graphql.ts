@@ -200,9 +200,9 @@ export type DecryptedReceivedBlock = {
 
 export type SharedBlock = {
   __typename?: 'SharedBlock';
-  encryptedMessage: Scalars['String'];
   recipientUser: User;
   sharedAt: Scalars['DateTime'];
+  _id: Scalars['ID'];
 };
 
 export type TPublicLedger = {
@@ -219,8 +219,13 @@ export type TPublicLedger = {
 
 export type MyBlock = {
   __typename?: 'MyBlock';
+  _id: Scalars['ID'];
   data: Scalars['String'];
+  createdAt: Scalars['DateTime'];
+  hash: Scalars['String'];
   prevHash: Scalars['String'];
+  ownerProfile?: Maybe<User>;
+  messageType?: Maybe<RequestedBlockMessage>;
 };
 
 export type TSharedBlockResponse = {
@@ -504,9 +509,9 @@ export type DecryptedReceivedBlockResolvers<ContextType = any, ParentType extend
 };
 
 export type SharedBlockResolvers<ContextType = any, ParentType extends ResolversParentTypes['SharedBlock'] = ResolversParentTypes['SharedBlock']> = {
-  encryptedMessage?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   recipientUser?: Resolver<ResolversTypes['User'], ParentType, ContextType>;
   sharedAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
+  _id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -523,8 +528,13 @@ export type TPublicLedgerResolvers<ContextType = any, ParentType extends Resolve
 };
 
 export type MyBlockResolvers<ContextType = any, ParentType extends ResolversParentTypes['MyBlock'] = ResolversParentTypes['MyBlock']> = {
+  _id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   data?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  createdAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
+  hash?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   prevHash?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  ownerProfile?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
+  messageType?: Resolver<Maybe<ResolversTypes['RequestedBlockMessage']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -693,7 +703,7 @@ export type MyBlockQuery = (
   { __typename?: 'Query' }
   & { myBlock: (
     { __typename?: 'MyBlock' }
-    & Pick<MyBlock, 'data' | 'prevHash'>
+    & Pick<MyBlock, 'data' | 'prevHash' | 'createdAt' | 'messageType' | 'hash'>
   ) }
 );
 
@@ -723,6 +733,21 @@ export type ShareBlockMutation = (
     { __typename?: 'TSharedBlockResponse' }
     & Pick<TSharedBlockResponse, 'errorMessage' | 'isSuccess'>
   ) }
+);
+
+export type SharedBlocksQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type SharedBlocksQuery = (
+  { __typename?: 'Query' }
+  & { sharedBlocks: Array<(
+    { __typename?: 'SharedBlock' }
+    & Pick<SharedBlock, '_id' | 'sharedAt'>
+    & { recipientUser: (
+      { __typename?: 'User' }
+      & Pick<User, 'firstName' | 'middleName' | 'lastName' | 'email'>
+    ) }
+  )> }
 );
 
 export type UserProfileQueryVariables = Exact<{ [key: string]: never; }>;
@@ -1030,6 +1055,9 @@ export const MyBlockDocument = gql`
   myBlock(myBlockArgs: {blockId: $blockId, cipherTextOfBlock: $cipherKey}) {
     data
     prevHash
+    createdAt
+    messageType
+    hash
   }
 }
     `;
@@ -1135,6 +1163,45 @@ export function useShareBlockMutation(baseOptions?: Apollo.MutationHookOptions<S
 export type ShareBlockMutationHookResult = ReturnType<typeof useShareBlockMutation>;
 export type ShareBlockMutationResult = Apollo.MutationResult<ShareBlockMutation>;
 export type ShareBlockMutationOptions = Apollo.BaseMutationOptions<ShareBlockMutation, ShareBlockMutationVariables>;
+export const SharedBlocksDocument = gql`
+    query SharedBlocks {
+  sharedBlocks {
+    _id
+    sharedAt
+    recipientUser {
+      firstName
+      middleName
+      lastName
+      email
+    }
+  }
+}
+    `;
+
+/**
+ * __useSharedBlocksQuery__
+ *
+ * To run a query within a React component, call `useSharedBlocksQuery` and pass it any options that fit your needs.
+ * When your component renders, `useSharedBlocksQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useSharedBlocksQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useSharedBlocksQuery(baseOptions?: Apollo.QueryHookOptions<SharedBlocksQuery, SharedBlocksQueryVariables>) {
+        return Apollo.useQuery<SharedBlocksQuery, SharedBlocksQueryVariables>(SharedBlocksDocument, baseOptions);
+      }
+export function useSharedBlocksLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<SharedBlocksQuery, SharedBlocksQueryVariables>) {
+          return Apollo.useLazyQuery<SharedBlocksQuery, SharedBlocksQueryVariables>(SharedBlocksDocument, baseOptions);
+        }
+export type SharedBlocksQueryHookResult = ReturnType<typeof useSharedBlocksQuery>;
+export type SharedBlocksLazyQueryHookResult = ReturnType<typeof useSharedBlocksLazyQuery>;
+export type SharedBlocksQueryResult = Apollo.QueryResult<SharedBlocksQuery, SharedBlocksQueryVariables>;
 export const UserProfileDocument = gql`
     query UserProfile {
   user {

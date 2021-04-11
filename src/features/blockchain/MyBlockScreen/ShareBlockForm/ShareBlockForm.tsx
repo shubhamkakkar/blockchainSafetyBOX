@@ -29,7 +29,6 @@ export default function ShareBlockForm(props: Props) {
   const [cipherTextOfBlock, setCipherTextOfBlock] = useState<string>('');
   const [searchUserQuery, searchUserQueryResponse] = useSearchUserLazyQuery()
   const [shareBlock, shareBlockResponse] = useShareBlockMutation();
-
   const disabled = shareBlockResponse.loading || !cipherTextOfBlock
   function onChangeSearchTextHandler(text: string) {
     setSearchString(text)

@@ -13,7 +13,7 @@ type Props = {
   isOpen: boolean;
   onClose: () => void;
   toDecryptBlock: DecryptBlock;
-  onSuccessHandler: (_block: MyBlockProps) => void
+  onSuccessHandler: (_block: MyBlockProps | any) => void
 };
 export default function DecryptBlockInfoModal({
   toDecryptBlock,
@@ -43,8 +43,7 @@ export default function DecryptBlockInfoModal({
     } else if (myBlockResponse?.data?.myBlock?.prevHash) {
       const block: MyBlockProps = {
         ...toDecryptBlock,
-        prevHash: myBlockResponse?.data?.myBlock.prevHash,
-        data: myBlockResponse?.data?.myBlock.data,
+        ...myBlockResponse?.data?.myBlock,
       };
       onSuccessHandler(block);
     }

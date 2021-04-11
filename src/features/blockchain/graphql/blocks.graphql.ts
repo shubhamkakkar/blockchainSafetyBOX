@@ -105,7 +105,10 @@ const MY_BLOCK = gql`
             cipherTextOfBlock: $cipherKey
         }) {
             data,
-            prevHash
+            prevHash,
+            createdAt,
+            messageType,
+            hash,
         }
     }
 `;
@@ -141,4 +144,19 @@ const SHARE_BLOCK = gql`
             isSuccess
          }
      }
+`
+
+const SHARED_BLOCKS = gql`
+    query SharedBlocks {
+        sharedBlocks {
+            _id,
+            sharedAt,
+            recipientUser {
+                firstName
+                middleName
+                lastName
+                email
+            }
+        }
+    }
 `

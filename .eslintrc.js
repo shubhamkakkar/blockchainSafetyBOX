@@ -41,6 +41,8 @@ module.exports = {
     'no-unused-vars': 'off',
     'no-shadow': 'off',
     'import/no-cycle': 'off',
-    '@typescript-eslint/indent': 'off'
+    '@typescript-eslint/indent': 'off',
+    'react/no-unused-prop-types': 'off',
+    'no-underscore-dangle': 'off',
   },
 };
