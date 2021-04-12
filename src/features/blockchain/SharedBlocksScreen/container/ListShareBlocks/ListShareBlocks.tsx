@@ -1,10 +1,14 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { Animated, FlatList, NativeScrollEvent, NativeSyntheticEvent, View } from "react-native";
-import { SharedBlock, useSharedBlocksLazyQuery } from "generated/graphql";
+import {
+    SharedBlock,
+    useReceivedBlocksLazyQuery,
+    useSharedBlocksLazyQuery
+} from "generated/graphql";
 import { HEADER_MAX_HEIGHT_WITHOUT_DESCRIPTION_COMPONENT } from "constants";
 import DecryptBlockInfoModal
     from "features/blockchain/PublicLedgerScreen/container/ListPublicLedger/DecryptBlockInfoModal";
-import { DecryptBlock, MyBlockProps } from "types";
+import { MyBlockProps } from "types";
 import navigationRouteNames from "navigationContainer/navigationRouteNames";
 import EmptyUI from "UI/EmptyUI";
 import SharedBlockListItem from './SharedBlockListItem'
@@ -12,14 +16,16 @@ import SharedBlockListItem from './SharedBlockListItem'
 type Props = {
     scrollPositionHandler: (_event: NativeSyntheticEvent<NativeScrollEvent>) => void;
     navigation: any
+    isReceived?: boolean
 };
 
 export default function ListShareBlocks(props: Props) {
     const AnimatedFlatList = Animated.createAnimatedComponent(FlatList) as any;
     const [toDecryptBlock, setToDecryptBlock] = useState<SharedBlock | undefined>(undefined);
-    const [sharedBlock, sharedBlockResponse ] = useSharedBlocksLazyQuery()
+    const [sharedBlock, sharedBlockResponse ] = (props.isReceived ? useReceivedBlocksLazyQuery : useSharedBlocksLazyQuery)()
     const infoIconAnimation = useMemo(() => new Animated.Value(0), []);
-
+    // @ts-ignore
+    const blocksResponseIdentifier = props.isReceived ? sharedBlockResponse.data?.receivedBlocks : sharedBlockResponse.data?.sharedBlocks
     const infoIconTranslateY = infoIconAnimation.interpolate({
         inputRange: [0, 1],
         outputRange: [15, -5],
@@ -66,17 +72,18 @@ export default function ListShareBlocks(props: Props) {
 
     const memorizedFlatList = useMemo(() => (
         <AnimatedFlatList
-            data={sharedBlockResponse.data?.sharedBlocks || []}
-            extraData={sharedBlockResponse.data?.sharedBlocks || []}
-            keyExtractor={(item: SharedBlock) => `${item.sharedAt}-${item.recipientUser.email}`}
+            data={blocksResponseIdentifier || []}
+            extraData={blocksResponseIdentifier || []}
+            keyExtractor={(item: SharedBlock) => item._id}
             renderItem={({ item, index }: {item: SharedBlock, index: number} ) => (
                 <SharedBlockListItem
                     item={item}
                     prevDate={index >= 1
-                        ? sharedBlockResponse.data?.sharedBlocks[index - 1].sharedAt
+                        ? blocksResponseIdentifier[index - 1].sharedAt
                         : undefined}
                     infoIconTranslateY={infoIconTranslateY}
                     onInfoIconPressHandler={onInfoIconPress}
+                    isReceived={props.isReceived || false}
                 />
             )}
             scrollEventThrottle={16}
@@ -86,11 +93,11 @@ export default function ListShareBlocks(props: Props) {
             refreshing={sharedBlockResponse.loading}
             ListEmptyComponent={<EmptyUI isLoading={sharedBlockResponse.loading} />}
         />
-    ), [sharedBlockResponse?.data?.sharedBlocks]);
+    ), [blocksResponseIdentifier]);
     return (
         <>
             {memorizedFlatList}
-            { !!toDecryptBlock
+            { !props.isReceived && !!toDecryptBlock
             && (
                 <DecryptBlockInfoModal
                     isOpen={!!toDecryptBlock}

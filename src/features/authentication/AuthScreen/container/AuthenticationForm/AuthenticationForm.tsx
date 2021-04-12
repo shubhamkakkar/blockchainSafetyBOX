@@ -12,7 +12,6 @@ import {
   ReturnedUser, useLoginLazyQuery, useSignUpMutation,
 } from 'generated/graphql';
 import request from 'utils/request';
-import { ApolloError } from '@apollo/client/errors';
 import navigationRouteNames from 'navigationContainer/navigationRouteNames';
 import { useDispatch } from 'react-redux';
 import { userProfile } from 'store/actions/user.actions';

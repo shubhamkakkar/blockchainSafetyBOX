@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Animated, Share, TouchableOpacity, View } from "react-native";
 import { SharedBlock } from "generated/graphql";
 import { dateString, determineIsSameDay } from "utils/dateHelpers";
@@ -14,11 +14,15 @@ type Props = {
     prevDate?: string
     infoIconTranslateY: Animated.AnimatedInterpolation;
     onInfoIconPressHandler: (_block: SharedBlock) => void
+    isReceived: boolean
 };
 export default function SharedBlockListItem(
     {
-        item, prevDate, infoIconTranslateY, onInfoIconPressHandler
+        item, prevDate, infoIconTranslateY, onInfoIconPressHandler, isReceived
     } : Props) {
+
+    // @ts-ignore
+    const user = useMemo(() => item[isReceived ? 'sharedBy' : 'recipientUser'],[isReceived])
 
     function onInfoIconPress() {
         onInfoIconPressHandler(item);
@@ -55,15 +59,18 @@ export default function SharedBlockListItem(
                     </Animated.View>
                 </View>
                 <LayoutAnimationWrapper
-                    title="Recipient User"
+                    title={isReceived ? 'Shared By' : "Recipient User"}
                     isAllCenter
                     buttonContainer={styles.tMargin5}
                 >
-                    <TextUI
-                        center
-                    >
-                        {item.recipientUser.email}
-                    </TextUI>
+                    <View style={[styles.row, styles.spaceBetween]}>
+                        <TextUI center>
+                            {user.firstName}{' '}{user.lastName}
+                        </TextUI>
+                        <TextUI center>
+                            {user.email}
+                        </TextUI>
+                    </View>
                 </LayoutAnimationWrapper>
             </View>
         </View>

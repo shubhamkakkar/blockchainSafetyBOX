@@ -160,3 +160,17 @@ const SHARED_BLOCKS = gql`
         }
     }
 `
+
+const RECEIVED_BLOCKS = gql`
+    query ReceivedBlocks {
+        receivedBlocks {
+            _id
+            sharedAt
+            sharedBy {
+                firstName
+                lastName
+                email
+            }
+        }
+    }
+`
