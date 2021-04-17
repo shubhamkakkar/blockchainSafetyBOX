@@ -133,7 +133,7 @@ const SHARE_BLOCK = gql`
  mutation ShareBlock (
     $blockId: ID!
     $cipherTextOfBlock: String!
-     $userId: ID!
+    $userId: ID!
  ) {
      shareBlock (shareBlockArgs: {
          blockId: $blockId
@@ -174,3 +174,20 @@ const RECEIVED_BLOCKS = gql`
         }
     }
 `
+
+const RECEIVED_BLOCK = gql`
+query ReceivedBlock(
+    $blockId: ID!
+) {
+    receivedBlock(receivedBlockArgs:{ blockId: $blockId }) {
+        _id
+        data
+        createdAt
+        hash
+        prevHash
+        messageType
+        shared {
+            sharedAt
+        }
+    }
+}`

@@ -11,7 +11,7 @@ export type NavigationStack = {
     email: string;
   };
   [navigationRouteNames.PublicLedgerScreen]: undefined;
-  [navigationRouteNames.MyBlockScreen]: { block: MyBlockProps | undefined };
+  [navigationRouteNames.MyBlockScreen]: { block: MyBlockProps | undefined, showShare: boolean };
   [navigationRouteNames.RequestedBlocksStackNavigation]: undefined;
   [navigationRouteNames.UserProfileScreen]: undefined;
 };

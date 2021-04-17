@@ -27,6 +27,7 @@ interface Props extends Navigation {
   DescriptionComponent?: React.ReactElement | React.ReactElement[];
   descriptionComponentStyles?: ViewStyle;
   isRightIcon?: boolean
+  hideBackButton?: boolean
 }
 
 export default function AnimatedHeader({
@@ -38,6 +39,7 @@ export default function AnimatedHeader({
   DescriptionComponent,
   descriptionComponentStyles = {},
   isRightIcon = true,
+  hideBackButton = false,
 }: Props) {
   const HEADER_MAX_HEIGHT: number = useMemo(
     () => (DescriptionComponent
@@ -131,7 +133,7 @@ export default function AnimatedHeader({
         styles.actionRow,
         ]}
       >
-        <TouchableOpacity onPress={goBack} style={styles.goBackArrow}>
+        <TouchableOpacity onPress={goBack} style={[styles.goBackArrow]}>
           <Icon
             name="chevron-left"
             style={styles.backBtnImage}

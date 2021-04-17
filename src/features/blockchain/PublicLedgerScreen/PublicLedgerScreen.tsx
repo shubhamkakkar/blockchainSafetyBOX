@@ -20,6 +20,7 @@ export default function PublicLedgerScreen(props: any) {
         title="Public Ledger"
         scrollY={scrollY}
         navigation={props.navigation}
+        hideBackButton
       />
     </MainContainer>
   );

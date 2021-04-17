@@ -6,9 +6,6 @@ import ListSharedBlocks
 import AnimatedHeader from "UI/AnimatedHeader";
 import { Navigation } from "types";
 
-type Props = {
-
-};
 export default function ReceivedBlocksScreen(props: Navigation) {
     const scrollY = new Animated.Value(0);
     return (

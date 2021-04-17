@@ -18,6 +18,7 @@ export function twelveHourClockTime(date?: Date) {
     hour: 'numeric',
     minute: 'numeric',
   });
+  // return today.toLocaleString()
 }
 
 export function determineIsSameDay(

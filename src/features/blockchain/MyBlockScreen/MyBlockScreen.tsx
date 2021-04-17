@@ -119,7 +119,7 @@ export default function MyBlockScreen(props: MyBLockScreenNavigationProps) {
           {previewDataRendered()}
         </LayoutAnimationWrapper>
       </Animated.ScrollView>
-      <View style={[styles.allCenter, styles.buttonContainer]}>
+      {props.route.params.showShare && <View style={[styles.allCenter, styles.buttonContainer]}>
         <Button
           style={styles.buttonPadding}
           title="Share"
@@ -129,7 +129,7 @@ export default function MyBlockScreen(props: MyBLockScreenNavigationProps) {
           }}
           onPress={onToggleShareFormOpen}
         />
-      </View>
+      </View> }
       {isShareFormOpen && (
       <ShareBlockForm
         isOpen={isShareFormOpen}

@@ -32,7 +32,7 @@ export type Query = {
   publicLedger: Array<Maybe<TPublicLedger>>;
   sharedBlocks: Array<SharedBlock>;
   receivedBlocks: Array<ReceivedBlock>;
-  receivedBlock: DecryptedReceivedBlock;
+  receivedBlock: MyBlock;
   myBlocks: Array<TPublicLedger>;
   myBlock: MyBlock;
 };
@@ -196,6 +196,7 @@ export type DecryptedReceivedBlock = {
   __typename?: 'DecryptedReceivedBlock';
   message: Scalars['String'];
   sharedAt: Scalars['DateTime'];
+  messageType: RequestedBlockMessage;
 };
 
 export type SharedBlock = {
@@ -217,6 +218,12 @@ export type TPublicLedger = {
   messageType?: Maybe<RequestedBlockMessage>;
 };
 
+export type MyBlockShared = {
+  __typename?: 'MyBlockShared';
+  sharedAt: Scalars['DateTime'];
+  _id: Scalars['ID'];
+};
+
 export type MyBlock = {
   __typename?: 'MyBlock';
   _id: Scalars['ID'];
@@ -226,6 +233,7 @@ export type MyBlock = {
   prevHash: Scalars['String'];
   ownerProfile?: Maybe<User>;
   messageType?: Maybe<RequestedBlockMessage>;
+  shared: Array<Maybe<MyBlockShared>>;
 };
 
 export type TSharedBlockResponse = {
@@ -246,7 +254,6 @@ export type TShareBlockArgs = {
 
 export type ReceivedBlockArgs = {
   blockId: Scalars['ID'];
-  privateKey: Scalars['String'];
 };
 
 export type MyBlockArgs = {
@@ -359,6 +366,7 @@ export type ResolversTypes = {
   DecryptedReceivedBlock: ResolverTypeWrapper<any>;
   SharedBlock: ResolverTypeWrapper<any>;
   TPublicLedger: ResolverTypeWrapper<any>;
+  MyBlockShared: ResolverTypeWrapper<any>;
   MyBlock: ResolverTypeWrapper<any>;
   TSharedBlockResponse: ResolverTypeWrapper<any>;
   RecipientUser: ResolverTypeWrapper<any>;
@@ -391,6 +399,7 @@ export type ResolversParentTypes = {
   DecryptedReceivedBlock: any;
   SharedBlock: any;
   TPublicLedger: any;
+  MyBlockShared: any;
   MyBlock: any;
   TSharedBlockResponse: any;
   RecipientUser: any;
@@ -421,7 +430,7 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   publicLedger?: Resolver<Array<Maybe<ResolversTypes['TPublicLedger']>>, ParentType, ContextType>;
   sharedBlocks?: Resolver<Array<ResolversTypes['SharedBlock']>, ParentType, ContextType>;
   receivedBlocks?: Resolver<Array<ResolversTypes['ReceivedBlock']>, ParentType, ContextType>;
-  receivedBlock?: Resolver<ResolversTypes['DecryptedReceivedBlock'], ParentType, ContextType, RequireFields<QueryReceivedBlockArgs, 'receivedBlockArgs'>>;
+  receivedBlock?: Resolver<ResolversTypes['MyBlock'], ParentType, ContextType, RequireFields<QueryReceivedBlockArgs, 'receivedBlockArgs'>>;
   myBlocks?: Resolver<Array<ResolversTypes['TPublicLedger']>, ParentType, ContextType>;
   myBlock?: Resolver<ResolversTypes['MyBlock'], ParentType, ContextType, RequireFields<QueryMyBlockArgs, never>>;
 };
@@ -505,6 +514,7 @@ export type ReceivedBlockResolvers<ContextType = any, ParentType extends Resolve
 export type DecryptedReceivedBlockResolvers<ContextType = any, ParentType extends ResolversParentTypes['DecryptedReceivedBlock'] = ResolversParentTypes['DecryptedReceivedBlock']> = {
   message?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   sharedAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
+  messageType?: Resolver<ResolversTypes['RequestedBlockMessage'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -527,6 +537,12 @@ export type TPublicLedgerResolvers<ContextType = any, ParentType extends Resolve
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
+export type MyBlockSharedResolvers<ContextType = any, ParentType extends ResolversParentTypes['MyBlockShared'] = ResolversParentTypes['MyBlockShared']> = {
+  sharedAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
+  _id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
 export type MyBlockResolvers<ContextType = any, ParentType extends ResolversParentTypes['MyBlock'] = ResolversParentTypes['MyBlock']> = {
   _id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   data?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
@@ -535,6 +551,7 @@ export type MyBlockResolvers<ContextType = any, ParentType extends ResolversPare
   prevHash?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   ownerProfile?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
   messageType?: Resolver<Maybe<ResolversTypes['RequestedBlockMessage']>, ParentType, ContextType>;
+  shared?: Resolver<Array<Maybe<ResolversTypes['MyBlockShared']>>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -563,6 +580,7 @@ export type Resolvers<ContextType = any> = {
   DecryptedReceivedBlock?: DecryptedReceivedBlockResolvers<ContextType>;
   SharedBlock?: SharedBlockResolvers<ContextType>;
   TPublicLedger?: TPublicLedgerResolvers<ContextType>;
+  MyBlockShared?: MyBlockSharedResolvers<ContextType>;
   MyBlock?: MyBlockResolvers<ContextType>;
   TSharedBlockResponse?: TSharedBlockResponseResolvers<ContextType>;
   Upload?: GraphQLScalarType;
@@ -763,6 +781,23 @@ export type ReceivedBlocksQuery = (
       & Pick<User, 'firstName' | 'lastName' | 'email'>
     ) }
   )> }
+);
+
+export type ReceivedBlockQueryVariables = Exact<{
+  blockId: Scalars['ID'];
+}>;
+
+
+export type ReceivedBlockQuery = (
+  { __typename?: 'Query' }
+  & { receivedBlock: (
+    { __typename?: 'MyBlock' }
+    & Pick<MyBlock, '_id' | 'data' | 'createdAt' | 'hash' | 'prevHash' | 'messageType'>
+    & { shared: Array<Maybe<(
+      { __typename?: 'MyBlockShared' }
+      & Pick<MyBlockShared, 'sharedAt'>
+    )>> }
+  ) }
 );
 
 export type UserProfileQueryVariables = Exact<{ [key: string]: never; }>;
@@ -1255,6 +1290,47 @@ export function useReceivedBlocksLazyQuery(baseOptions?: Apollo.LazyQueryHookOpt
 export type ReceivedBlocksQueryHookResult = ReturnType<typeof useReceivedBlocksQuery>;
 export type ReceivedBlocksLazyQueryHookResult = ReturnType<typeof useReceivedBlocksLazyQuery>;
 export type ReceivedBlocksQueryResult = Apollo.QueryResult<ReceivedBlocksQuery, ReceivedBlocksQueryVariables>;
+export const ReceivedBlockDocument = gql`
+    query ReceivedBlock($blockId: ID!) {
+  receivedBlock(receivedBlockArgs: {blockId: $blockId}) {
+    _id
+    data
+    createdAt
+    hash
+    prevHash
+    messageType
+    shared {
+      sharedAt
+    }
+  }
+}
+    `;
+
+/**
+ * __useReceivedBlockQuery__
+ *
+ * To run a query within a React component, call `useReceivedBlockQuery` and pass it any options that fit your needs.
+ * When your component renders, `useReceivedBlockQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useReceivedBlockQuery({
+ *   variables: {
+ *      blockId: // value for 'blockId'
+ *   },
+ * });
+ */
+export function useReceivedBlockQuery(baseOptions: Apollo.QueryHookOptions<ReceivedBlockQuery, ReceivedBlockQueryVariables>) {
+        return Apollo.useQuery<ReceivedBlockQuery, ReceivedBlockQueryVariables>(ReceivedBlockDocument, baseOptions);
+      }
+export function useReceivedBlockLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<ReceivedBlockQuery, ReceivedBlockQueryVariables>) {
+          return Apollo.useLazyQuery<ReceivedBlockQuery, ReceivedBlockQueryVariables>(ReceivedBlockDocument, baseOptions);
+        }
+export type ReceivedBlockQueryHookResult = ReturnType<typeof useReceivedBlockQuery>;
+export type ReceivedBlockLazyQueryHookResult = ReturnType<typeof useReceivedBlockLazyQuery>;
+export type ReceivedBlockQueryResult = Apollo.QueryResult<ReceivedBlockQuery, ReceivedBlockQueryVariables>;
 export const UserProfileDocument = gql`
     query UserProfile {
   user {

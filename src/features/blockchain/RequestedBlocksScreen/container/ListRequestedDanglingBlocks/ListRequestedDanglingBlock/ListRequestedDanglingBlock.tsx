@@ -75,6 +75,8 @@ export default function ListRequestedDanglingBlock(
     }
   }, []);
 
+  console.log({item})
+
   return (
     <View style={styles.container}>
       <View>

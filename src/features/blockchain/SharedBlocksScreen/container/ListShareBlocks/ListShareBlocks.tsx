@@ -12,6 +12,8 @@ import { MyBlockProps } from "types";
 import navigationRouteNames from "navigationContainer/navigationRouteNames";
 import EmptyUI from "UI/EmptyUI";
 import SharedBlockListItem from './SharedBlockListItem'
+import ReceiveBlockInfoModal from './ReceiveBlockInfoModal';
+
 
 type Props = {
     scrollPositionHandler: (_event: NativeSyntheticEvent<NativeScrollEvent>) => void;
@@ -40,9 +42,9 @@ export default function ListShareBlocks(props: Props) {
         setToDecryptBlock(undefined);
     }
 
-    function onSuccess(block: MyBlockProps) {
+    function onSuccess(block: MyBlockProps, showShare = true) {
         onDecryptBlockInfoModalClose();
-        props.navigation.navigate(navigationRouteNames.MyBlockScreen, { block });
+        props.navigation.navigate(navigationRouteNames.MyBlockScreen, { block, showShare });
     }
     function refetchHandler() {
         if (sharedBlockResponse && sharedBlockResponse.refetch) {
@@ -97,11 +99,20 @@ export default function ListShareBlocks(props: Props) {
     return (
         <>
             {memorizedFlatList}
-            { !props.isReceived && !!toDecryptBlock
+            {!props.isReceived && !!toDecryptBlock
             && (
                 <DecryptBlockInfoModal
                     isOpen={!!toDecryptBlock}
                     toDecryptBlock={toDecryptBlock as any}
+                    onClose={onDecryptBlockInfoModalClose}
+                    onSuccessHandler={onSuccess}
+                />
+            )}
+            {props.isReceived && !!toDecryptBlock
+            && (
+                <ReceiveBlockInfoModal
+                    isOpen={!!toDecryptBlock}
+                    blockId={toDecryptBlock._id}
                     onClose={onDecryptBlockInfoModalClose}
                     onSuccessHandler={onSuccess}
                 />
