@@ -1,7 +1,9 @@
 import React from 'react';
 import {
   Platform,
-  StatusBar, StyleSheet,
+  StatusBar,
+  StyleSheet,
+  LogBox,
 } from 'react-native';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import NavigationContainer from 'navigationContainer';
@@ -17,6 +19,8 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
 });
+LogBox.ignoreLogs(['Warning: ...']);
+LogBox.ignoreAllLogs();
 
 export default function App() {
   return (

@@ -8,7 +8,8 @@ import TextUI from '../TextUI';
 import styles from './header.style';
 
 type Props = {
-  title: string;
+  title?: string;
+  iconName?: string
   subTitle?: string;
   onBackClick?: () => void;
   noBackButton? : boolean;
@@ -23,7 +24,8 @@ const Header: FC<Props> = (props: Props) => {
   const navigation = useNavigation();
   const goBack = () => (props.onBackClick ? props.onBackClick() : navigation.goBack());
   const {
-    title,
+    title = '',
+    iconName = 'chevron-left',
     subTitle,
     noBackButton,
     isRightIcon,
@@ -44,15 +46,15 @@ const Header: FC<Props> = (props: Props) => {
       <TouchableOpacity onPress={goBack}>
         <Icon
           style={styles.leftIconStyle}
-          name="chevron-left"
+          name={iconName}
           size={30}
         />
       </TouchableOpacity>
       )}
-      <View style={subTitleContainerStyle}>
+      {!!title && <View style={subTitleContainerStyle}>
         <TextUI fontWeight="Bold" style={[styles.headerTitle, headerStyle]}>{title}</TextUI>
         {!!subTitle && <TextUI style={styles.headerSubTitle}>{subTitle}</TextUI>}
-      </View>
+      </View>}
       {isRightIcon && (
       <TouchableOpacity onPress={onRightIconPress}>
         <Icon

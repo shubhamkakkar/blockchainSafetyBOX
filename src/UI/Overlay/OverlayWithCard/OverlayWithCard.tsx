@@ -8,7 +8,7 @@ type Props = {
   children?: any;
   removePadding?: boolean;
   onClose?: () => void;
-  height?: number;
+  height?: number | string;
   customCardStyle?: any;
 };
 

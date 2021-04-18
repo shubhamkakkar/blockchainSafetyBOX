@@ -22,6 +22,6 @@ export default StyleSheet.create({
   },
   deleteIcon: {
     marginRight: 0,
-    color: theme.BLACK,
+    color: theme.RED,
   },
 });
