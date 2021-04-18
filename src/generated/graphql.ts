@@ -44,6 +44,11 @@ export type QueryLoginArgs = {
 };
 
 
+export type QueryAllUsersArgs = {
+  isAdmin?: Maybe<Scalars['Boolean']>;
+};
+
+
 export type QuerySearchUserArgs = {
   filter: Scalars['String'];
 };
@@ -89,7 +94,7 @@ export type MutationSignUpArgs = {
 
 
 export type MutationMakeUserAdminArgs = {
-  id: Scalars['String'];
+  id: Scalars['ID'];
 };
 
 
@@ -421,7 +426,7 @@ export interface DateTimeScalarConfig extends GraphQLScalarTypeConfig<ResolversT
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
   _?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   login?: Resolver<ResolversTypes['ReturnedUser'], ParentType, ContextType, RequireFields<QueryLoginArgs, 'email' | 'password'>>;
-  allUsers?: Resolver<Array<Maybe<ResolversTypes['User']>>, ParentType, ContextType>;
+  allUsers?: Resolver<Array<Maybe<ResolversTypes['User']>>, ParentType, ContextType, RequireFields<QueryAllUsersArgs, never>>;
   user?: Resolver<ResolversTypes['User'], ParentType, ContextType>;
   searchUser?: Resolver<Array<Maybe<ResolversTypes['User']>>, ParentType, ContextType, RequireFields<QuerySearchUserArgs, 'filter'>>;
   requestedBlocks?: Resolver<Array<Maybe<ResolversTypes['TRequestedDanglingBlock']>>, ParentType, ContextType, RequireFields<QueryRequestedBlocksArgs, never>>;
@@ -798,6 +803,29 @@ export type ReceivedBlockQuery = (
       & Pick<MyBlockShared, 'sharedAt'>
     )>> }
   ) }
+);
+
+export type AllUsersQueryVariables = Exact<{
+  isAdmin: Scalars['Boolean'];
+}>;
+
+
+export type AllUsersQuery = (
+  { __typename?: 'Query' }
+  & { allUsers: Array<Maybe<(
+    { __typename?: 'User' }
+    & Pick<User, 'lastName' | 'firstName' | 'middleName' | 'email' | '_id'>
+  )>> }
+);
+
+export type MakeUserAdminMutationVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+
+export type MakeUserAdminMutation = (
+  { __typename?: 'Mutation' }
+  & Pick<Mutation, 'makeUserAdmin'>
 );
 
 export type UserProfileQueryVariables = Exact<{ [key: string]: never; }>;
@@ -1331,6 +1359,73 @@ export function useReceivedBlockLazyQuery(baseOptions?: Apollo.LazyQueryHookOpti
 export type ReceivedBlockQueryHookResult = ReturnType<typeof useReceivedBlockQuery>;
 export type ReceivedBlockLazyQueryHookResult = ReturnType<typeof useReceivedBlockLazyQuery>;
 export type ReceivedBlockQueryResult = Apollo.QueryResult<ReceivedBlockQuery, ReceivedBlockQueryVariables>;
+export const AllUsersDocument = gql`
+    query AllUsers($isAdmin: Boolean!) {
+  allUsers(isAdmin: $isAdmin) {
+    lastName
+    firstName
+    middleName
+    email
+    _id
+  }
+}
+    `;
+
+/**
+ * __useAllUsersQuery__
+ *
+ * To run a query within a React component, call `useAllUsersQuery` and pass it any options that fit your needs.
+ * When your component renders, `useAllUsersQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useAllUsersQuery({
+ *   variables: {
+ *      isAdmin: // value for 'isAdmin'
+ *   },
+ * });
+ */
+export function useAllUsersQuery(baseOptions: Apollo.QueryHookOptions<AllUsersQuery, AllUsersQueryVariables>) {
+        return Apollo.useQuery<AllUsersQuery, AllUsersQueryVariables>(AllUsersDocument, baseOptions);
+      }
+export function useAllUsersLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<AllUsersQuery, AllUsersQueryVariables>) {
+          return Apollo.useLazyQuery<AllUsersQuery, AllUsersQueryVariables>(AllUsersDocument, baseOptions);
+        }
+export type AllUsersQueryHookResult = ReturnType<typeof useAllUsersQuery>;
+export type AllUsersLazyQueryHookResult = ReturnType<typeof useAllUsersLazyQuery>;
+export type AllUsersQueryResult = Apollo.QueryResult<AllUsersQuery, AllUsersQueryVariables>;
+export const MakeUserAdminDocument = gql`
+    mutation MakeUserAdmin($id: ID!) {
+  makeUserAdmin(id: $id)
+}
+    `;
+export type MakeUserAdminMutationFn = Apollo.MutationFunction<MakeUserAdminMutation, MakeUserAdminMutationVariables>;
+
+/**
+ * __useMakeUserAdminMutation__
+ *
+ * To run a mutation, you first call `useMakeUserAdminMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useMakeUserAdminMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [makeUserAdminMutation, { data, loading, error }] = useMakeUserAdminMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useMakeUserAdminMutation(baseOptions?: Apollo.MutationHookOptions<MakeUserAdminMutation, MakeUserAdminMutationVariables>) {
+        return Apollo.useMutation<MakeUserAdminMutation, MakeUserAdminMutationVariables>(MakeUserAdminDocument, baseOptions);
+      }
+export type MakeUserAdminMutationHookResult = ReturnType<typeof useMakeUserAdminMutation>;
+export type MakeUserAdminMutationResult = Apollo.MutationResult<MakeUserAdminMutation>;
+export type MakeUserAdminMutationOptions = Apollo.BaseMutationOptions<MakeUserAdminMutation, MakeUserAdminMutationVariables>;
 export const UserProfileDocument = gql`
     query UserProfile {
   user {

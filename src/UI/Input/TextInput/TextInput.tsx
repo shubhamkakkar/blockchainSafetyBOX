@@ -32,7 +32,7 @@ export default function TextInput({
       <View style={[
         styles.row,
         styles.inputFieldContainer,
-        ...customContainerStyle,
+          ...customContainerStyle,
       ]}
       >
         {iconProps?.name && (

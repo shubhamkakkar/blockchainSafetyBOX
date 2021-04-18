@@ -15,6 +15,7 @@ enum navigationRouteNames {
   InsuranceDetailsScreen = 'BSB.Blockchain.InsuranceDetailsScreen',
   UploadReportsScreen = 'BSB.Blockchain.UploadReportsScreen',
   UserProfileScreen = 'BSB.User.UserProfileScreen',
+  Admins = 'BSB.User.Admins',
 }
 
 export default navigationRouteNames;

@@ -14,7 +14,7 @@ type TabBarIcon = {
 };
 
 const Tab = createBottomTabNavigator();
-export default function BottomTabNavigation() {
+export default function BottomTabNavigation({isAdmin}: { isAdmin: boolean }) {
   const commonTabOptions = (
     iconName:string, containerStyle?:ViewStyle, iconStyle?:ViewStyle, outline = true,
   ) => ({
@@ -67,6 +67,15 @@ export default function BottomTabNavigation() {
         ]}
         options={commonTabOptions('collapse-all')}
       />
+        {isAdmin &&
+        <Tab.Screen
+            name={navigationRouteNames.Admins as any}
+            component={navigationRouteComponentMap[
+                navigationRouteNames.Admins
+                ]}
+            options={commonTabOptions('account-tie')}
+        />
+        }
     </Tab.Navigator>
   );
 }

@@ -111,15 +111,9 @@ export default function AuthenticationForm({ isLogin, goTo }: Props) {
       Alert.alert('Error', authenticatedResponse.error?.message || 'Invalid Signature');
     }
     if (authenticatedResponse.token) {
-      const screen = isLogin
-          ? navigationRouteNames.PublicLedgerScreen : navigationRouteNames.PrivateKeyDownloadScreen;
-      const payload = isLogin ? {} : {
-        privateKey: authenticatedResponse.privateKey,
-        email,
-      };
-      goTo(screen, payload);
+      goTo(navigationRouteNames.PublicLedgerScreen, {});
     }
-  }, [isLogin, authenticatedResponse]);
+  }, [authenticatedResponse]);
 
   useEffect(() => {
     function animate(toValue: number) {

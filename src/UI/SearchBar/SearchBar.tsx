@@ -17,7 +17,6 @@ export default function SearchBar({ textInputProps }: Props) {
         <View style={styles.flex}>
             <TextInput {...textInputProps} />
         </View>
-        <Icon name="close-circle" />
       </View>
     </ScrollView>
   );

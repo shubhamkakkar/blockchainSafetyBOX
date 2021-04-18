@@ -14,6 +14,7 @@ import UploadReportsScreen from 'features/blockchain/UploadReportsScreen';
 import RequestedDanglingBlockStack from 'navigationContainer/RequestedDanglingBlockStack';
 import UserProfileScreen from 'features/user/UserProfileScreen';
 import MyBlockScreen from 'features/blockchain/MyBlockScreen';
+import Admins from 'features/user/Admins';
 import MedicalFormsTopBarNavigation from './RequestedDanglingBlockStack/MedicalFormsTopBarNavigation';
 
 const navigationRouteComponentMap = {
@@ -33,6 +34,7 @@ const navigationRouteComponentMap = {
   [NavigationRouteNames.InsuranceDetailsScreen]: InsuranceDetailsScreen,
   [NavigationRouteNames.UploadReportsScreen]: UploadReportsScreen,
   [NavigationRouteNames.UserProfileScreen]: UserProfileScreen,
+  [NavigationRouteNames.Admins]: Admins,
 };
 
 export default navigationRouteComponentMap;
