@@ -21,7 +21,6 @@ const styles = StyleSheet.create({
 });
 LogBox.ignoreLogs(['Warning: ...']);
 LogBox.ignoreAllLogs();
-
 export default function App() {
   return (
     <SafeAreaProvider>

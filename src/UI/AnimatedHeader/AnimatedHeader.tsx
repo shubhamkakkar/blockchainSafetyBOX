@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import {
-  Animated, TouchableOpacity, ViewStyle,
+  Animated, TouchableOpacity, View, ViewStyle,
 } from 'react-native';
 import {
   // @ts-ignore
@@ -97,7 +97,7 @@ export default function AnimatedHeader({
 
   const titleTranslateX = scrollY.interpolate({
     inputRange: [0, HEADER_SCROLL_DISTANCE],
-    outputRange: [0, 20],
+    outputRange: [0, hideBackButton ? 0 : 20],
     extrapolate: 'clamp',
   });
 
@@ -133,13 +133,15 @@ export default function AnimatedHeader({
         styles.actionRow,
         ]}
       >
-        <TouchableOpacity onPress={goBack} style={[styles.goBackArrow]}>
-          <Icon
-            name="chevron-left"
-            style={styles.backBtnImage}
-            size={30}
-          />
-        </TouchableOpacity>
+        <View style={{opacity: hideBackButton ? 0 : 1 }}>
+          <TouchableOpacity onPress={hideBackButton ? () => false : goBack} style={[styles.goBackArrow]}>
+            <Icon
+                name="chevron-left"
+                style={styles.backBtnImage}
+                size={30}
+            />
+          </TouchableOpacity>
+        </View>
         {isRightIcon && (
         <TouchableOpacity
           onPress={onUserProfileIconPress}
