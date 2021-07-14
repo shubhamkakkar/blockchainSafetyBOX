@@ -15,6 +15,7 @@ import { PublicLedgerScreenNavigationProps } from 'navigationContainer/navigatio
 import navigationRouteNames from 'navigationContainer/navigationRouteNames';
 import { DecryptBlock, MyBlockProps } from 'types';
 import PublicLedgerBlock from './PublicLedgerBlock';
+import EmptyUI from 'UI/EmptyUI';
 
 type Props = {
   scrollPositionHandler: (_event: NativeSyntheticEvent<NativeScrollEvent>) => void;
@@ -104,6 +105,7 @@ export default function ListPublicLedger(props: Props) {
       contentContainerStyle={{ paddingTop: HEADER_MAX_HEIGHT_WITHOUT_DESCRIPTION_COMPONENT }}
       onRefresh={refetchHandler}
       refreshing={publicLedgerResponse.loading}
+      ListEmptyComponent={<EmptyUI isLoading={publicLedgerResponse.loading} />}
     />
   ), [storedPublicLedgerBlocks]);
 
